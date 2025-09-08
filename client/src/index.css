@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.clip-diagonal {
+  clip-path: polygon(0 0, 90% 0, 75% 100%, 0% 100%);
+}
+
+
+
+/* Info Section */
+.info-section {
+  padding: 50px 10%;
+  background: #f9f9f9;
+}
+.info-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+}
+.info-card {
+  flex: 1;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.info-card i {
+  font-size: 40px;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+.info-card h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+.info-card p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Services Section */
+.services-section {
+  padding: 60px 10%;
+  background: white;
+  text-align: center;
+}
+.services-section h2 {
+  margin-bottom: 40px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #222;
+}
+.services-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+.service-card {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.service-card i {
+  font-size: 35px;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+.service-card h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #222;
+}
+.service-card p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Hover Effect */
+.card-hover {
+  transition: all 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
