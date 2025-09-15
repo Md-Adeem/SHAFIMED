@@ -1,10 +1,13 @@
-
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../store/slices/authSlice";
+import api from "../../lib/api";
+import doctorImg from "../../assets/_.jpeg";
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,44 +15,33 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Login Successful ✅");
-
-        // Save token + user info in localStorage
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-        navigate("/dashboard");
+      const { data } = await api.post("/auth/login", { email, password });
+      dispatch(loginSuccess({ token: data.token, user: data.user }));
+      alert("Login Successful ✅");
+      
+      // Redirect based on role
+      if (data.user.role === "facilitator") {
+        navigate("/facilitator");
       } else {
-        alert(data.message || "Login failed ❌");
+        navigate("/dashboard");
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Something went wrong");
+      const message = error.response?.data?.message || "Login failed ❌";
+      alert(message);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#135ec1] to-[#d7e9ff] p-4">
       <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl">
-        {/* Left Image Section */}
         <div className="md:w-1/2 bg-blue-600 flex items-center justify-center p-6">
           <img
-            src="/_.jpeg" // 👉 use doctor image inside public/
+            src={doctorImg}
             alt="Doctor"
             className="rounded-lg shadow-md w-full h-auto object-cover"
           />
         </div>
 
-        {/* Right Form Section */}
         <div className="md:w-1/2 w-full p-6 sm:p-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-blue-600 text-center mb-6">
             Login

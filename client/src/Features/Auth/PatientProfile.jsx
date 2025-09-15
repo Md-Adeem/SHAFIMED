@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../lib/api";
+import PatientLayout from "../../components/layout/PatientLayout";
+import Button from "../../components/ui/Button";
+import { Label, Input, Textarea } from "../../components/ui/Input";
 
 const PatientProfile = () => {
   const [formData, setFormData] = useState({
@@ -9,18 +12,22 @@ const PatientProfile = () => {
     medicalHistory: "",
   });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch existing profile
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/profile", {
-          headers: { Authorization: `Bearer ${token}` },
+        const res = await api.get("/profile");
+        if (res.data) setFormData({
+          age: res.data.age || "",
+          gender: res.data.gender || "",
+          location: res.data.location || "",
+          medicalHistory: res.data.medicalHistory || "",
         });
-        if (res.data) setFormData(res.data);
       } catch (err) {
-        console.error(err);
+        // ignore if not found
+      } finally {
+        setLoading(false);
       }
     };
     fetchProfile();
@@ -33,10 +40,7 @@ const PatientProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/profile", formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.post("/profile", formData);
       setMessage("✅ Profile saved successfully!");
     } catch (err) {
       setMessage("❌ Failed to save profile");
@@ -44,81 +48,65 @@ const PatientProfile = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-green-100 p-6">
-      <div className="w-full max-w-2xl bg-white shadow-xl rounded-2xl p-8">
-        <h2 className="text-2xl font-bold text-center text-green-600 mb-6">
-          Complete Your Profile
-        </h2>
-
-        {message && <p className="text-center text-sm mb-4">{message}</p>}
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Age */}
+    <PatientLayout title="My profile">
+      <div className="max-w-2xl">
+        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow border p-6 space-y-6">
           <div>
-            <label className="block text-gray-700 font-semibold">Age</label>
-            <input
+            <Label>Age</Label>
+            <Input
               type="number"
               name="age"
               value={formData.age}
               onChange={handleChange}
-              className="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-400"
+              placeholder="Your age"
             />
           </div>
 
-          {/* Gender */}
           <div>
-            <label className="block text-gray-700 font-semibold">Gender</label>
+            <Label>Gender</Label>
             <select
               name="gender"
               value={formData.gender}
               onChange={handleChange}
-              className="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-400"
+              className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
             >
-              <option value="">Select Gender</option>
+              <option value="">Select gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
             </select>
           </div>
 
-          {/* Location */}
           <div>
-            <label className="block text-gray-700 font-semibold">Location</label>
-            <input
+            <Label>Location</Label>
+            <Input
               type="text"
               name="location"
               placeholder="Enter your location"
               value={formData.location}
               onChange={handleChange}
-              className="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-400"
             />
           </div>
 
-          {/* Medical History */}
           <div>
-            <label className="block text-gray-700 font-semibold">
-              Medical History
-            </label>
-            <textarea
+            <Label>Medical history</Label>
+            <Textarea
               name="medicalHistory"
-              rows="4"
+              rows={5}
               placeholder="Write about your past health issues..."
               value={formData.medicalHistory}
               onChange={handleChange}
-              className="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-green-400"
-            ></textarea>
+            />
           </div>
 
-          {/* Save Button */}
-          <button
-            type="submit"
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition"
-          >
-            Save Profile
-          </button>
+          <div className="pt-2">
+            <Button type="submit" disabled={loading} className="w-full">Save profile</Button>
+          </div>
+
+          {message && <p className="text-center text-sm">{message}</p>}
         </form>
       </div>
-    </div>
+    </PatientLayout>
   );
 };
 
