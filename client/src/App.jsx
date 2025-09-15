@@ -12,7 +12,7 @@ import PatientProfile from "./Features/Auth/PatientProfile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RoleRoute from "./components/RoleRoute";
 import FacilitatorDashboard from "./Features/Facilitator/FacilitatorDashboard_Enhanced";
-
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const location = useLocation();
@@ -41,6 +41,7 @@ function App() {
 
         <Route path="/facilitator" element={<RoleRoute allow={["facilitator"]}><FacilitatorDashboard /></RoleRoute>} />
       </Routes>
+       <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 }

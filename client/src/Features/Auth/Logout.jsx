@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
@@ -10,8 +11,8 @@ const Logout = () => {
     localStorage.removeItem("user");
 
     // ✅ Show optional logout message (for debugging)
-    console.log("User logged out");
-
+    // console.log("User logged out");
+    toast.success("Logout Successful ✅");
     // ✅ Redirect to login page
     navigate("/login");
   }, [navigate]);
