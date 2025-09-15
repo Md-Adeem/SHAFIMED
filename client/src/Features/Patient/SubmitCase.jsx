@@ -1,7 +1,12 @@
 
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import api from "../../lib/api";
 import { useNavigate } from "react-router-dom";
+import PatientLayout from "../../components/layout/PatientLayout";
+import Button from "../../components/ui/Button";
+import { Label, Input, Textarea } from "../../components/ui/Input";
+import ProfileCompletionBanner from "../../components/ProfileCompletionBanner";
+import useProfileCompletion from "../../hooks/useProfileCompletion";
 
 const SubmitCase = () => {
   const [formData, setFormData] = useState({
@@ -11,215 +16,214 @@ const SubmitCase = () => {
     country: "",
     contact: "",
   });
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const { isComplete: isProfileComplete, missingFields, loading: profileLoading } = useProfileCompletion();
 
   const navigate = useNavigate();
 
-  // handle text inputs
+  // Redirect to profile if not complete
+  useEffect(() => {
+    if (!profileLoading && !isProfileComplete) {
+      alert("Please complete your profile before submitting a case.");
+      navigate("/profile");
+    }
+  }, [profileLoading, isProfileComplete, navigate]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // handle file input
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    setFiles(Array.from(e.target.files || []));
   };
 
-
-
-
-
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setMessage("");
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
 
-  try {
-    const data = new FormData();
-    data.append("fullName", formData.fullName);
-    data.append("title", formData.title);
-    data.append("description", formData.description);
-    data.append("country", formData.country);
-    data.append("contact", formData.contact);
-    if (file) data.append("attachments", file);
+    try {
+      const data = new FormData();
+      data.append("fullName", formData.fullName);
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("country", formData.country);
+      data.append("contact", formData.contact);
+      files.forEach((f) => data.append("attachments", f));
 
-    await axios.post("http://localhost:5000/api/queries", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`, // 👈 Fix here
-      },
-    });
+      await api.post("/queries", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-    setMessage("✅ Your case has been submitted successfully!");
+      setMessage("✅ Your case has been submitted successfully!");
+      setFormData({ fullName: "", title: "", description: "", country: "", contact: "" });
+      setFiles([]);
 
-    // reset form
-    setFormData({
-      fullName: "",
-      title: "",
-      description: "",
-      country: "",
-      contact: "",
-    });
-    setFile(null);
+      setTimeout(() => {
+        navigate("/my-cases");
+      }, 1500);
+    } catch (err) {
+      setMessage("❌ " + (err.response?.data?.message || err.message));
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    setTimeout(() => {
-      navigate("/my-cases");
-    }, 2000);
-  } catch (err) {
-    setMessage("❌ " + (err.response?.data?.message || err.message));
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-
-
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6">
-      <div className="w-full max-w-3xl bg-white shadow-2xl rounded-2xl overflow-hidden">
-        {/* Header Image */}
-        <div className="relative">
-          <img
-            src="/sub.jpeg"
-            alt="Medical Background"
-            className="w-full h-48 object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <h1 className="text-3xl font-bold text-white">Submit Your Case</h1>
+  // Show loading state while checking profile
+  if (profileLoading) {
+    return (
+      <PatientLayout title="Submit a case">
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Checking profile status...</p>
           </div>
         </div>
+      </PatientLayout>
+    );
+  }
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Full Name */}
+  // Don't render form if profile is not complete
+  if (!isProfileComplete) {
+    return (
+      <PatientLayout title="Submit a case">
+        <div className="max-w-2xl mx-auto">
+          <ProfileCompletionBanner missingFields={missingFields} />
+          <div className="mt-6 text-center">
+            <p className="text-gray-600 mb-4">You will be redirected to complete your profile...</p>
+            <Button onClick={() => navigate("/profile")}>Go to Profile</Button>
+          </div>
+        </div>
+      </PatientLayout>
+    );
+  }
+
+  return (
+    <PatientLayout
+      title="Submit a case"
+      actions={<Button onClick={() => navigate("/my-cases")} variant="secondary">My Cases</Button>}
+    >
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 bg-white rounded-xl shadow border p-6 space-y-5">
           <div>
-            <label className="block text-gray-700 font-semibold">Full Name</label>
-            <input
+            <Label>Full Name</Label>
+            <Input
               type="text"
               name="fullName"
               placeholder="Enter your full name"
               value={formData.fullName}
               onChange={handleChange}
-              className="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
 
-          {/* Problem Title */}
           <div>
-            <label className="block text-gray-700 font-semibold">Problem Title</label>
-            <input
+            <Label>Problem Title</Label>
+            <Input
               type="text"
               name="title"
               placeholder="Briefly describe your health concern"
               value={formData.title}
               onChange={handleChange}
-              className="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
 
-          {/* Detailed Description */}
           <div>
-            <label className="block text-gray-700 font-semibold">Detailed Description</label>
-            <textarea
+            <Label>Detailed Description</Label>
+            <Textarea
               name="description"
-              rows="5"
+              rows={6}
               placeholder="Write about your health concern in detail..."
               value={formData.description}
               onChange={handleChange}
-              className="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400"
               required
-            ></textarea>
+            />
           </div>
 
-          {/* Upload Reports */}
-          <div>
-            <label className="block text-gray-700 font-semibold">Upload Reports</label>
-            <div className="mt-2 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-6 hover:border-blue-400 transition">
-              <label className="cursor-pointer flex flex-col items-center">
-                {/* Upload Icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-10 h-10 text-blue-500"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 16V4m0 0l-4 4m4-4l4 4m-6 8h8a2 2 0 002-2V6a2 2 0 00-2-2h-3"
-                  />
-                </svg>
-                <span className="text-gray-500 mt-2">
-                  {file ? file.name : "Upload your medical reports"}
-                </span>
-                <input
-                  type="file"
-                  name="file"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-              </label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <Label>Country</Label>
+              <Input
+                type="text"
+                name="country"
+                placeholder="Enter your country"
+                value={formData.country}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <Label>Contact</Label>
+              <Input
+                type="tel"
+                name="contact"
+                placeholder="Mobile Number"
+                value={formData.contact}
+                onChange={handleChange}
+                required
+              />
             </div>
           </div>
 
-          {/* Country */}
           <div>
-            <label className="block text-gray-700 font-semibold">Country</label>
-            <input
-              type="text"
-              name="country"
-              placeholder="Enter your country"
-              value={formData.country}
-              onChange={handleChange}
-              className="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400"
-              required
-            />
+            <Label>Upload Reports</Label>
+            <div className="mt-2 border-2 border-dashed border-gray-300 rounded-xl p-4">
+              <input
+                id="uploader"
+                type="file"
+                multiple
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <label htmlFor="uploader" className="cursor-pointer inline-flex items-center gap-2 text-cyan-700 font-semibold">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 16a1 1 0 0 0 1-1V8.41l1.3 1.3a1 1 0 1 0 1.4-1.42l-3-3a1 1 0 0 0-1.4 0l-3 3A1 1 0 0 0 9.3 9.7L10.59 8.4V15a1 1 0 0 0 1 1Zm-7 3a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3h3a1 1 0 1 1 0 2H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-3a1 1 0 1 1 0-2h3a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3Z"/></svg>
+                Select files
+              </label>
+              {files.length > 0 && (
+                <ul className="mt-3 text-sm text-gray-700 list-disc list-inside">
+                  {files.map((f) => (
+                    <li key={f.name}>{f.name}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
 
-          {/* Contact */}
-          <div>
-            <label className="block text-gray-700 font-semibold">Contact</label>
-            <input
-              type="tel"
-              name="contact"
-              placeholder="Mobile Number"
-              value={formData.contact}
-              onChange={handleChange}
-              className="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-400"
-              required
-            />
+          <div className="pt-2">
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? "Submitting..." : "Submit Case"}
+            </Button>
           </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition"
-          >
-            {loading ? "Submitting..." : "Submit Case"}
-          </button>
-        </form>
-
-        {/* Success or Error Message */}
-        {message && (
-          <p
-            className={`mt-4 text-center text-sm font-medium ${
+          {message && (
+            <p className={`text-center text-sm font-medium ${
               message.startsWith("✅") ? "text-green-600" : "text-red-600"
-            }`}
-          >
-            {message}
-          </p>
-        )}
-      </div>
-    </div>
+            }`}>
+              {message}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-4">
+          <div className="bg-white rounded-xl shadow border p-5">
+            <div className="text-sm font-bold text-gray-900">Tips</div>
+            <ul className="mt-2 space-y-2 text-sm text-gray-600 list-disc list-inside">
+              <li>Upload clear scans/reports for faster review.</li>
+              <li>Use an active contact number.</li>
+              <li>Provide concise, accurate details.</li>
+            </ul>
+          </div>
+          <div className="bg-white rounded-xl shadow border p-5">
+            <div className="text-sm font-bold text-gray-900">Need help?</div>
+            <p className="text-sm text-gray-600 mt-2">Our team can help you compare hospitals and doctors.</p>
+            <Button onClick={() => navigate("/my-cases")} variant="secondary" className="mt-3 w-full">Contact support</Button>
+          </div>
+        </div>
+      </form>
+    </PatientLayout>
   );
 };
 

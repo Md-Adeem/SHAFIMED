@@ -1,142 +1,105 @@
 
-import { useEffect, useState } from "react";
-import axios from "axios";
-// import CaseDetailsModal from "./CaseDetailsModal";
+import { useEffect, useMemo, useState } from "react";
+import api from "../../lib/api";
 import CaseDetailsModal from "./CaseDetailsModal";
+import PatientLayout from "../../components/layout/PatientLayout";
+import Button from "../../components/ui/Button";
+import Badge from "../../components/ui/Badge";
 
 function MyCases() {
   const [cases, setCases] = useState([]);
   const [selectedCase, setSelectedCase] = useState(null);
+  const [tab, setTab] = useState("All");
+  const [q, setQ] = useState("");
 
-  // Fetch all cases of logged-in user
   useEffect(() => {
     const fetchCases = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/queries/my", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setCases(res.data);
+        const { data } = await api.get("/queries/my");
+        setCases(data || []);
       } catch (err) {
-        console.error("Error fetching cases:", err);
+        setCases([]);
       }
     };
     fetchCases();
   }, []);
 
-  // Count cases by status
-  const statusCounts = {
-    Pending: cases.filter((c) => c.status === "Pending").length,
-    Assigned: cases.filter((c) => c.status === "Assigned").length,
-    Responded: cases.filter((c) => c.status === "Responded").length,
-    Rejected: cases.filter((c) => c.status === "Rejected").length,
-  };
+  const filtered = useMemo(() => {
+    return cases
+      .filter((c) => (tab === "All" ? true : c.status === tab))
+      .filter((c) => (!q ? true : c.title.toLowerCase().includes(q.toLowerCase())));
+  }, [cases, tab, q]);
+
+  const statusToColor = (s) => (s === "Pending" ? "yellow" : s === "Assigned" ? "blue" : s === "Responded" ? "green" : "red");
 
   return (
-    // <div className="p-6 min-h-screen bg-gray-50">
-      <div
-  className="p-6 min-h-screen"
-  style={{ backgroundColor: "rgb(157 224 255)" }}
->
-      <h1 className="text-3xl font-bold text-blue-700 mb-6">📂 My Cases</h1>
-
-      {/* Status Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-yellow-400 text-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-lg font-semibold">Pending</h2>
-          <p className="text-3xl font-bold">{statusCounts.Pending}</p>
-          <p className="text-sm mt-2">Click to view</p>
+    <PatientLayout
+      title="My cases"
+      actions={<Button onClick={() => (window.location.href = "/submit-case")}>Submit case</Button>}
+    >
+      <div className="bg-white rounded-xl shadow border">
+        <div className="px-5 py-4 border-b flex items-center gap-3 flex-wrap">
+          <div className="flex gap-2">
+            {(["All", "Pending", "Assigned", "Responded", "Rejected"]).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`px-3 py-1.5 rounded-full text-sm ${tab === t ? "bg-cyan-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+          <div className="ml-auto w-full sm:w-64">
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search by title..."
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            />
+          </div>
         </div>
 
-        <div className="bg-blue-500 text-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-lg font-semibold">In Progress</h2>
-          <p className="text-3xl font-bold">{statusCounts.Assigned}</p>
-          <p className="text-sm mt-2">Click to view</p>
-        </div>
-
-        <div className="bg-green-500 text-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-lg font-semibold">Resolved</h2>
-          <p className="text-3xl font-bold">{statusCounts.Responded}</p>
-          <p className="text-sm mt-2">Click to view</p>
-        </div>
-
-        <div className="bg-red-500 text-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-lg font-semibold">Rejected</h2>
-          <p className="text-3xl font-bold">{statusCounts.Rejected}</p>
-          <p className="text-sm mt-2">Click to view</p>
-        </div>
-      </div>
-
-      {/* Table of cases */}
-      <div className="overflow-x-auto bg-white shadow-lg rounded-xl">
-        <table className="min-w-full text-sm text-left">
-          <thead className="bg-gray-100 text-gray-700">
-            <tr>
-              <th className="px-6 py-3">Case ID</th>
-              <th className="px-6 py-3">Title</th>
-              <th className="px-6 py-3">Country</th>
-              <th className="px-6 py-3">Status</th>
-              <th className="px-6 py-3">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cases.length === 0 ? (
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <thead className="bg-gray-50 text-gray-600">
               <tr>
-                <td
-                  colSpan="5"
-                  className="text-center py-6 text-gray-500"
-                >
-                  No cases submitted yet.
-                </td>
+                <th className="px-5 py-3 text-left font-semibold">Title</th>
+                <th className="px-5 py-3 text-left font-semibold">Country</th>
+                <th className="px-5 py-3 text-left font-semibold">Status</th>
+                <th className="px-5 py-3 text-left font-semibold">Updated</th>
+                <th className="px-5 py-3 text-left font-semibold">Action</th>
               </tr>
-            ) : (
-              cases.map((c) => (
-                <tr key={c._id} className="border-b hover:bg-gray-50">
-                  <td className="px-6 py-3">{c._id}</td>
-                  <td className="px-6 py-3">{c.title}</td>
-                  <td className="px-6 py-3">{c.country}</td>
-                  <td className="px-6 py-3">
-                    <span
-                      className={`px-3 py-1 rounded-full text-white text-xs ${
-                        c.status === "Pending"
-                          ? "bg-yellow-500"
-                          : c.status === "Assigned"
-                          ? "bg-blue-500"
-                          : c.status === "Responded"
-                          ? "bg-green-500"
-                          : "bg-red-500"
-                      }`}
-                    >
-                      {c.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-3">
-                    <button
-                      onClick={() => setSelectedCase(c)}
-                      className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-                    >
-                      View
-                    </button>
-                  </td>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="px-5 py-10 text-center text-gray-500">No cases found.</td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                filtered.map((c) => (
+                  <tr key={c._id} className="border-t hover:bg-gray-50">
+                    <td className="px-5 py-3 font-medium text-gray-900">{c.title}</td>
+                    <td className="px-5 py-3">{c.country}</td>
+                    <td className="px-5 py-3">
+                      <Badge color={statusToColor(c.status)}>{c.status}</Badge>
+                    </td>
+                    <td className="px-5 py-3 text-gray-600">{new Date(c.updatedAt).toLocaleDateString()}</td>
+                    <td className="px-5 py-3">
+                      <Button size="sm" variant="outline" onClick={() => setSelectedCase(c)}>View</Button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-
-
-        {selectedCase && (
-        <CaseDetailsModal
-          caseData={selectedCase}
-          onClose={() => setSelectedCase(null)}
-        />
+      {selectedCase && (
+        <CaseDetailsModal caseData={selectedCase} onClose={() => setSelectedCase(null)} />
       )}
-
-
-
-    </div>
+    </PatientLayout>
   );
 }
 
