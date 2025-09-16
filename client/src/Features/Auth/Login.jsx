@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../store/slices/authSlice";
 import api from "../../lib/api";
-import doctorImg from "../../assets/_.jpeg";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,9 +17,9 @@ export default function Login() {
     try {
       const { data } = await api.post("/auth/login", { email, password });
       dispatch(loginSuccess({ token: data.token, user: data.user }));
-      alert("Login Successful ✅");
-      
-      // Redirect based on role
+       toast.success("Login Successful ✅");
+      // <Toast message="Login Successful ✅" />
+
       if (data.user.role === "facilitator") {
         navigate("/facilitator");
       } else {
@@ -32,82 +32,87 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#135ec1] to-[#d7e9ff] p-4">
-      <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl">
-        <div className="md:w-1/2 bg-blue-600 flex items-center justify-center p-6">
-          <img
-            src={doctorImg}
-            alt="Doctor"
-            className="rounded-lg shadow-md w-full h-auto object-cover"
-          />
+    <div className="min-h-screen bg-gradient-to-tr from-blue-200 via-blue to-blue-200 flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+        {/* Left Side - Amenities List */}
+       <div className="md:w-1/2 bg-gradient-to-br from-blue-600 to-cyan-500 text-white p-8 flex flex-col justify-center">
+          <h2 className="text-2xl font-bold mb-6 text-center">What we Offer?</h2>
+          <ul className="space-y-4 text-base font-medium">
+            <li className="flex items-start gap-3">
+              <span className="text-xl">💼</span> Connect with top international hospitals
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-xl">🏨</span> Free 5-day hotel stay post-surgery
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-xl">🚖</span> Complimentary airport pickup & drop
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-xl">📞</span> Local SIM card on arrival
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-xl">🗣️</span> 24/7 interpreter & medical support
+            </li>
+          </ul>
         </div>
 
-        <div className="md:w-1/2 w-full p-6 sm:p-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-blue-600 text-center mb-6">
-            Login
-          </h2>
+        {/* Right Side - Login Form */}
+        <div className="md:w-1/2 w-full p-8 sm:p-12">
+          <h2 className="text-3xl font-bold text-blue-700 mb-2 text-center">Welcome Back</h2>
+          <p className="text-sm text-gray-500 mb-6 text-center">
+            Please login to access your account.
+          </p>
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <input
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+              <label htmlFor="email" className="text-sm font-medium text-gray-700 block mb-1">
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              />
+            </div>
 
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+            <div>
+              <label htmlFor="password" className="text-sm font-medium text-gray-700 block mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              />
+            </div>
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+              className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition shadow-sm"
             >
               Login
             </button>
           </form>
+
+          <div className="mt-6 text-center text-sm text-gray-500">
+            Don’t have an account?
+            <button
+              className="text-blue-600 font-medium hover:underline ml-1"
+              onClick={() => navigate("/signup")}
+            >
+              Sign up
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-// import { useContext } from "react";
-// import { AuthContext } from "../context/AuthContext";
-
-// function LoginPage() {
-//   const { login } = useContext(AuthContext);
-
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-//     // call backend and get token
-//     const token = "dummy_token"; // replace with real token
-//     login(token); // updates global state + localStorage
-//   };
-
-//   return (
-//     <form onSubmit={handleLogin}>
-//       {/* login form */}
-//       <button type="submit">Login</button>
-//     </form>
-//   );
-// }
-
-// export default Loginl;
