@@ -1,31 +1,3 @@
-// import mongoose from "mongoose";
-
-// const querySchema = new mongoose.Schema(
-//   {
-//     patientId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-//     description: { type: String, required: true },
-//     specialization: { type: String, required: true },
-//     attachments: [{ type: String }], // file paths
-//     status: {
-//       type: String,
-//       enum: ["Pending", "Assigned", "Responded"],
-//       default: "Pending",
-//     },
-//     assignedDoctorId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-//     response: { type: String },
-//   },
-//   { timestamps: true }
-// );
-
-// export default mongoose.model("Query", querySchema);
-
-
-
-
-
-
-
-
 import mongoose from "mongoose";
 
 const querySchema = new mongoose.Schema(
@@ -36,10 +8,12 @@ const querySchema = new mongoose.Schema(
     description: { type: String, required: true },     // Detailed description
     country: { type: String, required: true },         // Country
     contact: { type: String, required: true },         // Contact number
-    attachments: [{ type: String }],                   // File paths (reports)
+    department: { type: String },                      // e.g., Cardiology, Orthopedics
+    attachments: [{ type: String }],  
+    referenceId: { type: String, unique: true, index: true }, // SHF-YYYYMMDD-XXXX                 // File paths (reports)
     status: {
       type: String,
-      enum: ["Pending", "Assigned", "Responded"],
+      enum: ["Pending", "In Progress", "Follow Up", "Assigned", "Responded", "Rejected"],
       default: "Pending",
     },
     assignedDoctorId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

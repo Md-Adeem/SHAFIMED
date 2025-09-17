@@ -1,23 +1,3 @@
-// import express from "express";
-
-// const router = express.Router();
-
-// // Example route
-// router.get("/", (req, res) => {
-//   res.send("Query routes working!");
-// });
-
-// export default router;
-
-
-
-// backend/routes/queryRoutes.js
-
-
-
-
-
-
 import express from "express";
 import multer from "multer";
 import Query from "../models/Query.js";
@@ -36,6 +16,24 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+
+// helper role guard
+const requireFacilitator = (req, res, next) => {
+  if (req.user?.role !== "facilitator") {
+    return res.status(403).json({ message: "Access denied" });
+  }
+  next();
+};
+
+// helper to generate reference id
+const genRefId = () => {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const suffix = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `SHF-${y}${m}${day}-${suffix}`;
+};
 
 // POST - Submit case (Protected) - Requires completed profile
 router.post("/", authMiddleware, upload.array("attachments", 5), async (req, res) => {
@@ -67,7 +65,7 @@ router.post("/", authMiddleware, upload.array("attachments", 5), async (req, res
     }
     
     // Profile is complete, proceed with case submission
-    const { fullName, title, description, country, contact } = req.body;
+    const { fullName, title, description, country, contact, department } = req.body;
 
     const newQuery = new Query({
       patientId: req.user.id, // 👈 store logged-in patient
@@ -76,7 +74,9 @@ router.post("/", authMiddleware, upload.array("attachments", 5), async (req, res
       description,
       country,
       contact,
-      attachments: req.files.map((f) => f.path),
+      department,
+      referenceId: genRefId(),
+      attachments: (req.files || []).map((f) => f.path),
     });
 
     await newQuery.save();
@@ -90,17 +90,31 @@ router.post("/", authMiddleware, upload.array("attachments", 5), async (req, res
 // GET - fetch all cases of logged-in patient
 router.get("/my", authMiddleware, async (req, res) => {
   try {
-    const queries = await Query.find({ patientId: req.user.id });
+    const queries = await Query.find({ patientId: req.user.id }).sort({ createdAt: -1 });
     res.json(queries);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// GET - fetch all cases (for facilitators)
-router.get("/", async (req, res) => {
+// GET - fetch all cases (facilitators only) with filtering
+router.get("/", authMiddleware, requireFacilitator, async (req, res) => {
   try {
-    const queries = await Query.find()
+    const { status, department, q, ref } = req.query;
+    const filter = {};
+    if (status) filter.status = status;
+    if (department) filter.department = department;
+    if (ref) filter.referenceId = ref.trim();
+    if (q) {
+      filter.$or = [
+        { title: { $regex: q, $options: "i" } },
+        { fullName: { $regex: q, $options: "i" } },
+        { country: { $regex: q, $options: "i" } },
+        { referenceId: { $regex: q, $options: "i" } },
+      ];
+    }
+
+    const queries = await Query.find(filter)
       .populate('patientId', 'name email')
       .populate('assignedDoctorId', 'name email specialization')
       .sort({ createdAt: -1 });
@@ -110,16 +124,47 @@ router.get("/", async (req, res) => {
   }
 });
 
-// PUT - Update query (assign doctor, update status, add response)
-router.put("/:id", authMiddleware, async (req, res) => {
+// GET - fetch single case by reference id (facilitators only)
+router.get("/ref/:ref", authMiddleware, requireFacilitator, async (req, res) => {
+  try {
+    const q = await Query.findOne({ referenceId: req.params.ref })
+      .populate('patientId', 'name email')
+      .populate('assignedDoctorId', 'name email specialization');
+    if (!q) return res.status(404).json({ message: "Case not found" });
+    res.json(q);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+// GET - analytics summary (facilitators only)
+router.get("/analytics/summary", authMiddleware, requireFacilitator, async (req, res) => {
+  try {
+    const [byStatus, byDepartment, totals] = await Promise.all([
+      Query.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }]),
+      Query.aggregate([
+        { $group: { _id: { $ifNull: ["$department", "Unspecified"] }, count: { $sum: 1 } } },
+        { $sort: { count: -1 } }
+      ]),
+      Query.countDocuments()
+    ]);
+    res.json({ totals, byStatus, byDepartment });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+// PUT - Update query (assign doctor, update status, add response) - facilitator only
+router.put("/:id", authMiddleware, requireFacilitator, async (req, res) => {
   try {
     const { id } = req.params;
-    const { status, assignedDoctorId, response } = req.body;
+    const { status, assignedDoctorId, response, department } = req.body;
 
     const updateData = {};
     if (status) updateData.status = status;
     if (assignedDoctorId) updateData.assignedDoctorId = assignedDoctorId;
     if (response) updateData.response = response;
+    if (department !== undefined) updateData.department = department;
 
     const updatedQuery = await Query.findByIdAndUpdate(
       id,
