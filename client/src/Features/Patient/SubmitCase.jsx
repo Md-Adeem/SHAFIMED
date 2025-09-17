@@ -15,6 +15,7 @@ const SubmitCase = () => {
     description: "",
     country: "",
     contact: "",
+    department: "",
   });
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -51,14 +52,11 @@ const SubmitCase = () => {
       data.append("description", formData.description);
       data.append("country", formData.country);
       data.append("contact", formData.contact);
+      if (formData.department) data.append("department", formData.department);
       files.forEach((f) => data.append("attachments", f));
 
-      await api.post("/queries", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      setMessage("✅ Your case has been submitted successfully!");
-      setFormData({ fullName: "", title: "", description: "", country: "", contact: "" });
+      const res = await api.post("/queries", data, { headers: { "Content-Type": "multipart/form-data" } });
+      setMessage(`✅ Submitted! Reference: ${res.data?.query?.referenceId || "—"}`);setFormData({ fullName: "", title: "", description: "", country: "", contact: "" });
       setFiles([]);
 
       setTimeout(() => {
@@ -171,6 +169,29 @@ const SubmitCase = () => {
                 className="border-gray-600"
               />
             </div>
+          </div>
+
+          <div>
+            <Label>Department</Label>
+            <select
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition "
+            >
+              <option value="">Select department (optional)</option>
+              <option>Cardiology</option>
+              <option>Neurology</option>
+              <option>Orthopedics</option>
+              <option>Oncology</option>
+              <option>Gastroenterology</option>
+              <option>Urology</option>
+              <option>Nephrology</option>
+              <option>Pulmonology</option>
+              <option>Dermatology</option>
+              <option>ENT</option>
+              <option>General Surgery</option>
+            </select>
           </div>
 
           <div>
