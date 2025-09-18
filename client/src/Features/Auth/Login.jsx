@@ -16,6 +16,7 @@ export default function Login() {
 
     try {
       const { data } = await api.post("/auth/login", { email, password });
+      console.log("Login response data:", data); // Debugging line
       dispatch(loginSuccess({ token: data.token, user: data.user }));
        toast.success("Login Successful ✅");
       // <Toast message="Login Successful ✅" />
