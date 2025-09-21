@@ -2,6 +2,15 @@
 import React from "react";
 
 // Import all landing page components
+import Hero from "../components/landing/Hero";
+import SpecialtiesGrid from "../components/landing/SpecialtiesGrid";
+import ServicesGrid from "../components/landing/ServicesGrid";
+// import SearchBar from "../components/landing/SearchBar_new";
+import HospitalsStrip from "../components/landing/HospitalsStrip";
+import Steps from "../components/landing/Steps";
+import Treatments from "../components/landing/Treatments";
+import Testimonials from "../components/landing/Testimonials";
+import CTA from "../components/landing/CTA";
 import Hero from "../components/landing/Hero"; // HeroSection
 import MultiSpecialtyFocus from "../components/landing/MultiSpecialtyFocus";
 import HospitalsStrip from "../components/landing/HospitalsStrip"; // TopHospitals
@@ -20,6 +29,10 @@ const Home = () => {
       {/* 1. HeroSection */}
       <Hero />
       
+      {/* Search Bar - Overlaps Hero */}
+      {/* <SearchBar /> */}
+      <SpecialtiesGrid />
+      {/* Hospital Partners Strip */}
       {/* 2. MultiSpecialtyFocus */}
       <MultiSpecialtyFocus />
       
@@ -35,6 +48,9 @@ const Home = () => {
       {/* 6. Services */}
       <Services />
       
+      <ServicesGrid />
+
+      {/* Patient Testimonials */}
       {/* 7. PatientTestimonials */}
       <Testimonials />
       

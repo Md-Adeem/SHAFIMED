@@ -1,11 +1,25 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+
+// tailwind.config.js
+const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
+
+module.exports = {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        heading: ['Poppins', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        // Use slate instead of gray for softer, modern neutrals
+        slate: colors.slate,
+        // Our primary brand color
+        teal: colors.teal,
+      }
+    },
   },
   plugins: [],
 }
