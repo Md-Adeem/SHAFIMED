@@ -15,24 +15,28 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-const upload = multer({ 
-  storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|pdf|doc|docx/;
-    const extname = allowedTypes.test(file.originalname.toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
-    
-    if (mimetype && extname) {
-      return cb(null, true);
-    } else {
-      cb(new Error('Only image, PDF, and document files are allowed'));
-    }
-  }
-});
+const upload = multer({ storage });
 
-// POST - Submit comprehensive medical query (Protected)
-router.post("/", authMiddleware, upload.array("documents", 10), async (req, res) => {
+// helper role guard
+const requireFacilitator = (req, res, next) => {
+  if (req.user?.role !== "facilitator") {
+    return res.status(403).json({ message: "Access denied" });
+  }
+  next();
+};
+
+// helper to generate reference id
+const genRefId = () => {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const suffix = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `SHF-${y}${m}${day}-${suffix}`;
+};
+
+// POST - Submit case (Protected) - Requires completed profile
+router.post("/", authMiddleware, upload.array("attachments", 5), async (req, res) => {
   try {
     // Check if user's profile is complete
     const profile = await PatientProfile.findOne({ userId: req.user.id });
@@ -66,30 +70,21 @@ router.post("/", authMiddleware, upload.array("documents", 10), async (req, res)
       }));
     }
     
-    // Set initial status
-    queryData.status = {
-      currentStatus: 'Submitted',
-      statusHistory: [{
-        status: 'Submitted',
-        timestamp: new Date(),
-        notes: 'Query submitted by patient'
-      }],
-      submissionDate: new Date(),
-      lastActivityDate: new Date()
-    };
-    
-    // Initialize analytics
-    queryData.analytics = {
-      viewCount: 0,
-      quoteRequestCount: 0,
-      source: req.headers['user-agent']?.includes('Mobile') ? 'Mobile App' : 'Website',
-      deviceInfo: {
-        userAgent: req.headers['user-agent'],
-        ipAddress: req.ip
-      }
-    };
+    // Profile is complete, proceed with case submission
+    const { fullName, title, description, country, contact, department } = req.body;
 
-    const newQuery = new Query(queryData);
+    const newQuery = new Query({
+      patientId: req.user.id, // 👈 store logged-in patient
+      fullName,
+      title,
+      description,
+      country,
+      contact,
+      department,
+      referenceId: genRefId(),
+      attachments: (req.files || []).map((f) => f.path),
+    });
+
     await newQuery.save();
     
     // Populate related data for response
@@ -110,172 +105,91 @@ router.post("/", authMiddleware, upload.array("documents", 10), async (req, res)
 // GET - Fetch all queries of logged-in patient
 router.get("/my", authMiddleware, async (req, res) => {
   try {
-    const { page = 1, limit = 10, status, urgency } = req.query;
-    
-    const filter = { patientId: req.user.id };
-    if (status) filter['status.currentStatus'] = status;
-    if (urgency) filter['queryInfo.urgency'] = urgency;
-    
-    const queries = await Query.find(filter)
-      .populate('assignment.assignedFacilitatorId', 'name email professional.specialization')
-      .populate('assignment.assignedDoctorIds', 'name email professional.specialization')
-      .sort({ 'status.lastActivityDate': -1 })
-      .limit(limit * 1)
-      .skip((page - 1) * limit);
-    
-    const total = await Query.countDocuments(filter);
-    
-    res.json({
-      queries,
-      totalQueries: total,
-      currentPage: parseInt(page),
-      totalPages: Math.ceil(total / limit),
-      hasNextPage: page < Math.ceil(total / limit),
-      hasPrevPage: page > 1
-    });
+    const queries = await Query.find({ patientId: req.user.id }).sort({ createdAt: -1 });
+    res.json(queries);
   } catch (err) {
     console.error('Patient queries fetch error:', err);
     res.status(500).json({ message: err.message });
   }
 });
 
-// GET - Fetch all queries (for facilitators/admins)
-router.get("/", authMiddleware, async (req, res) => {
+// GET - fetch all cases (facilitators only) with filtering
+router.get("/", authMiddleware, requireFacilitator, async (req, res) => {
   try {
-    const { page = 1, limit = 20, status, urgency, specialization, country } = req.query;
-    
+    const { status, department, q, ref } = req.query;
     const filter = {};
-    if (status) filter['status.currentStatus'] = status;
-    if (urgency) filter['queryInfo.urgency'] = urgency;
-    if (specialization) filter['treatmentPreferences.preferredSpecialization'] = specialization;
-    if (country) filter['travelInfo.currentLocation.country'] = country;
-    
-    const queries = await Query.find(filter)
-      .populate('patientId', 'name email phone address.country')
-      .populate('patientProfileId', 'personalInfo.firstName personalInfo.lastName personalInfo.age personalInfo.gender')
-      .populate('assignment.assignedFacilitatorId', 'name email professional')
-      .populate('assignment.assignedDoctorIds', 'name email professional')
-      .sort({ 'status.lastActivityDate': -1 })
-      .limit(limit * 1)
-      .skip((page - 1) * limit);
-    
-    const total = await Query.countDocuments(filter);
-    
-    // Get query statistics
-    const stats = await Query.aggregate([
-      { $group: {
-        _id: '$status.currentStatus',
-        count: { $sum: 1 }
-      }}
-    ]);
-    
-    res.json({
-      queries,
-      totalQueries: total,
-      currentPage: parseInt(page),
-      totalPages: Math.ceil(total / limit),
-      statistics: stats,
-      hasNextPage: page < Math.ceil(total / limit),
-      hasPrevPage: page > 1
-    });
-  } catch (error) {
-    console.error('All queries fetch error:', error);
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// GET - Fetch single query by ID
-router.get("/:id", authMiddleware, async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    const query = await Query.findById(id)
-      .populate('patientId', 'name email phone address')
-      .populate('patientProfileId')
-      .populate('assignment.assignedFacilitatorId', 'name email professional')
-      .populate('assignment.assignedDoctorIds', 'name email professional')
-      .populate('quotes.hospitalId', 'name address accreditation')
-      .populate('quotes.doctorId', 'name professional')
-      .populate('quotes.facilitatorId', 'name professional');
-    
-    if (!query) {
-      return res.status(404).json({ message: "Query not found" });
+    if (status) filter.status = status;
+    if (department) filter.department = department;
+    if (ref) filter.referenceId = ref.trim();
+    if (q) {
+      filter.$or = [
+        { title: { $regex: q, $options: "i" } },
+        { fullName: { $regex: q, $options: "i" } },
+        { country: { $regex: q, $options: "i" } },
+        { referenceId: { $regex: q, $options: "i" } },
+      ];
     }
-    
-    // Increment view count
-    query.analytics.viewCount += 1;
-    await query.save();
-    
-    res.json({ query });
+
+    const queries = await Query.find(filter)
+      .populate('patientId', 'name email')
+      .populate('assignedDoctorId', 'name email specialization')
+      .sort({ createdAt: -1 });
+    res.json(queries);
   } catch (error) {
     console.error('Single query fetch error:', error);
     res.status(500).json({ message: error.message });
   }
 });
 
-// PUT - Update query (assign staff, update status, add notes)
-router.put("/:id", authMiddleware, async (req, res) => {
+// GET - fetch single case by reference id (facilitators only)
+router.get("/ref/:ref", authMiddleware, requireFacilitator, async (req, res) => {
   try {
-    const { id } = req.params;
-    const { status, assignedFacilitatorId, assignedDoctorIds, assignedHospitalIds, priority, notes } = req.body;
-
-    const query = await Query.findById(id);
-    if (!query) {
-      return res.status(404).json({ message: "Query not found" });
-    }
-    
-    // Update assignment
-    if (assignedFacilitatorId) query.assignment.assignedFacilitatorId = assignedFacilitatorId;
-    if (assignedDoctorIds) query.assignment.assignedDoctorIds = assignedDoctorIds;
-    if (assignedHospitalIds) query.assignment.assignedHospitalIds = assignedHospitalIds;
-    if (priority) query.assignment.priority = priority;
-    
-    // Update status
-    if (status && status !== query.status.currentStatus) {
-      query.status.currentStatus = status;
-      query.status.statusHistory.push({
-        status,
-        timestamp: new Date(),
-        updatedBy: req.user.id,
-        notes: notes || `Status changed to ${status}`
-      });
-    }
-    
-    // Add internal notes
-    if (notes) {
-      query.internalNotes.push({
-        note: notes,
-        addedBy: req.user.id,
-        timestamp: new Date(),
-        category: 'Administrative'
-      });
-    }
-    
-    query.status.lastActivityDate = new Date();
-    await query.save();
-    
-    // Populate for response
-    await query.populate('assignment.assignedFacilitatorId', 'name email');
-    await query.populate('assignment.assignedDoctorIds', 'name email professional.specialization');
-
-    res.json({ 
-      message: "Query updated successfully", 
-      query
-    });
-  } catch (error) {
-    console.error('Query update error:', error);
-    res.status(500).json({ message: "Failed to update query", error: error.message });
+    const q = await Query.findOne({ referenceId: req.params.ref })
+      .populate('patientId', 'name email')
+      .populate('assignedDoctorId', 'name email specialization');
+    if (!q) return res.status(404).json({ message: "Case not found" });
+    res.json(q);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
   }
 });
 
-// POST - Add quote to query
-router.post("/:id/quotes", authMiddleware, async (req, res) => {
+// GET - analytics summary (facilitators only)
+router.get("/analytics/summary", authMiddleware, requireFacilitator, async (req, res) => {
+  try {
+    const [byStatus, byDepartment, totals] = await Promise.all([
+      Query.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }]),
+      Query.aggregate([
+        { $group: { _id: { $ifNull: ["$department", "Unspecified"] }, count: { $sum: 1 } } },
+        { $sort: { count: -1 } }
+      ]),
+      Query.countDocuments()
+    ]);
+    res.json({ totals, byStatus, byDepartment });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+// PUT - Update query (assign doctor, update status, add response) - facilitator only
+router.put("/:id", authMiddleware, requireFacilitator, async (req, res) => {
   try {
     const { id } = req.params;
-    const quoteData = req.body;
-    
-    const query = await Query.findById(id);
-    if (!query) {
+    const { status, assignedDoctorId, response, department } = req.body;
+
+    const updateData = {};
+    if (status) updateData.status = status;
+    if (assignedDoctorId) updateData.assignedDoctorId = assignedDoctorId;
+    if (response) updateData.response = response;
+    if (department !== undefined) updateData.department = department;
+
+    const updatedQuery = await Query.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true }
+    ).populate('assignedDoctorId', 'name email specialization');
+
+    if (!updatedQuery) {
       return res.status(404).json({ message: "Query not found" });
     }
     

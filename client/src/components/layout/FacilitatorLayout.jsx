@@ -12,22 +12,17 @@ function FacilitatorLayout({ title, actions, children }) {
 
   const go = (p) => navigate(p);
 
-  const handleLogout = () => {
-    dispatch(logoutAction());
-    navigate("/login");
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <aside className="hidden md:flex w-64 flex-col border-r bg-white">
         <div className="px-6 py-5 border-b">
-          <div className="text-2xl font-extrabold text-teal-700">ShafiMed</div>
+          <div className="text-2xl font-extrabold text-cyan-700">ShafiMed</div>
           <div className="text-xs text-gray-500 mt-1">Facilitator Workspace</div>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
           <button 
             onClick={() => go("/facilitator")} 
-            className="w-full text-left px-3 py-2 rounded-lg font-medium text-gray-600 hover:bg-teal-100 hover:text-teal-700"
+            className="w-full text-left px-3 py-2 rounded-lg font-medium text-gray-600 hover:bg-gray-100"
           >
             📊 Dashboard
           </button>
@@ -67,7 +62,7 @@ function FacilitatorLayout({ title, actions, children }) {
             Logged in as: <span className="font-medium text-gray-700">{user?.name}</span>
           </div>
           <button 
-            onClick={handleLogout}
+            onClick={() => go("/logout")} 
             className="w-full text-left px-3 py-2 rounded-lg font-medium text-red-600 hover:bg-red-50"
           >
             🚪 Logout
@@ -75,22 +70,26 @@ function FacilitatorLayout({ title, actions, children }) {
         </div>
       </aside>
 
-      <div className="flex-1 min-w-0">
-        <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b">
+      {/* Main content */}
+      <div className="flex-1 min-w-0 ml-64">
+        {/* Header */}
+        <header className="sticky top-0 z-10 bg-white/70 backdrop-blur-sm shadow-xl border-b-4">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <div>
-              <div className="text-xs text-gray-500">Facilitator Portal</div>
-              <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900">{title || "Dashboard"}</h1>
+              <div className="text-xs text-gray-500 uppercase tracking-wide">Facilitator Portal</div>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{title || "Dashboard"}</h1>
             </div>
             <div className="flex gap-2">{actions}</div>
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>
+        {/* Main area */}
+        <main className="max-w-8xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+          <div className="bg-white rounded-lg shadow p-4">{children}</div>
+        </main>
       </div>
     </div>
   );
 }
 
 export default FacilitatorLayout;
-

@@ -27,7 +27,8 @@ function MyCases() {
   const filtered = useMemo(() => {
     return cases
       .filter((c) => (tab === "All" ? true : c.status === tab))
-      .filter((c) => (!q ? true : c.title.toLowerCase().includes(q.toLowerCase())));
+    //  .filter((c) => (!q ? true : c.title.toLowerCase().includes(q.toLowerCase())));
+      .filter((c) => (!q ? true : ((c.title || "").toLowerCase().includes(q.toLowerCase()) || (c.referenceId || "").toLowerCase().includes(q.toLowerCase()))));
   }, [cases, tab, q]);
 
   const statusToColor = (s) => (s === "Pending" ? "yellow" : s === "Assigned" ? "blue" : s === "Responded" ? "green" : "red");
@@ -54,8 +55,8 @@ function MyCases() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Search by title..."
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
+              placeholder="Search by title or reference..."
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
             />
           </div>
         </div>
@@ -63,7 +64,8 @@ function MyCases() {
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead className="bg-gray-50 text-gray-600">
-              <tr>
+            <tr>
+               <th className="px-5 py-3 text-left font-semibold">Reference</th>
                 <th className="px-5 py-3 text-left font-semibold">Title</th>
                 <th className="px-5 py-3 text-left font-semibold">Country</th>
                 <th className="px-5 py-3 text-left font-semibold">Status</th>
@@ -79,6 +81,7 @@ function MyCases() {
               ) : (
                 filtered.map((c) => (
                   <tr key={c._id} className="border-t hover:bg-gray-50">
+                   <td className="px-5 py-3 font-mono text-xs">{c.referenceId || "—"}</td>
                     <td className="px-5 py-3 font-medium text-gray-900">{c.title}</td>
                     <td className="px-5 py-3">{c.country}</td>
                     <td className="px-5 py-3">

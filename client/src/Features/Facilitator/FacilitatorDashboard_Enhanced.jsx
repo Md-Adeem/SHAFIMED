@@ -1,9 +1,28 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
-import Badge from "../../components/ui/Badge";
 import { Card } from "../../components/ui/Card";
+
+/**
+ * FacilitatorDashboard (quality-refactor)
+ *
+ * - Safe stats calculation (handles missing status)
+ * - Robust handleUpdateStatus (handles different API shapes)
+ * - Subtle pastel KPI cards (clickable, sets ?status=)
+ * - Safe rendering for assignedDoctorId (populated object or id)
+ * - Lightweight Case Details modal (allows status change)
+ */
+
+const STATUSES = [
+  "Pending",
+  "Assigned",
+  "In Progress",
+  "Follow Up",
+  "Responded",
+  "Rejected",
+];
 
 export default function FacilitatorDashboard() {
   const [cases, setCases] = useState([]);
@@ -12,19 +31,21 @@ export default function FacilitatorDashboard() {
   const [tab, setTab] = useState("All");
   const [q, setQ] = useState("");
   const [selectedCase, setSelectedCase] = useState(null);
-  const [assignModalOpen, setAssignModalOpen] = useState(false);
-  const [caseToAssign, setCaseToAssign] = useState(null);
+  const [updatingCaseId, setUpdatingCaseId] = useState(null); // disable UI while updating
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  // -- Load initial data
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAll = async () => {
       try {
         setLoading(true);
         const [casesRes, doctorsRes] = await Promise.all([
           api.get("/queries"),
-          api.get("/users/doctors")
+          api.get("/users/doctors"),
         ]);
-        setCases(casesRes.data || []);
-        setDoctors(doctorsRes.data || []);
+        setCases(Array.isArray(casesRes.data) ? casesRes.data : []);
+        setDoctors(Array.isArray(doctorsRes.data) ? doctorsRes.data : []);
       } catch (err) {
         console.error("Failed to fetch data:", err);
         setCases([]);
@@ -33,180 +54,320 @@ export default function FacilitatorDashboard() {
         setLoading(false);
       }
     };
-    fetchData();
+    fetchAll();
   }, []);
 
+  // -- Sync tab with ?status= query param (clicking cards will set this)
+  useEffect(() => {
+    const statusParam = searchParams.get("status");
+    if (!statusParam) {
+      setTab("All");
+      return;
+    }
+    // Accept either exact match or fall back to "All"
+    const matched = STATUSES.find((s) => s.toLowerCase() === statusParam.toLowerCase());
+    setTab(matched || "All");
+  }, [searchParams]);
+
+  // -- Safe filtered list
   const filtered = useMemo(() => {
     return cases
       .filter((c) => (tab === "All" ? true : c.status === tab))
-      .filter((c) => (!q ? true : c.title.toLowerCase().includes(q.toLowerCase())));
+      .filter((c) => (!q ? true : (c.title || "").toLowerCase().includes(q.toLowerCase())));
   }, [cases, tab, q]);
 
+  // -- Robust stats (always produces known keys)
   const stats = useMemo(() => {
-    const total = cases.length;
-    const pending = cases.filter(c => c.status === "Pending").length;
-    const assigned = cases.filter(c => c.status === "Assigned").length;
-    const responded = cases.filter(c => c.status === "Responded").length;
-    const rejected = cases.filter(c => c.status === "Rejected").length;
-    
-    return { total, pending, assigned, responded, rejected };
+    const acc = {
+      total: 0,
+      pending: 0,
+      assigned: 0,
+      inprogress: 0,
+      followup: 0,
+      responded: 0,
+      rejected: 0,
+      unknown: 0,
+    };
+
+    for (const c of cases) {
+      acc.total++;
+      const raw = (c && c.status) || "Unknown";
+      const key = raw.toString().toLowerCase().replace(/\s+/g, "");
+      if (key === "pending") acc.pending++;
+      else if (key === "assigned") acc.assigned++;
+      else if (key === "inprogress") acc.inprogress++;
+      else if (key === "followup") acc.followup++;
+      else if (key === "responded") acc.responded++;
+      else if (key === "rejected") acc.rejected++;
+      else acc.unknown++;
+    }
+
+    return acc;
   }, [cases]);
 
-  const statusToColor = (s) => (s === "Pending" ? "yellow" : s === "Assigned" ? "blue" : s === "Responded" ? "green" : "red");
+  // Helper: try to extract updated case from various possible response shapes
+  const extractUpdatedCase = (resData) => {
+    if (!resData) return null;
+    // If response is wrapper object with known keys:
+    if (resData._id || resData.id) return resData;
+    const tryKeys = ["case", "data", "result", "payload"];
+    for (const k of tryKeys) {
+      if (resData[k] && (resData[k]._id || resData[k].id)) return resData[k];
+    }
+    // fallback: if it has a single nested object with _id
+    const values = Object.values(resData).filter((v) => v && typeof v === "object");
+    for (const v of values) {
+      if (v._id || v.id) return v;
+    }
+    return null;
+  };
 
-  const handleAssignCase = async (caseId, doctorId) => {
-    try {
-      await api.put(`/queries/${caseId}`, { 
-        status: "Assigned", 
-        assignedDoctorId: doctorId 
-      });
-      setCases(prev => prev.map(c => 
-        c._id === caseId 
-          ? { 
-              ...c, 
-              status: "Assigned", 
-              assignedDoctorId: doctors.find(d => d._id === doctorId) 
-            } 
-          : c
-      ));
-      setAssignModalOpen(false);
-      setCaseToAssign(null);
-      alert("Doctor assigned successfully!");
-    } catch (err) {
-      console.error("Failed to assign doctor:", err);
-      alert("Failed to assign doctor");
+  // -- Update status (optimistic + reconcile). Safe merging.
+  const handleUpdateStatus = useCallback(
+    async (caseId, newStatus) => {
+      // quick guard
+      if (!caseId) return;
+      setUpdatingCaseId(caseId);
+
+      // optimistic update (so UI doesn't feel blocked)
+      setCases((prev) => prev.map((c) => (c._id === caseId ? { ...c, status: newStatus } : c)));
+
+      try {
+        const res = await api.put(`/queries/${caseId}`, { status: newStatus });
+        const updated = extractUpdatedCase(res.data) ?? res.data;
+
+        if (updated && (updated._id || updated.id)) {
+          // ensure consistent _id key
+          const updatedId = updated._id || updated.id;
+          setCases((prev) =>
+            prev.map((c) => (String(c._id) === String(updatedId) ? { ...c, ...updated } : c))
+          );
+
+          // if this case is currently open in modal, refresh it
+          if (selectedCase && String(selectedCase._id) === String(updatedId)) {
+            setSelectedCase((prev) => ({ ...(prev || {}), ...updated }));
+          }
+        } else {
+          // If we couldn't parse response, we've already done optimistic update; keep it
+          console.warn("Update returned unexpected shape; kept optimistic update.", res.data);
+        }
+      } catch (err) {
+        console.error("Failed to update case status:", err);
+        // revert optimistic update: re-fetch single case or refresh list (simple approach: re-fetch all)
+        try {
+          const list = await api.get("/queries");
+          setCases(Array.isArray(list.data) ? list.data : []);
+        } catch (reFetchErr) {
+          console.error("Failed re-fetch after failed update:", reFetchErr);
+        }
+        alert("Failed to update case status");
+      } finally {
+        setUpdatingCaseId(null);
+      }
+    },
+    [selectedCase]
+  );
+
+  // Helper to render assigned doctor info (handles id-string or populated object)
+  const getAssignedDoctor = useCallback(
+    (assignedDoctorId) => {
+      if (!assignedDoctorId) return null;
+      if (typeof assignedDoctorId === "string") {
+        // try to resolve from doctors list
+        const doc = doctors.find((d) => d._id === assignedDoctorId || d.id === assignedDoctorId);
+        return doc || { name: "Doctor", specialization: "" };
+      }
+      // assume it's an object
+      return assignedDoctorId || null;
+    },
+    [doctors]
+  );
+
+  // Card configs (subtle pastel backgrounds)
+  const cardConfigs = [
+    { label: "Pending", value: stats.pending, color: "bg-yellow-50", icon: "⏳", statusQuery: "Pending" },
+    { label: "In Progress", value: stats.inprogress, color: "bg-blue-50", icon: "🔄", statusQuery: "In Progress" },
+    { label: "Follow Up", value: stats.followup, color: "bg-orange-50", icon: "📌", statusQuery: "Follow Up" },
+    { label: "Assigned", value: stats.assigned, color: "bg-indigo-50", icon: "👨‍⚕️", statusQuery: "Assigned" },
+    { label: "Responded", value: stats.responded, color: "bg-green-50", icon: "✅", statusQuery: "Responded" },
+    { label: "Rejected", value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
+    { label: "Total Cases", value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
+  ];
+
+  // click a card -> set ?status=... (which syncs tab via effect)
+  const onCardClick = (statusQuery) => {
+    if (statusQuery === "All") {
+      setSearchParams({});
+    } else {
+      setSearchParams({ status: statusQuery });
     }
   };
 
-  const openAssignModal = (caseData) => {
-    setCaseToAssign(caseData);
-    setAssignModalOpen(true);
-  };
+  // Case Details modal content (simple)
+  const CaseDetailsModal = ({ item, onClose }) => {
+    if (!item) return null;
+    const assigned = getAssignedDoctor(item.assignedDoctorId);
 
-  const handleUpdateStatus = async (caseId, newStatus) => {
-    try {
-      await api.put(`/queries/${caseId}`, { status: newStatus });
-      setCases(prev => prev.map(c => c._id === caseId ? { ...c, status: newStatus } : c));
-      alert(`Case status updated to ${newStatus}!`);
-    } catch (err) {
-      console.error("Failed to update case status:", err);
-      alert("Failed to update case status");
-    }
-  };
-
-  if (loading) {
     return (
-      <FacilitatorLayout title="Dashboard" actions={<Button onClick={() => window.location.reload()}>Refresh</Button>}>
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[1,2,3,4].map(i => (
-              <div key={i} className="bg-gray-200 animate-pulse rounded-lg h-24"></div>
-            ))}
+      <div className="fixed inset-0  z-50 flex items-center justify-center p-4">
+        <div className="absolute  inset-0 bg-black/40" onClick={onClose} />
+        <div className="relative bg-white rounded-lg max-w-2xl w-full shadow-lg overflow-auto max-h-[90vh]">
+          <div className="p-6 ">
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-xl font-semibold">Case Details</h3>
+              <button className="text-gray-500" onClick={onClose}>✕</button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-gray-500">Patient</p>
+                <p className="text-lg font-medium">{item.fullName || "—"}</p>
+              </div>
+
+              <div>
+              <p className="text-sm text-gray-500">Reference ID</p>
+              <p className="font-mono">{item.referenceId || "—"}</p>
+              </div>
+
+              <div>
+                <p className="text-sm text-gray-500">Title</p>
+                <p className="text-lg">{item.title}</p>
+              </div>
+
+              <div>
+                <p className="text-sm text-gray-500">Description</p>
+                <p className="text-base whitespace-pre-wrap">{item.description || "No description provided"}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500">Country</p>
+                  <p>{item.country}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Status</p>
+                  <div className="mt-1">
+                    <select
+                      value={item.status}
+                      onChange={(e) => {
+                        handleUpdateStatus(item._id, e.target.value);
+                        // update currently-open modal view optimistically
+                        setSelectedCase((prev) => ({ ...(prev || {}), status: e.target.value }));
+                      }}
+                      disabled={updatingCaseId === item._id}
+                      className="px-2 py-1 border rounded"
+                    >
+                      {STATUSES.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {assigned && (
+                <div>
+                  <p className="text-sm text-gray-500">Assigned Doctor</p>
+                  <p className="font-medium">{assigned.name}</p>
+                  {assigned.specialization && <p className="text-xs text-gray-500">{assigned.specialization}</p>}
+                </div>
+              )}
+
+              {item.attachments && item.attachments.length > 0 && (
+                <div>
+                  <p className="text-sm text-gray-500">Attachments</p>
+                  <div className="mt-2 space-y-2">
+                    {item.attachments.map((a, idx) => (
+                      <div key={idx} className="flex gap-2 items-center p-2 bg-gray-50 rounded">
+                        <span>📎</span>
+                        <span className="text-sm">{a}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6 flex gap-2 justify-end">
+            <Button onClick={() => navigate(`/facilitator/case-by-ref?ref=${encodeURIComponent(item.referenceId || "")}`)} disabled={!item.referenceId}>
+                Open page
+             </Button>
+              <Button variant="outline" onClick={onClose}>Close</Button>
+            </div>
           </div>
-          <div className="bg-gray-200 animate-pulse rounded-lg h-96"></div>
         </div>
-      </FacilitatorLayout>
+      </div>
     );
-  }
+  };
 
   return (
     <FacilitatorLayout
       title="Dashboard"
       actions={
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => window.location.reload()}>
-            🔄 Refresh
-          </Button>
-          <Button onClick={() => setTab("Pending")}>
-            ⏳ View Pending
-          </Button>
+          <Button variant="outline" onClick={() => { setSearchParams({}); setQ(""); }}>Reset</Button>
+          <Button onClick={() => setTab("Pending")}>⏳ View Pending</Button>
         </div>
       }
     >
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Total Cases</p>
-              <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+      {/* Top KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {cardConfigs.map((card) => (
+          <Card
+            key={card.label}
+            onClick={() => onCardClick(card.statusQuery)}
+            className={`${card.color} p-5 rounded-lg text-gray-900 shadow-sm hover:shadow-md transition-transform transform hover:-translate-y-0.5 cursor-pointer`}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">{card.label}</p>
+                <div className="text-2xl font-semibold">{card.value ?? 0}</div>
+              </div>
+              <div className="w-12 h-12 bg-white/60 rounded-full flex items-center justify-center text-lg">
+                {card.icon}
+              </div>
             </div>
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              📋
-            </div>
-          </div>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Pending</p>
-              <p className="text-2xl font-bold text-yellow-600">{stats.pending}</p>
-            </div>
-            <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-              ⏳
-            </div>
-          </div>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Assigned</p>
-              <p className="text-2xl font-bold text-blue-600">{stats.assigned}</p>
-            </div>
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              👨‍⚕️
-            </div>
-          </div>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Responded</p>
-              <p className="text-2xl font-bold text-green-600">{stats.responded}</p>
-            </div>
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-              ✅
-            </div>
-          </div>
-        </Card>
+          </Card>
+        ))}
       </div>
 
-      {/* Cases Table */}
-      <Card className="overflow-hidden">
-        <div className="px-5 py-4 border-b flex items-center gap-3 flex-wrap">
-          <div className="flex gap-2">
-            {(["All", "Pending", "Assigned", "Responded", "Rejected"]).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={`px-3 py-1.5 rounded-full text-sm transition-colors ${
-                  tab === t 
-                    ? "bg-cyan-600 text-white" 
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {t} ({t === "All" ? stats.total : stats[t.toLowerCase()]})
-              </button>
-            ))}
-          </div>
-          <div className="ml-auto w-full sm:w-64">
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search by title or patient..."
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-            />
-          </div>
+      {/* Filters + Search */}
+      <div className="mb-4 flex items-center gap-3 flex-wrap">
+        <div className="flex gap-2">
+          {["All", ...STATUSES].map((t) => (
+            <button
+              key={t}
+              onClick={() => {
+                setTab(t);
+                setSearchParams(t === "All" ? {} : { status: t });
+              }}
+              className={`px-3 py-1.5 rounded-full text-sm transition ${
+                tab === t ? "bg-cyan-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {t} ({t === "All" ? stats.total : stats[t.toLowerCase().replace(/\s+/g, "")] ?? 0})
+            </button>
+          ))}
         </div>
 
+        <div className="ml-auto w-full sm:w-64">
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search by title or patient..."
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          />
+        </div>
+      </div>
+
+      {/* Cases table */}
+      <Card className="overflow-hidden border-4 shadow-lg">
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead className="bg-gray-50 text-gray-600">
               <tr>
                 <th className="px-5 py-3 text-left font-semibold">Patient</th>
+                <th className="px-5 py-3 text-left font-semibold">Reference</th>
                 <th className="px-5 py-3 text-left font-semibold">Title</th>
                 <th className="px-5 py-3 text-left font-semibold">Country</th>
                 <th className="px-5 py-3 text-left font-semibold">Assigned Doctor</th>
@@ -218,211 +379,54 @@ export default function FacilitatorDashboard() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="px-5 py-10 text-center text-gray-500">
-                    {q ? "No cases match your search." : "No cases found."}
-                  </td>
+                  <td colSpan="7" className="px-5 py-10 text-center text-gray-500">No cases found.</td>
                 </tr>
               ) : (
-                filtered.map((c) => (
-                  <tr key={c._id} className="border-t hover:bg-gray-50">
-                    <td className="px-5 py-3 text-gray-900">{c.fullName || "—"}</td>
-                    <td className="px-5 py-3 font-medium text-gray-900 max-w-xs truncate">{c.title}</td>
-                    <td className="px-5 py-3">{c.country}</td>
-                    <td className="px-5 py-3">
-                      {c.assignedDoctorId ? (
-                        <div>
-                          <div className="font-medium text-gray-900">{c.assignedDoctorId.name}</div>
-                          <div className="text-xs text-gray-500">{c.assignedDoctorId.specialization || "General"}</div>
-                        </div>
-                      ) : (
-                        <span className="text-gray-400">Not assigned</span>
-                      )}
-                    </td>
-                    <td className="px-5 py-3">
-                      <Badge color={statusToColor(c.status)}>{c.status}</Badge>
-                    </td>
-                    <td className="px-5 py-3 text-gray-600">
-                      {new Date(c.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-5 py-3">
-                      <div className="flex gap-2">
-                        {c.status === "Pending" && (
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            onClick={() => openAssignModal(c)}
-                          >
-                            Assign Doctor
-                          </Button>
+                filtered.map((c) => {
+                  const assigned = getAssignedDoctor(c.assignedDoctorId);
+                  return (
+                    <tr key={c._id} className="border-t hover:bg-gray-50">
+                      <td className="px-5 py-3">{c.fullName || "—"}</td>
+                      <td className="px-5 py-3 font-bold text-xs">{c.referenceId || "—"}</td>
+                      <td className="px-5 py-3 font-medium max-w-xs truncate">{c.title}</td>
+                      <td className="px-5 py-3">{c.country}</td>
+                      <td className="px-5 py-3">
+                        {assigned ? (
+                          <>
+                            <div className="font-medium">{assigned.name}</div>
+                            {assigned.specialization && <div className="text-xs text-gray-500">{assigned.specialization}</div>}
+                          </>
+                        ) : (
+                          <span className="text-gray-400">Not assigned</span>
                         )}
-                        {c.status === "Assigned" && (
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            onClick={() => handleUpdateStatus(c._id, "Responded")}
-                          >
-                            Mark Responded
-                          </Button>
-                        )}
-                        <Button 
-                          size="sm"
-                          onClick={() => setSelectedCase(c)}
+                      </td>
+                      <td className="px-5 py-3">
+                        <select
+                          value={c.status || "Pending"}
+                          onChange={(e) => handleUpdateStatus(c._id, e.target.value)}
+                          disabled={updatingCaseId === c._id}
+                          className="px-2 py-1 border rounded text-sm"
                         >
-                          View Details
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                          {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                        </select>
+                      </td>
+                      <td className="px-5 py-3 text-gray-600">{c.createdAt ? new Date(c.createdAt).toLocaleDateString() : "—"}</td>
+                      <td className="px-5 py-3">
+                        <div className="flex gap-2">
+                          <Button size="sm" onClick={() => setSelectedCase(c)}>View Details</Button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
         </div>
       </Card>
 
-      {/* Case Details Modal */}
-      {selectedCase && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-bold text-gray-900">Case Details</h3>
-                <button
-                  onClick={() => setSelectedCase(null)}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  ✕
-                </button>
-              </div>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-gray-600">Patient Name</label>
-                  <p className="text-gray-900">{selectedCase.fullName || "—"}</p>
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-gray-600">Title</label>
-                  <p className="text-gray-900">{selectedCase.title}</p>
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-gray-600">Description</label>
-                  <p className="text-gray-900">{selectedCase.description || "No description provided"}</p>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">Country</label>
-                    <p className="text-gray-900">{selectedCase.country}</p>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">Status</label>
-                    <div className="mt-1">
-                      <Badge color={statusToColor(selectedCase.status)}>{selectedCase.status}</Badge>
-                    </div>
-                  </div>
-                </div>
-                
-                {selectedCase.assignedDoctorId && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">Assigned Doctor</label>
-                    <div className="mt-1">
-                      <p className="text-gray-900">{selectedCase.assignedDoctorId.name}</p>
-                      <p className="text-sm text-gray-500">{selectedCase.assignedDoctorId.specialization || "General"}</p>
-                    </div>
-                  </div>
-                )}
-                
-                {selectedCase.attachments && selectedCase.attachments.length > 0 && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">Attachments</label>
-                    <div className="mt-2 space-y-2">
-                      {selectedCase.attachments.map((file, index) => (
-                        <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                          <span>📎</span>
-                          <span className="text-sm text-gray-700">{file}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                <div className="flex gap-2 pt-4">
-                  {selectedCase.status === "Pending" && (
-                    <Button onClick={() => {
-                      openAssignModal(selectedCase);
-                      setSelectedCase(null);
-                    }}>
-                      Assign Doctor
-                    </Button>
-                  )}
-                  {selectedCase.status === "Assigned" && (
-                    <Button onClick={() => {
-                      handleUpdateStatus(selectedCase._id, "Responded");
-                      setSelectedCase(null);
-                    }}>
-                      Mark as Responded
-                    </Button>
-                  )}
-                  <Button variant="outline" onClick={() => setSelectedCase(null)}>
-                    Close
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Doctor Assignment Modal */}
-      {assignModalOpen && caseToAssign && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-md w-full">
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-xl font-bold text-gray-900">Assign Doctor</h3>
-                <button
-                  onClick={() => setAssignModalOpen(false)}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  ✕
-                </button>
-              </div>
-              
-              <div className="mb-4">
-                <p className="text-sm text-gray-600 mb-2">Case: {caseToAssign.title}</p>
-                <p className="text-sm text-gray-600">Patient: {caseToAssign.fullName}</p>
-              </div>
-              
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-gray-600">Select Doctor:</label>
-                {doctors.length === 0 ? (
-                  <p className="text-sm text-gray-500">No doctors available</p>
-                ) : (
-                  doctors.map((doctor) => (
-                    <button
-                      key={doctor._id}
-                      onClick={() => handleAssignCase(caseToAssign._id, doctor._id)}
-                      className="w-full text-left p-3 border rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="font-medium text-gray-900">{doctor.name}</div>
-                      <div className="text-sm text-gray-500">{doctor.specialization || "General"}</div>
-                      <div className="text-xs text-gray-400">{doctor.email}</div>
-                    </button>
-                  ))
-                )}
-              </div>
-              
-              <div className="flex gap-2 pt-4">
-                <Button variant="outline" onClick={() => setAssignModalOpen(false)} className="w-full">
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Case details modal */}
+      {selectedCase && <CaseDetailsModal item={selectedCase} onClose={() => setSelectedCase(null)} />}
     </FacilitatorLayout>
   );
 }

@@ -12,6 +12,15 @@ import PatientProfile from "./Features/Auth/PatientProfile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RoleRoute from "./components/RoleRoute";
 import FacilitatorDashboard from "./Features/Facilitator/FacilitatorDashboard_Enhanced";
+
+import AllCases from "./Features/Facilitator/AllCases";
+import PendingCases from "./Features/Facilitator/PendingCases";
+import InProgress from "./Features/Facilitator/InProgress";
+import FollowUps from "./Features/Facilitator/FollowUps";
+import Patients from "./Features/Facilitator/Patients";
+import Departments from "./Features/Facilitator/Departments";
+import Analytics from "./Features/Facilitator/Analytics";
+import ViewByRef from "./Features/Facilitator/ViewByRef";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -40,6 +49,15 @@ function App() {
         <Route path="/profile" element={<ProtectedRoute><PatientProfile /></ProtectedRoute>} />
 
         <Route path="/facilitator" element={<RoleRoute allow={["facilitator"]}><FacilitatorDashboard /></RoleRoute>} />
+        <Route path="/facilitator/cases" element={<RoleRoute allow={["facilitator"]}><AllCases /></RoleRoute>} />
+        <Route path="/facilitator/pending" element={<RoleRoute allow={["facilitator"]}><PendingCases /></RoleRoute>} />
+        <Route path="/facilitator/inprogress" element={<RoleRoute allow={["facilitator"]}><InProgress /></RoleRoute>} />
+        <Route path="/facilitator/followups" element={<RoleRoute allow={["facilitator"]}><FollowUps /></RoleRoute>} />
+        <Route path="/facilitator/patients" element={<RoleRoute allow={["facilitator"]}><Patients /></RoleRoute>} />
+        <Route path="/facilitator/departments" element={<RoleRoute allow={["facilitator"]}><Departments /></RoleRoute>} />
+        {/* <Route path="/facilitator/case-by-ref" element={<RoleRoute allow={["facilitator"]}><ViewByRef /></RoleRoute>} /> */}
+        <Route path="/facilitator/case-by-ref" element={<ViewByRef />} />
+        <Route path="/facilitator/analytics" element={<RoleRoute allow={["facilitator"]}><Analytics /></RoleRoute>} />
       </Routes>
        <Toaster position="top-right" reverseOrder={false} />
     </>
