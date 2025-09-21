@@ -3,7 +3,9 @@ import React from "react";
 
 // Import all landing page components
 import Hero from "../components/landing/Hero";
-import SearchBar from "../components/landing/SearchBar_new";
+import SpecialtiesGrid from "../components/landing/SpecialtiesGrid";
+import ServicesGrid from "../components/landing/ServicesGrid";
+// import SearchBar from "../components/landing/SearchBar_new";
 import HospitalsStrip from "../components/landing/HospitalsStrip";
 import Steps from "../components/landing/Steps";
 import Treatments from "../components/landing/Treatments";
@@ -18,8 +20,8 @@ const Home = () => {
       <Hero />
       
       {/* Search Bar - Overlaps Hero */}
-      <SearchBar />
-      
+      {/* <SearchBar /> */}
+      <SpecialtiesGrid />
       {/* Hospital Partners Strip */}
       <HospitalsStrip />
       
@@ -29,6 +31,8 @@ const Home = () => {
       {/* Popular Treatments */}
       <Treatments />
       
+      <ServicesGrid />
+
       {/* Patient Testimonials */}
       <Testimonials />
       
