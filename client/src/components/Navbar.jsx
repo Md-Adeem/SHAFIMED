@@ -2,8 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout as logoutAction } from "../store/slices/authSlice";
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
+// import LanguageSwitcher from "./LanguageSwitcher";
 
 function Navbar() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token, user } = useSelector((s) => s.auth);
@@ -34,23 +37,23 @@ function Navbar() {
 
   // ✅ Centralized navigation items
   const navItems = [
-    { label: "Home", path: "/", icon: "🏠", show: true },
-    { label: "Dashboard", path: "/dashboard", show: isLoggedIn },
+    { label: t('navigation.home'), path: "/", icon: "🏠", show: true },
+    { label: t('navigation.dashboard'), path: "/dashboard", show: isLoggedIn },
     { label: "Facilitator", path: "/facilitator", show: isLoggedIn && role === "facilitator" },
     { label: "My Cases", path: "/my-cases", show: isLoggedIn },
   ];
 
-  const scrolledText = isScrolled
-    ? "text-gray-700 hover:text-cyan-600"
-    : "text-white/90 hover:text-white";
+  // const scrolledText = isScrolled
+  //   ? "text-gray-700 hover:text-cyan-600"
+  //   : "text-gray-700 hover:text-cyan-600";
 
-  const scrolledButton = isScrolled
-    ? "text-gray-700 hover:text-cyan-600"
-    : "text-white/90 hover:text-white";
+  // const scrolledButton = isScrolled
+  //   ? "text-gray-700 hover:text-cyan-600"
+  //   : "text-gray-700 hover:text-cyan-600";
 
   const mobileScrolled = isScrolled
     ? "bg-white/95 backdrop-blur-md shadow-md border-b border-gray-200"
-    : "bg-transparent";
+    : "bg-white/90 backdrop-blur-md shadow-lg border-b border-gray-100";
 
   return (
     <nav
@@ -60,7 +63,7 @@ function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition">
+            <div className="w-10 h-10 bg-gradient-to-r from-teal-600 to-emerald-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition">
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
@@ -76,9 +79,7 @@ function Navbar() {
               </svg>
             </div>
             <span
-              className={`text-2xl font-extrabold transition-colors ${
-                isScrolled ? "text-gray-900" : "text-black"
-              }`}
+              className="text-2xl font-extrabold transition-colors text-gray-900"
             >
               ShafiMed
             </span>
@@ -92,35 +93,38 @@ function Navbar() {
                 <Link
                   key={path}
                   to={path}
-                  className={` text-black font-bold transition hover:scale-105 ${scrolledText}`}
+                  className="text-gray-700 font-bold transition hover:scale-105"
                 >
                   {icon && <span className="mr-1">{icon}</span>}
                   {label}
                 </Link>
               ))}
 
+            {/* Language Switcher */}
+            {/* <LanguageSwitcher /> */}
+
             {!isLoggedIn ? (
-              <>
+              <>  
                 <Link
                   to="/login"
-                  className={`font-bold text-black transition hover:scale-105 ${scrolledButton}`}
+                  className="font-bold text-gray-700 transition hover:scale-105"
                 >
-                  Login
+                  {t('auth.login')}
                 </Link>
                 <Link
                   to="/signup"
-                  className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-semibold px-5 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition"
+                  className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold px-5 py-2 rounded-full shadow-md hover:shadow-lg hover:scale-105 transition"
                 >
-                  Get Started
+                  {t('auth.signup')}
                 </Link>
               </>
             ) : (
               // User Dropdown
               <div className="relative group">
                 <button
-                  className={`flex items-center gap-2 font-medium transition hover:scale-105 ${scrolledText}`}
+                  className="flex items-center gap-2 font-medium transition hover:scale-105 text-gray-700 hover:text-teal-600"
                 >
-                  <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                  <div className="w-8 h-8 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
                     {user?.name?.charAt(0)?.toUpperCase() || "U"}
                   </div>
                   <span>{user?.name || "User"}</span>
@@ -143,15 +147,15 @@ function Navbar() {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
                   <Link
                     to="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-cyan-50 hover:text-cyan-600"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600"
                   >
-                    Profile
+                    {t('navigation.profile')}
                   </Link>
                   <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
                   >
-                    Logout
+                    {t('auth.logout')}
                   </button>
                 </div>
               </div>
@@ -162,7 +166,7 @@ function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`p-2 rounded-md transition ${scrolledButton}`}
+              className="p-2 rounded-md transition text-gray-700 hover:text-cyan-600"
             >
               <svg
                 className="w-6 h-6"
@@ -200,25 +204,30 @@ function Navbar() {
                   <Link
                     key={path}
                     to={path}
-                    className="block px-3 py-2 text-gray-700 font-medium hover:bg-cyan-50 hover:text-cyan-600 rounded-lg"
+                    className="block px-3 py-2 text-gray-700 font-medium hover:bg-teal-50 hover:text-teal-600 rounded-lg"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {label}
                   </Link>
                 ))}
 
+              {/* Mobile Language Switcher */}
+              <div className="px-3 py-2">
+                <LanguageSwitcher />
+              </div>
+
               {!isLoggedIn ? (
                 <>
                   <Link
                     to="/login"
-                    className="block px-3 py-2 text-gray-700 font-medium hover:bg-cyan-50 hover:text-cyan-600 rounded-lg"
+                    className="block px-3 py-2 text-gray-700 font-medium hover:bg-teal-50 hover:text-teal-600 rounded-lg"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Login
                   </Link>
                   <Link
                     to="/signup"
-                    className="block px-3 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-semibold rounded-lg text-center hover:from-cyan-700 hover:to-blue-700 transition"
+                    className="block px-3 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold rounded-lg text-center hover:from-teal-700 hover:to-emerald-700 transition"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Get Started
@@ -228,7 +237,7 @@ function Navbar() {
                 <>
                   <Link
                     to="/profile"
-                    className="block px-3 py-2 text-gray-700 font-medium hover:bg-cyan-50 hover:text-cyan-600 rounded-lg"
+                    className="block px-3 py-2 text-gray-700 font-medium hover:bg-teal-50 hover:text-teal-600 rounded-lg"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Profile
