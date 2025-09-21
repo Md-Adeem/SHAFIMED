@@ -1,6 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+
 
 .clip-diagonal {
   clip-path: polygon(0 0, 90% 0, 75% 100%, 0% 100%);
