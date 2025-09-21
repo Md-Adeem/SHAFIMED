@@ -56,7 +56,7 @@ function MyCases() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search by title or reference..."
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
             />
           </div>
         </div>

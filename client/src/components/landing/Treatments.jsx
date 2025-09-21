@@ -1,65 +1,10 @@
-
 import { useState } from "react";
-import { FaClock, FaCheckCircle, FaTag } from 'react-icons/fa'; // Added FaTag for price
-
-// Replace the existing 'treatments' array at the top of your Treatments.jsx file with this one.
-=======
+import { FaClock, FaCheckCircle, FaTag } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 const treatments = [
   { 
     title: "Knee Replacement", 
-    img: "/images/knee-replacement.jpg", // Local path
-    priceFrom: "$3,500",
-    duration: "2-3 weeks",
-    successRate: "98%",
-    description: "Advanced knee replacement surgery with minimal downtime for quick recovery.",
-    countries: ["India", "Turkey", "Thailand"]
-  },
-  { 
-    title: "Heart Surgery", 
-    img: "/images/heart-surgery.jpg", // Local path
-    priceFrom: "$8,500",
-    duration: "1-2 weeks",
-    successRate: "97%",
-    description: "World-class cardiac procedures with experienced surgeons and modern facilities.",
-    countries: ["India", "Germany", "Singapore"]
-  },
-  { 
-    title: "Liver Transplant", 
-    img: "/images/liver-transplant.jpg", // Local path
-    priceFrom: "$25,000",
-    duration: "4-6 weeks",
-    successRate: "95%",
-    description: "Life-saving liver transplant procedures with comprehensive pre- and post-op care.",
-    countries: ["India", "Turkey", "Germany"]
-  },
-  { 
-    title: "IVF Treatment", 
-    img: "/images/ivf-treatment.jpg", // Local path
-    priceFrom: "$2,500",
-    duration: "2-3 weeks",
-    successRate: "65%",
-    description: "Advanced fertility treatments with personalized care plans for aspiring parents.",
-    countries: ["India", "Cyprus", "Czech Republic"]
-  },
-  { 
-    title: "Spine Surgery", 
-    img: "/images/spine-surgery.jpg", // Local path
-    priceFrom: "$12,000",
-    duration: "3-4 weeks",
-    successRate: "96%",
-    description: "Minimally invasive spine surgery techniques ensuring faster recovery.",
-    countries: ["India", "Turkey", "Germany"]
-  },
-  { 
-    title: "Cosmetic Surgery", 
-    img: "/images/cosmetic-surgery.jpg", // Local path
-    priceFrom: "$4,500",
-    duration: "1-2 weeks",
-    successRate: "99%",
-    description: "Aesthetic procedures with natural-looking results for enhanced confidence.",
-    countries: ["Turkey", "South Korea", "Brazil"]
     img: "https://images.unsplash.com/photo-1632059362301-4f27a0d8b60e?q=80&w=800&auto=format&fit=crop",
     priceFrom: "$4,200",
     priceRange: "$4,200 - $7,800",
@@ -143,6 +88,7 @@ const treatments = [
     savings: "Up to 60% vs USA"
   },
 ];
+
 function Treatments() {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -158,13 +104,7 @@ function Treatments() {
 
   const filteredTreatments = treatments.filter(treatment => {
     if (selectedCategory === "all") return true;
-    // Simple category matching for demo purposes
-    if (selectedCategory === "cardiac" && treatment.title.includes("Heart")) return true;
-    if (selectedCategory === "orthopedic" && treatment.title.includes("Knee") || treatment.title.includes("Spine")) return true;
-    if (selectedCategory === "oncology" && treatment.title.includes("Liver")) return true; // Assuming Liver Transplant for Oncology
-    if (selectedCategory === "fertility" && treatment.title.includes("IVF")) return true;
-    if (selectedCategory === "cosmetic" && treatment.title.includes("Cosmetic")) return true;
-    return false;
+    return treatment.category === selectedCategory;
   });
 
   return (
@@ -176,13 +116,6 @@ function Treatments() {
           </h2>
           <p className="text-lg text-slate-600 max-w-3xl mx-auto">
             Explore our most sought-after medical procedures performed by world-renowned specialists.
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-            {t('treatments.title')}
-          </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            {t('treatments.subtitle')}
           </p>
         </div>
         
@@ -206,7 +139,7 @@ function Treatments() {
           {filteredTreatments.map((treatment) => (
             <div
               key={treatment.title}
-              className="group bg-white rounded-2xl overflow-hidden shadow-lg shadow-slate-200/60 hover:shadow-2xl hover:shadow-slate-300/70 hover:-translate-y-2 transition-all duration-300 flex flex-col" // Added flex-col for consistent button position
+              className="group bg-white rounded-2xl overflow-hidden shadow-lg shadow-slate-200/60 hover:shadow-2xl hover:shadow-slate-300/70 hover:-translate-y-2 transition-all duration-300 flex flex-col"
             >
               <div className="relative h-56">
                 <img 
@@ -218,48 +151,26 @@ function Treatments() {
                 <div className="absolute bottom-4 left-6 text-white">
                   <h3 className="font-heading text-2xl font-bold">{treatment.title}</h3>
                 </div>
-                {/* Price Badge */}
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1 flex items-center space-x-1">
-                  <FaTag className="text-teal-500 text-sm" />
-                  <div>
-                    <div className="text-xs text-slate-600">Starting from</div>
-                    <div className="font-bold text-teal-600">{treatment.priceFrom}</div>
-                  </div>
+                
                 <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-1">
-                  <div className="text-xs text-gray-600">{t('treatments.startingFrom')}</div>
-                  <div className="font-bold text-blue-600">{treatment.priceFrom}</div>
+                  <div className="text-xs text-gray-600">Starting from</div>
+                  <div className="font-bold text-teal-600">{treatment.priceFrom}</div>
                 </div>
                 
-                {/* Savings Badge */}
                 <div className="absolute top-4 left-4 bg-green-500/90 backdrop-blur-sm rounded-lg px-2 py-1">
                   <div className="text-xs text-white font-medium">{treatment.savings}</div>
                 </div>
               </div>
 
-              <div className="p-6 flex-grow flex flex-col"> {/* Added flex-grow and flex-col here */}
-                <p className="text-slate-600 text-sm mb-6 min-h-[40px] line-clamp-2"> {/* min-h to prevent layout shift */}
+              <div className="p-6 flex-grow flex flex-col">
+                <p className="text-slate-600 text-sm mb-6 min-h-[40px] line-clamp-2">
                   {treatment.description}
                 </p>
                 
-                <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
-                  <div className="flex items-center space-x-2">
-                    <FaClock className="text-teal-500" />
-                    <div>
-                      <div className="text-slate-500">Duration</div>
-                      <div className="font-semibold text-slate-800">{treatment.duration}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <FaCheckCircle className="text-green-500" />
-                    <div>
-                      <div className="text-slate-500">Success Rate</div>
-                      <div className="font-semibold text-slate-800">{treatment.successRate}</div>
-                    </div>
-                {/* Stats */}
                 <div className="space-y-3 mb-4">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-600 flex items-center">
-                      <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       Hospital Stay
@@ -312,7 +223,7 @@ function Treatments() {
                   </div>
                 </div>
 
-                <button className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors mt-auto"> {/* mt-auto pushes button to bottom */}
+                <button className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors mt-auto">
                   Get Free Quote
                 </button>
               </div>
@@ -323,10 +234,6 @@ function Treatments() {
         <div className="text-center mt-12">
           <button className="bg-white border-2 border-teal-600 text-teal-600 hover:bg-teal-600 hover:text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
             View All Treatments
-        {/* Bottom CTA */}
-        <div className="text-center">
-          <button className="bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200">
-            {t('treatments.viewAll')}
           </button>
         </div>
       </div>
