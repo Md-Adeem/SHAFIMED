@@ -44,7 +44,7 @@ function MyCases() {
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-3 py-1.5 rounded-full text-sm ${tab === t ? "bg-cyan-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+                className={`px-3 py-1.5 rounded-full text-sm ${tab === t ? "bg-teal-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
               >
                 {t}
               </button>
@@ -55,7 +55,7 @@ function MyCases() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search by title..."
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
             />
           </div>
         </div>
