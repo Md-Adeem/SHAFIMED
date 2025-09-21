@@ -7,10 +7,12 @@ function Button({
   ...props
 }) {
   const variants = {
-    primary: "bg-cyan-600 hover:bg-cyan-700 text-white",
-    secondary: "bg-gray-200 hover:bg-gray-300 text-gray-900",
-    outline: "border border-gray-300 hover:bg-gray-50 text-gray-700",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
+    primary: "bg-teal-600 hover:bg-teal-700 text-white shadow-lg hover:shadow-xl",
+    secondary: "bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-200",
+    outline: "border-2 border-teal-600 hover:bg-teal-50 text-teal-700 hover:text-teal-800",
+    danger: "bg-red-500 hover:bg-red-600 text-white shadow-lg hover:shadow-xl",
+    success: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg hover:shadow-xl",
+    info: "bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl",
   };
 
   const sizes = {
@@ -21,7 +23,7 @@ function Button({
 
   return (
     <button
-      className={`font-semibold rounded-lg transition-colors duration-200 ${
+      className={`font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 ${
         variants[variant]
       } ${sizes[size]} ${
         disabled ? "opacity-50 cursor-not-allowed" : ""

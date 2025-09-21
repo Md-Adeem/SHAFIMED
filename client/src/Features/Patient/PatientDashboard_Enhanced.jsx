@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import PatientLayout from "../../components/layout/PatientLayout";
 import Button from "../../components/ui/Button";
@@ -7,6 +8,7 @@ import ProfileCompletionBanner from "../../components/ProfileCompletionBanner";
 import useProfileCompletion from "../../hooks/useProfileCompletion";
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [cases, setCases] = useState([]);
   const { isComplete: isProfileComplete, missingFields, loading: profileLoading } = useProfileCompletion();
@@ -52,7 +54,7 @@ export default function Dashboard() {
 
   return (
     <PatientLayout
-      title={user?.name ? `Welcome, ${user.name}` : "Dashboard"}
+      title={user?.name ? `${t('dashboard.welcome')}, ${user.name}` : t('navigation.dashboard')}
       actions={
         <>
           <Button 
@@ -60,9 +62,9 @@ export default function Dashboard() {
             disabled={!isProfileComplete}
             className={!isProfileComplete ? "opacity-50 cursor-not-allowed" : ""}
           >
-            Submit Case
+            {t('patient.submitCase')}
           </Button>
-          <Button onClick={() => navigate("/my-cases")} variant="secondary">My Cases</Button>
+          <Button onClick={() => navigate("/my-cases")} variant="secondary">{t('patient.myCases')}</Button>
         </>
       }
     >
@@ -77,7 +79,7 @@ export default function Dashboard() {
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="bg-white rounded-xl shadow border p-5">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold text-gray-900">Latest case</h2>
+            <h2 className="text-lg font-bold text-gray-900">{t('dashboard.latestCase')}</h2>
             {latest && (
               <span className={`px-3 py-1 rounded-full text-white text-xs ${
                 latest.status === "Pending"
@@ -93,20 +95,20 @@ export default function Dashboard() {
             )}
           </div>
           {!latest ? (
-            <div className="text-sm text-gray-600">No cases yet. Start by submitting your first case.</div>
+            <div className="text-sm text-gray-600">{t('dashboard.submitFirstCase')}</div>
           ) : (
             <>
               <div className="font-semibold text-gray-900">{latest.title}</div>
               <div className="text-xs text-gray-500 mt-1">{latest.country} • Updated {new Date(latest.updatedAt).toLocaleDateString()}</div>
               <div className="mt-4 flex gap-2">
-                <Button size="sm" variant="secondary" onClick={() => navigate("/my-cases")}>View cases</Button>
+                <Button size="sm" variant="secondary" onClick={() => navigate("/my-cases")}>{t('dashboard.viewCases')}</Button>
                 <Button 
                   size="sm" 
                   onClick={handleSubmitCase}
                   disabled={!isProfileComplete}
                   className={!isProfileComplete ? "opacity-50 cursor-not-allowed" : ""}
                 >
-                  Submit new
+                  {t('dashboard.submitNew')}
                 </Button>
               </div>
             </>
@@ -114,9 +116,9 @@ export default function Dashboard() {
         </div>
 
         <div className="bg-white rounded-xl shadow border p-5">
-          <h2 className="text-lg font-bold text-gray-900 mb-3">Status breakdown</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-3">{t('dashboard.statusBreakdown')}</h2>
           {counts.total === 0 ? (
-            <div className="text-sm text-gray-600">No data yet.</div>
+            <div className="text-sm text-gray-600">{t('dashboard.noDataYet')}</div>
           ) : (
             <>
               <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden flex">
@@ -134,7 +136,7 @@ export default function Dashboard() {
         </div>
 
         <div className="bg-white rounded-xl shadow border p-5">
-          <h2 className="text-lg font-bold text-gray-900 mb-3">Do next</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-3">{t('dashboard.doNext')}</h2>
           <div className="space-y-3 text-sm">
             <button 
               onClick={() => navigate("/profile")} 
@@ -144,7 +146,7 @@ export default function Dashboard() {
                   : "bg-gray-50 hover:bg-gray-100 border-gray-200"
               }`}
             >
-              {!isProfileComplete ? "⚠️ Complete profile (Required)" : "✅ Complete profile"}
+              {!isProfileComplete ? t('dashboard.completeProfileRequired') : t('dashboard.profileCompleted')}
             </button>
             <button 
               onClick={handleSubmitCase}
@@ -155,22 +157,22 @@ export default function Dashboard() {
                   : "bg-gray-50 hover:bg-gray-100 text-gray-900 border-gray-200"
               }`}
             >
-              Submit a new case
+              {t('dashboard.submitNewCase')}
             </button>
-            <button onClick={() => navigate("/my-cases")} className="w-full text-left px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200">Check responses</button>
+            <button onClick={() => navigate("/my-cases")} className="w-full text-left px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200">{t('dashboard.checkResponses')}</button>
           </div>
         </div>
       </section>
 
       <section className="bg-white rounded-xl shadow border overflow-hidden mt-6">
-        <div className="px-5 py-4 border-b"><h2 className="text-lg font-bold text-gray-900">Recent cases</h2></div>
+        <div className="px-5 py-4 border-b"><h2 className="text-lg font-bold text-gray-900">{t('dashboard.recentCases')}</h2></div>
         {cases.length === 0 ? (
           <div className="px-5 py-10 text-center">
-            <div className="text-gray-700 font-semibold">No cases yet</div>
+            <div className="text-gray-700 font-semibold">{t('dashboard.noCasesYet')}</div>
             <div className="text-gray-500 text-sm mt-1">
               {!isProfileComplete 
-                ? "Complete your profile first, then submit your first case." 
-                : "Start by submitting your first case."
+                ? t('dashboard.completeProfileFirst')
+                : t('dashboard.submitFirstCase')
               }
             </div>
             <Button 
@@ -178,7 +180,7 @@ export default function Dashboard() {
               disabled={!isProfileComplete}
               className={`mt-4 ${!isProfileComplete ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              Submit a case
+              {t('dashboard.submitACase')}
             </Button>
           </div>
         ) : (

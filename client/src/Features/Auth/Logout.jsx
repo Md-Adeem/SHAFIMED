@@ -1,21 +1,23 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout as logoutAction } from "../../store/slices/authSlice";
 
 const Logout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // ✅ Remove authentication data (adjust keys if different in your project)
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    // ✅ Use Redux logout action which handles both Redux state and localStorage
+    dispatch(logoutAction());
 
-    // ✅ Show optional logout message (for debugging)
-    // console.log("User logged out");
+    // ✅ Show logout message
     toast.success("Logout Successful ✅");
+    
     // ✅ Redirect to login page
     navigate("/login");
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

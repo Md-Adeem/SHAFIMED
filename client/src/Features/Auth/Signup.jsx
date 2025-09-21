@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import toast from "react-hot-toast";
 
 export default function Signup() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -34,7 +36,7 @@ export default function Signup() {
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
         
         {/* Left: Benefits / Features */}
-        <div className="md:w-1/2 bg-gradient-to-br from-blue-600 to-cyan-500 text-white p-8 flex flex-col justify-center">
+        <div className="md:w-1/2 bg-gradient-to-br from-teal-600 to-emerald-500 text-white p-8 flex flex-col justify-center">
           <h2 className="text-2xl font-bold mb-6 text-center">Why Join Us?</h2>
           <ul className="space-y-4 text-base font-medium">
             <li className="flex items-start gap-3">
@@ -57,12 +59,12 @@ export default function Signup() {
 
         {/* Right: Signup Form */}
         <div className="md:w-1/2 w-full p-8 sm:p-12">
-          <h2 className="text-3xl font-bold text-blue-700 text-center mb-4">Create Account</h2>
+          <h2 className="text-3xl font-bold text-teal-700 text-center mb-4">{t('auth.createAccount')}</h2>
           <p className="text-sm text-gray-500 text-center mb-6">Join us as a Patient, Doctor, or Facilitator</p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('auth.firstName')}</label>
               <input
                 type="text"
                 placeholder="Your full name"
@@ -74,7 +76,7 @@ export default function Signup() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('auth.email')}</label>
               <input
                 type="email"
                 placeholder="you@example.com"
@@ -86,7 +88,7 @@ export default function Signup() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('auth.password')}</label>
               <input
                 type="password"
                 placeholder="Choose a secure password"
@@ -128,17 +130,17 @@ export default function Signup() {
               type="submit"
               className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition shadow-sm"
             >
-              Signup
+              {t('auth.signup')}
             </button>
           </form>
 
           <div className="mt-6 text-center text-sm text-gray-500">
-            Already have an account?
+            {t('auth.alreadyHaveAccount')}
             <button
               className="text-blue-600 font-medium hover:underline ml-1"
               onClick={() => navigate("/login")}
             >
-              Login
+              {t('auth.login')}
             </button>
           </div>
         </div>

@@ -239,7 +239,7 @@ const SubmitCase = () => {
             <div className="flex items-center gap-2 mb-3">
               <div className="p-1.5 bg-orange-500 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white" className="w-4 h-4">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189 6.97 6.97 0 011.125-.925M12 12.75v-5.25m0 0a6.01 6.01 0 00-1.5-.189 6.97 6.97 0 00-1.125-.925M12 7.5V6.75a.75.75 0 011.5 0v.75m0 0a6.01 6.01 0 011.5.189A6.972 6.972 0 0118 9.75v.75m0 0V12m-6-6v5.25m0 0a6.01 6.01 0 00-1.5.189A6.972 6.972 0 006 9.75v.75m0 0V12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189 6.97 6.97 0 011.125-.925M12 12.75v-5.25m0 0a6.01 6.01 0 00-1.5-.189 6.972 6.972 0 00-1.125-.925M12 7.5V6.75a.75.75 0 011.5 0v.75m0 0a6.01 6.01 0 011.5.189A6.972 6.972 0 0118 9.75v.75m0 0V12m-6-6v5.25m0 0a6.01 6.01 0 00-1.5.189A6.972 6.972 0 006 9.75v.75m0 0V12" />
                 </svg>
               </div>
               <div className="text-sm font-bold text-orange-900">Helpful Tips</div>
@@ -260,57 +260,57 @@ const SubmitCase = () => {
             </ul>
           </div>
 
-          {/* Amenities Section - Blue Theme */}
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-md border border-blue-200 p-5">
+          {/* Amenities Section - Teal Theme */}
+          <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl shadow-md border border-teal-200 p-5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="p-1.5 bg-blue-500 rounded-lg">
+              <div className="p-1.5 bg-teal-500 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white" className="w-4 h-4">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                 </svg>
               </div>
-              <div className="text-sm font-bold text-blue-900">What We Provide</div>
+              <div className="text-sm font-bold text-teal-900">What We Provide</div>
             </div>
-            <ul className="space-y-2 text-sm text-blue-800">
+            <ul className="space-y-2 text-sm text-teal-800">
               <li className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
+                <span className="text-teal-500 mt-1">•</span>
                 <span>5 days hotel stay after surgery</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
+                <span className="text-teal-500 mt-1">•</span>
                 <span>Airport pickup and drop service</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
+                <span className="text-teal-500 mt-1">•</span>
                 <span>Local SIM card provided</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
+                <span className="text-teal-500 mt-1">•</span>
                 <span>24/7 medical assistance</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-blue-500 mt-1">•</span>
+                <span className="text-teal-500 mt-1">•</span>
                 <span>Interpreter services</span>
               </li>
             </ul>
           </div>
 
-          {/* Need Help Section - Green Theme */}
-          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-md border border-green-200 p-5">
+          {/* Need Help Section - Emerald Theme */}
+          <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl shadow-md border border-emerald-200 p-5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="p-1.5 bg-green-500 rounded-lg">
+              <div className="p-1.5 bg-emerald-500 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="white" className="w-4 h-4">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
                 </svg>
               </div>
-              <div className="text-sm font-bold text-green-900">Need Help?</div>
+              <div className="text-sm font-bold text-emerald-900">Need Help?</div>
             </div>
-            <p className="text-sm text-green-800 mb-3">
+            <p className="text-sm text-emerald-800 mb-3">
               Our expert team can help you compare hospitals and doctors to find the best treatment options.
             </p>
             <Button 
               onClick={() => navigate("/my-cases")} 
-              variant="secondary" 
-              className="w-full bg-green-500 hover:bg-green-600 text-white border-green-500 hover:border-green-600 transition-colors"
+              variant="success" 
+              className="w-full"
             >
               Contact Support
             </Button>
