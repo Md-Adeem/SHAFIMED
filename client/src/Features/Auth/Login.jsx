@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useTranslation } from 'react-i18next';
 import { loginSuccess } from "../../store/slices/authSlice";
 import api from "../../lib/api";
 import toast from "react-hot-toast";
 
 export default function Login() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -17,7 +19,7 @@ export default function Login() {
     try {
       const { data } = await api.post("/auth/login", { email, password });
       dispatch(loginSuccess({ token: data.token, user: data.user }));
-       toast.success("Login Successful ✅");
+       toast.success(t('common.success') + " ✅");
       // <Toast message="Login Successful ✅" />
 
       if (data.user.role === "facilitator") {
@@ -35,7 +37,7 @@ export default function Login() {
     <div className="min-h-screen bg-gradient-to-tr from-blue-200 via-blue to-blue-200 flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
         {/* Left Side - Amenities List */}
-       <div className="md:w-1/2 bg-gradient-to-br from-blue-600 to-cyan-500 text-white p-8 flex flex-col justify-center">
+       <div className="md:w-1/2 bg-gradient-to-br from-teal-600 to-emerald-500 text-white p-8 flex flex-col justify-center">
           <h2 className="text-2xl font-bold mb-6 text-center">What we Offer?</h2>
           <ul className="space-y-4 text-base font-medium">
             <li className="flex items-start gap-3">
@@ -58,7 +60,7 @@ export default function Login() {
 
         {/* Right Side - Login Form */}
         <div className="md:w-1/2 w-full p-8 sm:p-12">
-          <h2 className="text-3xl font-bold text-blue-700 mb-2 text-center">Welcome Back</h2>
+          <h2 className="text-3xl font-bold text-teal-700 mb-2 text-center">{t('navigation.login')}</h2>
           <p className="text-sm text-gray-500 mb-6 text-center">
             Please login to access your account.
           </p>
@@ -66,7 +68,7 @@ export default function Login() {
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <label htmlFor="email" className="text-sm font-medium text-gray-700 block mb-1">
-                Email Address
+                {t('auth.email')}
               </label>
               <input
                 type="email"
@@ -75,13 +77,13 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500 transition"
               />
             </div>
 
             <div>
               <label htmlFor="password" className="text-sm font-medium text-gray-700 block mb-1">
-                Password
+                {t('auth.password')}
               </label>
               <input
                 type="password"
@@ -98,17 +100,17 @@ export default function Login() {
               type="submit"
               className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition shadow-sm"
             >
-              Login
+              {t('auth.login')}
             </button>
           </form>
 
           <div className="mt-6 text-center text-sm text-gray-500">
-            Don’t have an account?
+            {t('auth.dontHaveAccount')}
             <button
               className="text-blue-600 font-medium hover:underline ml-1"
               onClick={() => navigate("/signup")}
             >
-              Sign up
+              {t('auth.signup')}
             </button>
           </div>
         </div>
