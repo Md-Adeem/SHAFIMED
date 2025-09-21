@@ -32,7 +32,7 @@ const genRefId = () => {
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
   const suffix = Math.random().toString(36).slice(2, 6).toUpperCase();
-  return `SHF-${y}${m}${day}-${suffix}`;
+  return `SM-${y}${m}${day}-${suffix}`;
 };
 
 // POST - Submit case (Protected) - Requires completed profile
