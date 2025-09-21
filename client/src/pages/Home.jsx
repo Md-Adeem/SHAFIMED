@@ -5,19 +5,14 @@ import React from "react";
 import Hero from "../components/landing/Hero";
 import SpecialtiesGrid from "../components/landing/SpecialtiesGrid";
 import ServicesGrid from "../components/landing/ServicesGrid";
-// import SearchBar from "../components/landing/SearchBar_new";
 import HospitalsStrip from "../components/landing/HospitalsStrip";
 import Steps from "../components/landing/Steps";
 import Treatments from "../components/landing/Treatments";
 import Testimonials from "../components/landing/Testimonials";
 import CTA from "../components/landing/CTA";
-import Hero from "../components/landing/Hero"; // HeroSection
 import MultiSpecialtyFocus from "../components/landing/MultiSpecialtyFocus";
-import HospitalsStrip from "../components/landing/HospitalsStrip"; // TopHospitals
 import LowestQuotes from "../components/landing/LowestQuotes";
-import Steps from "../components/landing/Steps"; // HowItWorks
 import Services from "../components/landing/Services";
-import Testimonials from "../components/landing/Testimonials"; // PatientTestimonials
 import CaseStudies from "../components/landing/CaseStudies";
 import NewsSection from "../components/landing/NewsSection";
 import FAQSection from "../components/landing/FAQSection";

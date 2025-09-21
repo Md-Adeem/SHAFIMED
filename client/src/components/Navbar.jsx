@@ -35,12 +35,14 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ✅ Centralized navigation items
+  // ✅ Role-based navigation items
   const navItems = [
     { label: t('navigation.home'), path: "/", icon: "🏠", show: true },
-    { label: t('navigation.dashboard'), path: "/dashboard", show: isLoggedIn },
-    { label: "Facilitator", path: "/facilitator", show: isLoggedIn && role === "facilitator" },
-    { label: "My Cases", path: "/my-cases", show: isLoggedIn },
+    // Patient-specific navigation
+    { label: t('navigation.dashboard'), path: "/dashboard", show: isLoggedIn && role === "patient" },
+    { label: "My Cases", path: "/my-cases", show: isLoggedIn && role === "patient" },
+    // Facilitator-specific navigation
+    { label: "Facilitator Dashboard", path: "/facilitator", show: isLoggedIn && role === "facilitator" },
   ];
 
   // const scrolledText = isScrolled
@@ -145,12 +147,14 @@ function Navbar() {
 
                 {/* Dropdown Menu */}
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                  <Link
-                    to="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600"
-                  >
-                    {t('navigation.profile')}
-                  </Link>
+                  {role === "patient" && (
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600"
+                    >
+                      {t('navigation.profile')}
+                    </Link>
+                  )}
                   <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
@@ -212,9 +216,9 @@ function Navbar() {
                 ))}
 
               {/* Mobile Language Switcher */}
-              <div className="px-3 py-2">
+              {/* <div className="px-3 py-2">
                 <LanguageSwitcher />
-              </div>
+              </div> */}
 
               {!isLoggedIn ? (
                 <>
@@ -235,13 +239,15 @@ function Navbar() {
                 </>
               ) : (
                 <>
-                  <Link
-                    to="/profile"
-                    className="block px-3 py-2 text-gray-700 font-medium hover:bg-teal-50 hover:text-teal-600 rounded-lg"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Profile
-                  </Link>
+                  {role === "patient" && (
+                    <Link
+                      to="/profile"
+                      className="block px-3 py-2 text-gray-700 font-medium hover:bg-teal-50 hover:text-teal-600 rounded-lg"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                  )}
                   <button
                     onClick={() => {
                       handleLogout();

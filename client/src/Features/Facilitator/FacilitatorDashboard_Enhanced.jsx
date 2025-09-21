@@ -69,7 +69,14 @@ export default function FacilitatorDashboard() {
     setTab(matched || "All");
   }, [searchParams]);
 
-  // -- Safe filtered list
+  // -- Safe filtered list for main dashboard (recent cases only)
+  const recentCases = useMemo(() => {
+    return cases
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by newest first
+      .slice(0, 6); // Take only first 6 cases
+  }, [cases]);
+
+  // -- Safe filtered list for search/filter (kept for future use)
   const filtered = useMemo(() => {
     return cases
       .filter((c) => (tab === "All" ? true : c.status === tab))
@@ -331,99 +338,83 @@ export default function FacilitatorDashboard() {
         ))}
       </div>
 
-      {/* Filters + Search */}
-      <div className="mb-4 flex items-center gap-3 flex-wrap">
-        <div className="flex gap-2">
-          {["All", ...STATUSES].map((t) => (
-            <button
-              key={t}
-              onClick={() => {
-                setTab(t);
-                setSearchParams(t === "All" ? {} : { status: t });
-              }}
-              className={`px-3 py-1.5 rounded-full text-sm transition ${
-                tab === t ? "bg-cyan-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              {t} ({t === "All" ? stats.total : stats[t.toLowerCase().replace(/\s+/g, "")] ?? 0})
-            </button>
-          ))}
+      {/* Recent Cases Section */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-900">Recent Cases (Latest 6)</h2>
+          <Button 
+            variant="outline" 
+            onClick={() => navigate("/facilitator/cases")}
+            className="text-sm"
+          >
+            View All Cases →
+          </Button>
         </div>
 
-        <div className="ml-auto w-full sm:w-64">
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search by title or patient..."
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          />
-        </div>
-      </div>
-
-      {/* Cases table */}
-      <Card className="overflow-hidden border-4 shadow-lg">
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-50 text-gray-600">
-              <tr>
-                <th className="px-5 py-3 text-left font-semibold">Patient</th>
-                <th className="px-5 py-3 text-left font-semibold">Reference</th>
-                <th className="px-5 py-3 text-left font-semibold">Title</th>
-                <th className="px-5 py-3 text-left font-semibold">Country</th>
-                <th className="px-5 py-3 text-left font-semibold">Assigned Doctor</th>
-                <th className="px-5 py-3 text-left font-semibold">Status</th>
-                <th className="px-5 py-3 text-left font-semibold">Created</th>
-                <th className="px-5 py-3 text-left font-semibold">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.length === 0 ? (
+        <Card className="overflow-hidden border shadow-lg">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-50 text-gray-600">
                 <tr>
-                  <td colSpan="7" className="px-5 py-10 text-center text-gray-500">No cases found.</td>
+                  <th className="px-5 py-3 text-left font-semibold">Patient</th>
+                  <th className="px-5 py-3 text-left font-semibold">Reference</th>
+                  <th className="px-5 py-3 text-left font-semibold">Title</th>
+                  <th className="px-5 py-3 text-left font-semibold">Country</th>
+                  <th className="px-5 py-3 text-left font-semibold">Assigned Doctor</th>
+                  <th className="px-5 py-3 text-left font-semibold">Status</th>
+                  <th className="px-5 py-3 text-left font-semibold">Created</th>
+                  <th className="px-5 py-3 text-left font-semibold">Actions</th>
                 </tr>
-              ) : (
-                filtered.map((c) => {
-                  const assigned = getAssignedDoctor(c.assignedDoctorId);
-                  return (
-                    <tr key={c._id} className="border-t hover:bg-gray-50">
-                      <td className="px-5 py-3">{c.fullName || "—"}</td>
-                      <td className="px-5 py-3 font-bold text-xs">{c.referenceId || "—"}</td>
-                      <td className="px-5 py-3 font-medium max-w-xs truncate">{c.title}</td>
-                      <td className="px-5 py-3">{c.country}</td>
-                      <td className="px-5 py-3">
-                        {assigned ? (
-                          <>
-                            <div className="font-medium">{assigned.name}</div>
-                            {assigned.specialization && <div className="text-xs text-gray-500">{assigned.specialization}</div>}
-                          </>
-                        ) : (
-                          <span className="text-gray-400">Not assigned</span>
-                        )}
-                      </td>
-                      <td className="px-5 py-3">
-                        <select
-                          value={c.status || "Pending"}
-                          onChange={(e) => handleUpdateStatus(c._id, e.target.value)}
-                          disabled={updatingCaseId === c._id}
-                          className="px-2 py-1 border rounded text-sm"
-                        >
-                          {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                      </td>
-                      <td className="px-5 py-3 text-gray-600">{c.createdAt ? new Date(c.createdAt).toLocaleDateString() : "—"}</td>
-                      <td className="px-5 py-3">
-                        <div className="flex gap-2">
-                          <Button size="sm" onClick={() => setSelectedCase(c)}>View Details</Button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
-      </Card>
+              </thead>
+              <tbody>
+                {recentCases.length === 0 ? (
+                  <tr>
+                    <td colSpan="8" className="px-5 py-10 text-center text-gray-500">No recent cases found.</td>
+                  </tr>
+                ) : (
+                  recentCases.map((c) => {
+                    const assigned = getAssignedDoctor(c.assignedDoctorId);
+                    return (
+                      <tr key={c._id} className="border-t hover:bg-gray-50">
+                        <td className="px-5 py-3">{c.fullName || "—"}</td>
+                        <td className="px-5 py-3 font-bold text-xs">{c.referenceId || "—"}</td>
+                        <td className="px-5 py-3 font-medium max-w-xs truncate">{c.title}</td>
+                        <td className="px-5 py-3">{c.country}</td>
+                        <td className="px-5 py-3">
+                          {assigned ? (
+                            <>
+                              <div className="font-medium">{assigned.name}</div>
+                              {assigned.specialization && <div className="text-xs text-gray-500">{assigned.specialization}</div>}
+                            </>
+                          ) : (
+                            <span className="text-gray-400">Not assigned</span>
+                          )}
+                        </td>
+                        <td className="px-5 py-3">
+                          <select
+                            value={c.status || "Pending"}
+                            onChange={(e) => handleUpdateStatus(c._id, e.target.value)}
+                            disabled={updatingCaseId === c._id}
+                            className="px-2 py-1 border rounded text-sm"
+                          >
+                            {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                          </select>
+                        </td>
+                        <td className="px-5 py-3 text-gray-600">{c.createdAt ? new Date(c.createdAt).toLocaleDateString() : "—"}</td>
+                        <td className="px-5 py-3">
+                          <div className="flex gap-2">
+                            <Button size="sm" onClick={() => setSelectedCase(c)}>View Details</Button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      </div>
 
       {/* Case details modal */}
       {selectedCase && <CaseDetailsModal item={selectedCase} onClose={() => setSelectedCase(null)} />}
