@@ -11,35 +11,59 @@ import Steps from "../components/landing/Steps";
 import Treatments from "../components/landing/Treatments";
 import Testimonials from "../components/landing/Testimonials";
 import CTA from "../components/landing/CTA";
+import Hero from "../components/landing/Hero"; // HeroSection
+import MultiSpecialtyFocus from "../components/landing/MultiSpecialtyFocus";
+import HospitalsStrip from "../components/landing/HospitalsStrip"; // TopHospitals
+import LowestQuotes from "../components/landing/LowestQuotes";
+import Steps from "../components/landing/Steps"; // HowItWorks
+import Services from "../components/landing/Services";
+import Testimonials from "../components/landing/Testimonials"; // PatientTestimonials
+import CaseStudies from "../components/landing/CaseStudies";
+import NewsSection from "../components/landing/NewsSection";
+import FAQSection from "../components/landing/FAQSection";
 import Footer from "../components/landing/Footer";
 
 const Home = () => {
   return (
     <main className="min-h-screen">
-      {/* Hero Section */}
+      {/* 1. HeroSection */}
       <Hero />
       
       {/* Search Bar - Overlaps Hero */}
       {/* <SearchBar /> */}
       <SpecialtiesGrid />
       {/* Hospital Partners Strip */}
+      {/* 2. MultiSpecialtyFocus */}
+      <MultiSpecialtyFocus />
+      
+      {/* 3. TopHospitals */}
       <HospitalsStrip />
       
-      {/* How It Works Steps */}
+      {/* 4. LowestQuotes */}
+      <LowestQuotes />
+      
+      {/* 5. HowItWorks */}
       <Steps />
       
-      {/* Popular Treatments */}
-      <Treatments />
+      {/* 6. Services */}
+      <Services />
       
       <ServicesGrid />
 
       {/* Patient Testimonials */}
+      {/* 7. PatientTestimonials */}
       <Testimonials />
       
-      {/* Call to Action */}
-      <CTA />
+      {/* 8. CaseStudies */}
+      <CaseStudies />
       
-      {/* Footer */}
+      {/* 9. NewsSection */}
+      <NewsSection />
+      
+      {/* 10. FAQSection */}
+      <FAQSection />
+      
+      {/* 11. Footer */}
       <Footer />
     </main>
   );

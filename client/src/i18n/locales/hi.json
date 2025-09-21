@@ -1,0 +1,203 @@
+{
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफल",
+    "cancel": "रद्द करें",
+    "save": "सेव करें",
+    "edit": "संपादित करें",
+    "delete": "हटाएं",
+    "search": "खोजें",
+    "submit": "जमा करें",
+    "close": "बंद करें",
+    "yes": "हाँ",
+    "no": "नहीं"
+  },
+  "navigation": {
+    "home": "होम",
+    "dashboard": "डैशबोर्ड",
+    "profile": "प्रोफाइल",
+    "logout": "लॉग आउट",
+    "login": "लॉग इन",
+    "signup": "खाता बनाएं",
+    "about": "हमारे बारे में",
+    "contact": "संपर्क",
+    "services": "सेवाएं"
+  },
+  "hero": {
+    "title": "आपका स्वास्थ्य, हमारी प्राथमिकता",
+    "subtitle": "विश्व स्तरीय डॉक्टरों से जुड़ें, तुरंत अपॉइंटमेंट बुक करें, और अपनी उंगलियों पर व्यक्तिगत स्वास्थ्य देखभाल प्राप्त करें।",
+    "findDoctor": "अपना डॉक्टर खोजें",
+    "emergencyCare": "आपातकालीन देखभाल",
+    "trustBadge": "दुनिया भर में 50,000+ मरीजों का भरोसा",
+    "features": {
+      "expertDoctors": "विशेषज्ञ डॉक्टर",
+      "available247": "24/7 उपलब्ध",
+      "globalReach": "वैश्विक पहुंच",
+      "awardWinning": "पुरस्कार विजेता"
+    },
+    "stats": {
+      "patientsTreated": "इलाज किए गए मरीज",
+      "expertDoctors": "विशेषज्ञ डॉक्टर",
+      "specializations": "विशेषज्ञताएं",
+      "supportAvailable": "सहायता उपलब्ध"
+    }
+  },
+  "patient": {
+    "dashboard": "मरीज डैशबोर्ड",
+    "submitCase": "चिकित्सा मामला जमा करें",
+    "myCases": "मेरे मामले",
+    "contactFacilitator": "हमारे सुविधाकर्ता से संपर्क करें",
+    "profile": "प्रोफाइल पूरा करें",
+    "appointments": "अपॉइंटमेंट्स",
+    "medicalHistory": "चिकित्सा इतिहास",
+    "prescriptions": "नुस्खे"
+  },
+  "medical": {
+    "diagnosis": "निदान",
+    "treatment": "उपचार",
+    "symptoms": "लक्षण",
+    "medication": "दवा",
+    "appointment": "अपॉइंटमेंट",
+    "doctor": "डॉक्टर",
+    "hospital": "अस्पताल",
+    "emergency": "आपातकाल",
+    "consultation": "परामर्श",
+    "prescription": "नुस्खा",
+    "labResults": "लैब परिणाम"
+  },
+  "auth": {
+    "login": "लॉग इन",
+    "signup": "खाता बनाएं",
+    "logout": "लॉग आउट",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "firstName": "पहला नाम",
+    "lastName": "अंतिम नाम",
+    "phoneNumber": "फोन नंबर",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "rememberMe": "मुझे याद रखें",
+    "alreadyHaveAccount": "पहले से खाता है?",
+    "dontHaveAccount": "खाता नहीं है?",
+    "createAccount": "खाता बनाएं"
+  },
+  "searchBar": {
+    "placeholder": "डॉक्टर, उपचार, या स्थितियां खोजें...",
+    "findTreatment": "उपचार खोजें",
+    "popularSearches": "लोकप्रिय खोजें",
+    "recentSearches": "हाल की खोजें"
+  },
+  "footer": {
+    "aboutUs": "हमारे बारे में",
+    "services": "सेवाएं",
+    "contact": "संपर्क",
+    "privacy": "गोपनीयता नीति",
+    "terms": "सेवा की शर्तें",
+    "copyright": "© 2024 शाफी मेड। सर्वाधिकार सुरक्षित।",
+    "followUs": "हमें फॉलो करें",
+    "description": "वैश्विक स्वास्थ्य सेवा में आपका विश्वसनीय साझीदार। मरीजों को विश्व स्तरीय चिकित्सा विशेषज्ञों और सुविधाओं से जोड़ना।",
+    "quickLinks": "त्वरित लिंक",
+    "support": "सहायता",
+    "legal": "कानूनी"
+  },
+  "steps": {
+    "title": "यह कैसे काम करता है",
+    "subtitle": "बेहतरीन स्वास्थ्य उपचार पाने के सरल चरण",
+    "step1": {
+      "title": "अपना मामला जमा करें",
+      "description": "अपनी चिकित्सा स्थिति और आवश्यकताओं को हमारी विशेषज्ञ टीम के साथ साझा करें"
+    },
+    "step2": {
+      "title": "विशेषज्ञ की राय लें",
+      "description": "शीर्ष चिकित्सा विशेषज्ञों से व्यक्तिगत सिफारिशें प्राप्त करें"
+    },
+    "step3": {
+      "title": "उपचार चुनें",
+      "description": "अपनी आवश्यकताओं और बजट के अनुकूल सबसे अच्छा उपचार विकल्प चुनें"
+    },
+    "step4": {
+      "title": "यात्रा और स्वस्थ हों",
+      "description": "हम यात्रा की व्यवस्था से लेकर उपचार के बाद की देखभाल तक सब कुछ संभालते हैं"
+    }
+  },
+  "treatments": {
+    "title": "लोकप्रिय उपचार",
+    "subtitle": "हमारी सबसे अधिक मांग वाली चिकित्सा प्रक्रियाओं का अन्वेषण करें",
+    "viewAll": "सभी उपचार देखें",
+    "startingFrom": "शुरुआत से",
+    "learnMore": "और जानें"
+  },
+  "testimonials": {
+    "title": "हमारे मरीज़ क्या कहते हैं",
+    "subtitle": "उन मरीजों की वास्तविक कहानियां जिन्होंने आशा और उपचार पाया",
+    "readMore": "और पढ़ें",
+    "verified": "सत्यापित मरीज़"
+  },
+  "cta": {
+    "title": "अपनी स्वास्थ्य यात्रा शुरू करने के लिए तैयार हैं?",
+    "subtitle": "हजारों मरीजों में शामिल हों जिन्होंने शाफी मेड के माध्यम से विश्व स्तरीय चिकित्सा देखभाल पाई है",
+    "primaryButton": "निःशुल्क परामर्श प्राप्त करें",
+    "secondaryButton": "और जानें",
+    "features": {
+      "expertConsultation": "विशेषज्ञ परामर्श",
+      "transparentPricing": "पारदर्शी मूल्य निर्धारण",
+      "globalNetwork": "वैश्विक नेटवर्क"
+    }
+  },
+  "hospitals": {
+    "title": "हमारे साझीदार अस्पताल",
+    "subtitle": "दुनिया भर में विश्वसनीय स्वास्थ्य संस्थान",
+    "accredited": "मान्यता प्राप्त",
+    "viewProfile": "प्रोफाइल देखें"
+  },
+  "dashboard": {
+    "welcome": "स्वागत है",
+    "overview": "अवलोकन",
+    "recentActivity": "हालिया गतिविधि",
+    "quickActions": "त्वरित कार्य",
+    "statistics": "आंकड़े",
+    "notifications": "सूचनाएं",
+    "settings": "सेटिंग्स"
+  },
+  "cases": {
+    "myCases": "मेरे मामले",
+    "submitNew": "नया मामला जमा करें",
+    "caseId": "मामला आईडी",
+    "status": "स्थिति",
+    "dateSubmitted": "जमा करने की तारीख",
+    "assignedDoctor": "नियुक्त डॉक्टर",
+    "viewDetails": "विवरण देखें",
+    "pending": "लंबित",
+    "inProgress": "प्रगति में",
+    "completed": "पूर्ण",
+    "cancelled": "रद्द"
+  },
+  "forms": {
+    "required": "आवश्यक",
+    "optional": "वैकल्पिक",
+    "selectOption": "एक विकल्प चुनें",
+    "uploadFile": "फाइल अपलोड करें",
+    "dragDrop": "फाइलों को यहां खींचें और छोड़ें",
+    "maxFileSize": "अधिकतम फाइल साइज",
+    "supportedFormats": "समर्थित प्रारूप"
+  },
+  "profile": {
+    "personalInfo": "व्यक्तिगत जानकारी",
+    "medicalHistory": "चिकित्सा इतिहास",
+    "emergencyContact": "आपातकालीन संपर्क",
+    "preferences": "प्राथमिकताएं",
+    "updateProfile": "प्रोफाइल अपडेट करें",
+    "profileCompletion": "प्रोफाइल पूर्णता",
+    "completeProfile": "अपना प्रोफाइल पूरा करें",
+    "profileIncomplete": "आपका प्रोफाइल अधूरा है। चिकित्सा मामले जमा करने के लिए कृपया सभी आवश्यक फील्ड पूरे करें।"
+  },
+  "facilitator": {
+    "dashboard": "सुविधाकर्ता डैशबोर्ड",
+    "assignDoctor": "डॉक्टर असाइन करें",
+    "caseManagement": "मामला प्रबंधन",
+    "patientCommunication": "रोगी संचार",
+    "reports": "रिपोर्ट्स",
+    "analytics": "विश्लेषण"
+  }
+}

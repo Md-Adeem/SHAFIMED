@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout as logoutAction } from "../../store/slices/authSlice";
 
 import { ArrowLeft } from "lucide-react";
 
@@ -26,28 +28,34 @@ import { ArrowLeft } from "lucide-react";
 
 function PatientLayout({ title, actions, children }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useMemo(() => {
     try { return JSON.parse(localStorage.getItem("user") || "null"); } catch { return null; }
   }, []);
 
   const go = (p) => navigate(p);
 
+  const handleLogout = () => {
+    dispatch(logoutAction());
+    navigate("/login");
+  };
+
  return (
   <div className="min-h-screen bg-gradient-to-br from-gray-50 to-slate-100 flex">
     <aside className="hidden md:flex w-64 flex-col border-r bg-white shadow-xl">
       {/* Brand Header */}
-      <div onClick={() => navigate("/")} className="px-6 py-6 border-b cursor-pointer border-gray-100 bg-gradient-to-r from-cyan-600 to-cyan-700">
-        <div className="text-2xl font-extrabold text-white">ShafiMed</div>
-        <div className="text-xs text-cyan-100 mt-1">Patient Workspace</div>
+      <div onClick={() => navigate("/")} className="px-6 py-6 border-b cursor-pointer border-gray-100 bg-gradient-to-r from-teal-600 to-emerald-700">
+        <div className="text-2xl font-extrabold text-white">ShaafiMed</div>
+        <div className="text-xs text-teal-100 mt-1">Patient Workspace</div>
       </div>
       
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-2">
         <button 
           onClick={() => go("/dashboard")} 
-          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-cyan-100 hover:text-cyan-700 transition-all duration-200 flex items-center gap-3 group"
+          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 flex items-center gap-3 group"
         >
-          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-cyan-200 transition-colors">
+          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-teal-200 transition-colors">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z" />
@@ -58,9 +66,9 @@ function PatientLayout({ title, actions, children }) {
         
         <button 
           onClick={() => go("/my-cases")} 
-          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-blue-700 transition-all duration-200 flex items-center gap-3 group"
+          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-emerald-100 hover:text-emerald-700 transition-all duration-200 flex items-center gap-3 group"
         >
-          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-blue-200 transition-colors">
+          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-emerald-200 transition-colors">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
@@ -70,9 +78,9 @@ function PatientLayout({ title, actions, children }) {
         
         <button 
           onClick={() => go("/submit-case")} 
-          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 hover:text-green-700 transition-all duration-200 flex items-center gap-3 group"
+          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-blue-700 transition-all duration-200 flex items-center gap-3 group"
         >
-          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-green-200 transition-colors">
+          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-blue-200 transition-colors">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
             </svg>
@@ -82,9 +90,9 @@ function PatientLayout({ title, actions, children }) {
         
         <button 
           onClick={() => go("/profile")} 
-          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 hover:text-purple-700 transition-all duration-200 flex items-center gap-3 group"
+          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 flex items-center gap-3 group"
         >
-          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-purple-200 transition-colors">
+          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-teal-200 transition-colors">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
@@ -96,11 +104,10 @@ function PatientLayout({ title, actions, children }) {
         <div className="pt-6">
           <button 
             onClick={() => {
-              // Replace with your actual facilitator's WhatsApp number (with country code, no + or spaces)
-              const phoneNumber = "1234567890"; // Example: "923001234567" for Pakistan
+              const phoneNumber = "+919565188938"; 
               const userName = user?.name || "Patient";
               const message = encodeURIComponent(
-                `Hello! I'm ${userName} from ShafiMed platform. I need assistance with my medical case. Please help me.`
+                `Hello! I'm ${userName} from ShafiMed platform. I need assistance with my medical case.`
               );
               const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
               window.open(whatsappUrl, '_blank');
@@ -125,7 +132,7 @@ function PatientLayout({ title, actions, children }) {
         <BackToHome onBack={() => window.location.href = "/"} /> 
         
         <button 
-          onClick={() => go("/logout")} 
+          onClick={handleLogout}
           className="w-full text-left px-4 py-3 rounded-xl font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 flex items-center gap-3 group"
         >
           <div className="p-1.5 rounded-lg group-hover:bg-red-100 transition-colors">
