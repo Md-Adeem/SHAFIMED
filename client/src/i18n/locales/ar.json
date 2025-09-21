@@ -1,0 +1,212 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "search": "بحث",
+    "submit": "إرسال",
+    "close": "إغلاق",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "dashboard": "لوحة القيادة",
+    "profile": "الملف الشخصي",
+    "logout": "تسجيل خروج",
+    "login": "تسجيل دخول",
+    "signup": "إنشاء حساب",
+    "about": "معلومات عنا",
+    "contact": "اتصل بنا",
+    "services": "الخدمات"
+  },
+  "hero": {
+    "title": "صحتك، أولويتنا",
+    "subtitle": "تواصل مع أطباء عالميين، احجز المواعيد فوراً، واحصل على رعاية صحية شخصية في متناول يدك.",
+    "findDoctor": "اعثر على طبيبك",
+    "emergencyCare": "رعاية طارئة",
+    "trustBadge": "موثوق من قبل أكثر من 50,000 مريض حول العالم",
+    "features": {
+      "expertDoctors": "أطباء خبراء",
+      "available247": "متوفر 24/7",
+      "globalReach": "وصول عالمي",
+      "awardWinning": "حائز على جوائز"
+    },
+    "stats": {
+      "patientsTreated": "المرضى المعالجون",
+      "expertDoctors": "أطباء خبراء",
+      "specializations": "التخصصات",
+      "supportAvailable": "الدعم متوفر"
+    }
+  },
+  "patient": {
+    "dashboard": "لوحة المريض",
+    "submitCase": "إرسال حالة طبية",
+    "myCases": "حالاتي",
+    "contactFacilitator": "اتصل بمنسقنا",
+    "profile": "إكمال الملف الشخصي",
+    "appointments": "المواعيد",
+    "medicalHistory": "التاريخ الطبي",
+    "prescriptions": "الوصفات الطبية"
+  },
+  "medical": {
+    "diagnosis": "التشخيص",
+    "treatment": "العلاج",
+    "symptoms": "الأعراض",
+    "medication": "الدواء",
+    "appointment": "الموعد",
+    "doctor": "الطبيب",
+    "hospital": "المستشفى",
+    "emergency": "الطوارئ",
+    "consultation": "الاستشارة",
+    "prescription": "الوصفة الطبية",
+    "labResults": "نتائج المختبر"
+  },
+  "auth": {
+    "login": "تسجيل دخول",
+    "signup": "إنشاء حساب",
+    "logout": "تسجيل خروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "phoneNumber": "رقم الهاتف",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "rememberMe": "تذكرني",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "createAccount": "إنشاء حساب"
+  },
+  "searchBar": {
+    "placeholder": "ابحث عن العلاجات...",
+    "findTreatment": "اعثر على العلاج",
+    "popularSearches": "عمليات البحث الشائعة",
+    "recentSearches": "عمليات البحث الأخيرة",
+    "treatment": "العلاج",
+    "country": "البلد",
+    "budget": "الميزانية",
+    "allCountries": "جميع البلدان",
+    "anyBudget": "أي ميزانية",
+    "partnerHospitals": "المستشفيات الشريكة",
+    "countries": "البلدان",
+    "happyPatients": "المرضى السعداء",
+    "support": "الدعم"
+  },
+  "footer": {
+    "aboutUs": "معلومات عنا",
+    "services": "الخدمات",
+    "contact": "اتصل بنا",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الخدمة",
+    "copyright": "© 2024 شافي ميد. جميع الحقوق محفوظة.",
+    "followUs": "تابعنا",
+    "description": "شريكك الموثوق في الرعاية الصحية العالمية. نربط المرضى بالخبراء الطبيين والمرافق الطبية عالمية المستوى.",
+    "quickLinks": "روابط سريعة",
+    "support": "الدعم",
+    "legal": "قانوني"
+  },
+  "steps": {
+    "title": "كيف يعمل",
+    "subtitle": "خطوات بسيطة للحصول على أفضل علاج طبي",
+    "step1": {
+      "title": "قدم حالتك",
+      "description": "شارك حالتك الطبية ومتطلباتك مع فريق الخبراء لدينا"
+    },
+    "step2": {
+      "title": "احصل على رأي خبير",
+      "description": "تلق توصيات شخصية من أفضل الأطباء المتخصصين"
+    },
+    "step3": {
+      "title": "اختر العلاج",
+      "description": "اختر أفضل خيار علاج يناسب احتياجاتك وميزانيتك"
+    },
+    "step4": {
+      "title": "سافر واشفى",
+      "description": "نحن نتولى كل شيء من ترتيبات السفر إلى الرعاية بعد العلاج"
+    }
+  },
+  "treatments": {
+    "title": "العلاجات الشائعة",
+    "subtitle": "استكشف الإجراءات الطبية الأكثر طلباً لدينا",
+    "viewAll": "عرض جميع العلاجات",
+    "startingFrom": "ابتداءً من",
+    "learnMore": "اعرف أكثر"
+  },
+  "testimonials": {
+    "title": "ما يقوله مرضانا",
+    "subtitle": "قصص حقيقية من المرضى الذين وجدوا الأمل والشفاء",
+    "readMore": "اقرأ أكثر",
+    "verified": "مريض موثق"
+  },
+  "cta": {
+    "title": "مستعد لبدء رحلتك الصحية؟",
+    "subtitle": "انضم إلى آلاف المرضى الذين وجدوا رعاية طبية عالمية المستوى من خلال شافي ميد",
+    "primaryButton": "احصل على استشارة مجانية",
+    "secondaryButton": "اعرف أكثر",
+    "features": {
+      "expertConsultation": "استشارة خبير",
+      "transparentPricing": "أسعار شفافة",
+      "globalNetwork": "شبكة عالمية"
+    }
+  },
+  "hospitals": {
+    "title": "مستشفياتنا الشريكة",
+    "subtitle": "مؤسسات رعاية صحية موثوقة حول العالم",
+    "accredited": "معتمد",
+    "viewProfile": "عرض الملف الشخصي"
+  },
+  "dashboard": {
+    "welcome": "مرحباً",
+    "overview": "نظرة عامة",
+    "recentActivity": "النشاط الأخير",
+    "quickActions": "إجراءات سريعة",
+    "statistics": "الإحصائيات",
+    "notifications": "الإشعارات",
+    "settings": "الإعدادات"
+  },
+  "cases": {
+    "myCases": "حالاتي",
+    "submitNew": "قدم حالة جديدة",
+    "caseId": "رقم الحالة",
+    "status": "الحالة",
+    "dateSubmitted": "تاريخ التقديم",
+    "assignedDoctor": "الطبيب المعين",
+    "viewDetails": "عرض التفاصيل",
+    "pending": "قيد الانتظار",
+    "inProgress": "قيد التنفيذ",
+    "completed": "مكتمل",
+    "cancelled": "ملغي"
+  },
+  "forms": {
+    "required": "مطلوب",
+    "optional": "اختياري",
+    "selectOption": "اختر خياراً",
+    "uploadFile": "رفع ملف",
+    "dragDrop": "اسحب وأفلت الملفات هنا",
+    "maxFileSize": "الحد الأقصى لحجم الملف",
+    "supportedFormats": "التنسيقات المدعومة"
+  },
+  "profile": {
+    "personalInfo": "المعلومات الشخصية",
+    "medicalHistory": "التاريخ الطبي",
+    "emergencyContact": "جهة اتصال الطوارئ",
+    "preferences": "التفضيلات",
+    "updateProfile": "تحديث الملف الشخصي",
+    "profileCompletion": "إكمال الملف الشخصي",
+    "completeProfile": "أكمل ملفك الشخصي",
+    "profileIncomplete": "ملفك الشخصي غير مكتمل. يرجى إكمال جميع الحقول المطلوبة لتقديم الحالات الطبية."
+  },
+  "facilitator": {
+    "dashboard": "لوحة المنسق",
+    "assignDoctor": "تعيين طبيب",
+    "caseManagement": "إدارة الحالات",
+    "patientCommunication": "التواصل مع المرضى",
+    "reports": "التقارير",
+    "analytics": "التحليلات"
+  }
+}

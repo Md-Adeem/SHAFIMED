@@ -1,0 +1,228 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "submit": "Submit",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login",
+    "signup": "Sign Up",
+    "about": "About",
+    "contact": "Contact",
+    "services": "Services"
+  },
+  "hero": {
+    "title": "Your Health, Our Priority",
+    "subtitle": "Connect with world-class doctors, book appointments instantly, and get personalized healthcare at your fingertips.",
+    "findDoctor": "Find Your Doctor",
+    "emergencyCare": "Emergency Care",
+    "trustBadge": "Trusted by 50,000+ patients worldwide",
+    "features": {
+      "expertDoctors": "Expert Doctors",
+      "available247": "24/7 Available",
+      "globalReach": "Global Reach",
+      "awardWinning": "Award Winning"
+    },
+    "stats": {
+      "patientsTreated": "Patients Treated",
+      "expertDoctors": "Expert Doctors",
+      "specializations": "Specializations",
+      "supportAvailable": "Support Available"
+    }
+  },
+  "patient": {
+    "dashboard": "Patient Dashboard",
+    "submitCase": "Submit Medical Case",
+    "myCases": "My Cases",
+    "contactFacilitator": "Contact Our Facilitator",
+    "profile": "Complete Profile",
+    "appointments": "Appointments",
+    "medicalHistory": "Medical History",
+    "prescriptions": "Prescriptions"
+  },
+  "medical": {
+    "diagnosis": "Diagnosis",
+    "treatment": "Treatment",
+    "symptoms": "Symptoms",
+    "medication": "Medication",
+    "appointment": "Appointment",
+    "doctor": "Doctor",
+    "hospital": "Hospital",
+    "emergency": "Emergency",
+    "consultation": "Consultation",
+    "prescription": "Prescription",
+    "labResults": "Lab Results",
+    "specializations": "Specializations"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phoneNumber": "Phone Number",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "createAccount": "Create Account"
+  },
+  "searchBar": {
+    "placeholder": "Search treatments...",
+    "findTreatment": "Find Treatment",
+    "popularSearches": "Popular Searches",
+    "recentSearches": "Recent Searches",
+    "treatment": "Treatment",
+    "country": "Country",
+    "budget": "Budget",
+    "allCountries": "All Countries",
+    "anyBudget": "Any Budget",
+    "partnerHospitals": "Partner Hospitals",
+    "countries": "Countries",
+    "happyPatients": "Happy Patients",
+    "support": "Support"
+  },
+  "footer": {
+    "aboutUs": "About Us",
+    "services": "Services",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "© 2024 ShafiMed. All rights reserved.",
+    "followUs": "Follow Us",
+    "description": "Your trusted partner in global healthcare. Connecting patients with world-class medical experts and facilities.",
+    "quickLinks": "Quick Links",
+    "support": "Support",
+    "legal": "Legal"
+  },
+  "steps": {
+    "title": "How It Works",
+    "subtitle": "Simple steps to get the best healthcare treatment",
+    "step1": {
+      "title": "Submit Your Case",
+      "description": "Share your medical condition and requirements with our expert team"
+    },
+    "step2": {
+      "title": "Get Expert Opinion",
+      "description": "Receive personalized recommendations from top medical specialists"
+    },
+    "step3": {
+      "title": "Choose Treatment",
+      "description": "Select the best treatment option that fits your needs and budget"
+    },
+    "step4": {
+      "title": "Travel & Recover",
+      "description": "We handle everything from travel arrangements to post-treatment care"
+    }
+  },
+  "treatments": {
+    "title": "Popular Treatments",
+    "subtitle": "Explore our most sought-after medical procedures",
+    "viewAll": "View All Treatments",
+    "startingFrom": "Starting from",
+    "learnMore": "Learn More"
+  },
+  "testimonials": {
+    "title": "What Our Patients Say",
+    "subtitle": "Real stories from patients who found hope and healing",
+    "readMore": "Read More",
+    "verified": "Verified Patient"
+  },
+  "cta": {
+    "title": "Ready to Start Your Healthcare Journey?",
+    "subtitle": "Join thousands of patients who have found world-class medical care through ShafiMed",
+    "primaryButton": "Get Free Consultation",
+    "secondaryButton": "Learn More",
+    "features": {
+      "expertConsultation": "Expert Consultation",
+      "transparentPricing": "Transparent Pricing",
+      "globalNetwork": "Global Network"
+    }
+  },
+  "hospitals": {
+    "title": "Our Partner Hospitals",
+    "subtitle": "Trusted healthcare institutions worldwide",
+    "accredited": "Accredited",
+    "viewProfile": "View Profile"
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "overview": "Overview",
+    "recentActivity": "Recent Activity",
+    "quickActions": "Quick Actions",
+    "statistics": "Statistics",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "latestCase": "Latest case",
+    "statusBreakdown": "Status breakdown",
+    "doNext": "Do next",
+    "recentCases": "Recent cases",
+    "noCasesYet": "No cases yet",
+    "submitFirstCase": "Start by submitting your first case.",
+    "completeProfileFirst": "Complete your profile first, then submit your first case.",
+    "submitACase": "Submit a case",
+    "viewCases": "View cases",
+    "submitNew": "Submit new",
+    "checkResponses": "Check responses",
+    "noDataYet": "No data yet.",
+    "completeProfileRequired": "⚠️ Complete profile (Required)",
+    "profileCompleted": "✅ Complete profile",
+    "submitNewCase": "Submit a new case"
+  },
+  "cases": {
+    "myCases": "My Cases",
+    "submitNew": "Submit New Case",
+    "caseId": "Case ID",
+    "status": "Status",
+    "dateSubmitted": "Date Submitted",
+    "assignedDoctor": "Assigned Doctor",
+    "viewDetails": "View Details",
+    "pending": "Pending",
+    "inProgress": "In Progress",
+    "completed": "Completed",
+    "cancelled": "Cancelled"
+  },
+  "forms": {
+    "required": "Required",
+    "optional": "Optional",
+    "selectOption": "Select an option",
+    "uploadFile": "Upload File",
+    "dragDrop": "Drag and drop files here",
+    "maxFileSize": "Maximum file size",
+    "supportedFormats": "Supported formats"
+  },
+  "profile": {
+    "personalInfo": "Personal Information",
+    "medicalHistory": "Medical History",
+    "emergencyContact": "Emergency Contact",
+    "preferences": "Preferences",
+    "updateProfile": "Update Profile",
+    "profileCompletion": "Profile Completion",
+    "completeProfile": "Complete Your Profile",
+    "profileIncomplete": "Your profile is incomplete. Please complete all required fields to submit medical cases."
+  },
+  "facilitator": {
+    "dashboard": "Facilitator Dashboard",
+    "assignDoctor": "Assign Doctor",
+    "caseManagement": "Case Management",
+    "patientCommunication": "Patient Communication",
+    "reports": "Reports",
+    "analytics": "Analytics"
+  }
+}

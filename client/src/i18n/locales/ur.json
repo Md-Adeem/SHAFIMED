@@ -1,0 +1,203 @@
+{
+  "common": {
+    "loading": "لوڈ ہو رہا ہے...",
+    "error": "خرابی",
+    "success": "کامیابی",
+    "cancel": "منسوخ",
+    "save": "محفوظ کریں",
+    "edit": "ترمیم",
+    "delete": "حذف کریں",
+    "search": "تلاش",
+    "submit": "جمع کریں",
+    "close": "بند کریں",
+    "yes": "ہاں",
+    "no": "نہیں"
+  },
+  "navigation": {
+    "home": "گھر",
+    "dashboard": "ڈیش بورڈ",
+    "profile": "پروفائل",
+    "logout": "لاگ آؤٹ",
+    "login": "لاگ ان",
+    "signup": "اکاؤنٹ بنائیں",
+    "about": "ہمارے بارے میں",
+    "contact": "رابطہ",
+    "services": "خدمات"
+  },
+  "hero": {
+    "title": "آپ کی صحت، ہماری ترجیح",
+    "subtitle": "عالمی معیار کے ڈاکٹروں سے رابطہ کریں، فوری طور پر ملاقات بک کریں، اور اپنی انگلیوں پر ذاتی صحت کی دیکھ بھال حاصل کریں۔",
+    "findDoctor": "اپنا ڈاکٹر تلاش کریں",
+    "emergencyCare": "ہنگامی دیکھ بھال",
+    "trustBadge": "دنیا بھر میں 50,000+ مریضوں کا اعتماد",
+    "features": {
+      "expertDoctors": "ماہر ڈاکٹرز",
+      "available247": "24/7 دستیاب",
+      "globalReach": "عالمی رسائی",
+      "awardWinning": "ایوارڈ یافتہ"
+    },
+    "stats": {
+      "patientsTreated": "علاج شدہ مریض",
+      "expertDoctors": "ماہر ڈاکٹرز",
+      "specializations": "تخصصات",
+      "supportAvailable": "سپورٹ دستیاب"
+    }
+  },
+  "patient": {
+    "dashboard": "مریض کا ڈیش بورڈ",
+    "submitCase": "طبی کیس جمع کریں",
+    "myCases": "میرے کیسز",
+    "contactFacilitator": "ہمارے منتظم سے رابطہ کریں",
+    "profile": "پروفائل مکمل کریں",
+    "appointments": "ملاقاتیں",
+    "medicalHistory": "طبی تاریخ",
+    "prescriptions": "نسخے"
+  },
+  "medical": {
+    "diagnosis": "تشخیص",
+    "treatment": "علاج",
+    "symptoms": "علامات",
+    "medication": "دوا",
+    "appointment": "ملاقات",
+    "doctor": "ڈاکٹر",
+    "hospital": "ہسپتال",
+    "emergency": "ہنگامی",
+    "consultation": "مشاورت",
+    "prescription": "نسخہ",
+    "labResults": "لیب کے نتائج"
+  },
+  "auth": {
+    "login": "لاگ ان",
+    "signup": "اکاؤنٹ بنائیں",
+    "logout": "لاگ آؤٹ",
+    "email": "ای میل",
+    "password": "پاس ورڈ",
+    "confirmPassword": "پاس ورڈ کی تصدیق",
+    "firstName": "پہلا نام",
+    "lastName": "آخری نام",
+    "phoneNumber": "فون نمبر",
+    "forgotPassword": "پاس ورڈ بھول گئے؟",
+    "rememberMe": "مجھے یاد رکھیں",
+    "alreadyHaveAccount": "پہلے سے اکاؤنٹ ہے؟",
+    "dontHaveAccount": "اکاؤنٹ نہیں ہے؟",
+    "createAccount": "اکاؤنٹ بنائیں"
+  },
+  "searchBar": {
+    "placeholder": "ڈاکٹرز، علاج، یا حالات تلاش کریں...",
+    "findTreatment": "علاج تلاش کریں",
+    "popularSearches": "مشہور تلاشیں",
+    "recentSearches": "حالیہ تلاشیں"
+  },
+  "footer": {
+    "aboutUs": "ہمارے بارے میں",
+    "services": "خدمات",
+    "contact": "رابطہ",
+    "privacy": "پرائیویسی پالیسی",
+    "terms": "خدمات کی شرائط",
+    "copyright": "© 2024 شافی میڈ۔ تمام حقوق محفوظ ہیں۔",
+    "followUs": "ہمیں فالو کریں",
+    "description": "عالمی صحت کی دیکھ بھال میں آپ کا قابل اعتماد شراکت دار۔ مریضوں کو عالمی معیار کے طبی ماہرین اور سہولات سے جوڑتے ہیں۔",
+    "quickLinks": "فوری لنکس",
+    "support": "سپورٹ",
+    "legal": "قانونی"
+  },
+  "steps": {
+    "title": "یہ کیسے کام کرتا ہے",
+    "subtitle": "بہترین طبی علاج حاصل کرنے کے آسان قدم",
+    "step1": {
+      "title": "اپنا کیس جمع کریں",
+      "description": "اپنی طبی حالت اور ضروریات ہماری ماہر ٹیم کے ساتھ شیئر کریں"
+    },
+    "step2": {
+      "title": "ماہر کی رائے حاصل کریں",
+      "description": "اعلیٰ طبی ماہرین سے ذاتی سفارشات حاصل کریں"
+    },
+    "step3": {
+      "title": "علاج منتخب کریں",
+      "description": "اپنی ضروریات اور بجٹ کے مطابق بہترین علاج کا انتخاب کریں"
+    },
+    "step4": {
+      "title": "سفر اور صحت یابی",
+      "description": "ہم سفری انتظامات سے لے کر علاج کے بعد کی دیکھ بھال تک ہر چیز کا خیال رکھتے ہیں"
+    }
+  },
+  "treatments": {
+    "title": "مقبول علاج",
+    "subtitle": "ہمارے سب سے زیادہ مانگے جانے والے طبی طریقہ کار دیکھیں",
+    "viewAll": "تمام علاج دیکھیں",
+    "startingFrom": "شروع سے",
+    "learnMore": "مزید جانیں"
+  },
+  "testimonials": {
+    "title": "ہمارے مریض کیا کہتے ہیں",
+    "subtitle": "ان مریضوں کی حقیقی کہانیاں جنہوں نے امید اور شفا پائی",
+    "readMore": "مزید پڑھیں",
+    "verified": "تصدیق شدہ مریض"
+  },
+  "cta": {
+    "title": "اپنا صحت کا سفر شروع کرنے کے لیے تیار ہیں؟",
+    "subtitle": "ہزاروں مریضوں میں شامل ہوں جنہوں نے شافی میڈ کے ذریعے عالمی معیار کی طبی دیکھ بھال پائی ہے",
+    "primaryButton": "مفت مشاورت حاصل کریں",
+    "secondaryButton": "مزید جانیں",
+    "features": {
+      "expertConsultation": "ماہر مشاورت",
+      "transparentPricing": "شفاف قیمتیں",
+      "globalNetwork": "عالمی نیٹ ورک"
+    }
+  },
+  "hospitals": {
+    "title": "ہمارے شراکت دار ہسپتال",
+    "subtitle": "دنیا بھر میں قابل اعتماد صحت کی دیکھ بھال کے ادارے",
+    "accredited": "تسلی شدہ",
+    "viewProfile": "پروفائل دیکھیں"
+  },
+  "dashboard": {
+    "welcome": "خوش آمدید",
+    "overview": "جائزہ",
+    "recentActivity": "حالیہ سرگرمی",
+    "quickActions": "فوری اقدامات",
+    "statistics": "اعداد و شمار",
+    "notifications": "اطلاعات",
+    "settings": "ترتیبات"
+  },
+  "cases": {
+    "myCases": "میرے کیسز",
+    "submitNew": "نیا کیس جمع کریں",
+    "caseId": "کیس آئی ڈی",
+    "status": "حالت",
+    "dateSubmitted": "جمع کرنے کی تاریخ",
+    "assignedDoctor": "مقرر کردہ ڈاکٹر",
+    "viewDetails": "تفصیلات دیکھیں",
+    "pending": "زیر التواء",
+    "inProgress": "جاری",
+    "completed": "مکمل",
+    "cancelled": "منسوخ"
+  },
+  "forms": {
+    "required": "ضروری",
+    "optional": "اختیاری",
+    "selectOption": "ایک آپشن منتخب کریں",
+    "uploadFile": "فائل اپ لوڈ کریں",
+    "dragDrop": "فائلوں کو یہاں ڈریگ اور ڈراپ کریں",
+    "maxFileSize": "زیادہ سے زیادہ فائل سائز",
+    "supportedFormats": "سپورٹ شدہ فارمیٹس"
+  },
+  "profile": {
+    "personalInfo": "ذاتی معلومات",
+    "medicalHistory": "طبی تاریخ",
+    "emergencyContact": "ہنگامی رابطہ",
+    "preferences": "ترجیحات",
+    "updateProfile": "پروفائل اپ ڈیٹ کریں",
+    "profileCompletion": "پروفائل مکمل کرنا",
+    "completeProfile": "اپنا پروفائل مکمل کریں",
+    "profileIncomplete": "آپ کا پروفائل نامکمل ہے۔ طبی کیسز جمع کرنے کے لیے براہ کرم تمام ضروری فیلڈز مکمل کریں۔"
+  },
+  "facilitator": {
+    "dashboard": "سہولت کار ڈیش بورڈ",
+    "assignDoctor": "ڈاکٹر تفویض کریں",
+    "caseManagement": "کیس مینجمنٹ",
+    "patientCommunication": "مریض کے ساتھ رابطہ",
+    "reports": "رپورٹس",
+    "analytics": "تجزیات"
+  }
+}
