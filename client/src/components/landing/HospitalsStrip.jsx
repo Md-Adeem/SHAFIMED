@@ -68,11 +68,11 @@ function HospitalsStrip() {
               {hospital.img ? (
                 <>
                   <div className="relative h-56">
-                    {/* <img 
+                    <img 
                       src={hospital.img} 
-                      alt={Photo of ${hospital.name}}
+                      alt={'Photo of ${hospital.name}'}
                       className="w-full h-full object-cover"
-                    /> */}
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                     <div className="absolute bottom-4 left-6 text-white">
                       <h3 className="font-heading text-2xl font-bold">{hospital.name}</h3>
