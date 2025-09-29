@@ -83,7 +83,7 @@ function Navbar() {
             <span
               className="text-2xl font-extrabold transition-colors text-gray-900"
             >
-              ShafiMed
+              ShaafiMed
             </span>
           </Link>
 
