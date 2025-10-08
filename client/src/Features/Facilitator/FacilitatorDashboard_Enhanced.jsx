@@ -199,6 +199,7 @@ export default function FacilitatorDashboard() {
     { label: "Responded", value: stats.responded, color: "bg-green-50", icon: "✅", statusQuery: "Responded" },
     { label: "Rejected", value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
     { label: "Total Cases", value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
+    { label: "Failed Cases", value: stats.failed, color: "bg-gray-50", icon: "📋", statusQuery: "Failed Cases" },
   ];
 
   // click a card -> set ?status=... (which syncs tab via effect)

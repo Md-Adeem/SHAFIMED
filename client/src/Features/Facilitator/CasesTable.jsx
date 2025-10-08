@@ -132,7 +132,7 @@ export default function CasesTable({ cases = [], onAssign, onView, onStatus }) {
                         }
                         className={`px-3 py-1.5 text-sm rounded font-medium transition ${
                           c.referenceId
-                            ? "bg-teal-600 text-white hover:bg-teal-700 focus:ring-2 focus:ring-teal-500"
+                            ? "bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-2 focus:ring-cyan-500"
                             : "bg-gray-200 text-gray-400 cursor-not-allowed"
                         }`}
                         onClick={(e) => {
