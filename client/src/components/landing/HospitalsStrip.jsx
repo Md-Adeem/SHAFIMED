@@ -3,7 +3,7 @@ import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 const hospitals = [
   { 
     name: "Indraprastha Apollo Hospital, New Delhi",
-    img: "public/images/apollo-hospitals.png",
+    img: "/images/apollo-hospitals.png",
     location: "New Delhi, India",
     rating: "4.3 (86 ratings)",
     beds: "710",
@@ -14,7 +14,7 @@ const hospitals = [
   },
   { 
     name: "Fortis Escorts Heart Institute, New Delhi",
-    img: "public/images/fortis-healthcare.png",
+    img: "/images/fortis-healthcare.png",
     location: "New Delhi, India",
     rating: "4.5 (24 ratings)",
     beds: "310",
@@ -25,7 +25,7 @@ const hospitals = [
   },
   { 
     name: "Max Super Speciality Hospital, Saket, New Delhi",
-    img: "public/images/max-healthcare.png",
+    img: "/images/max-healthcare.png",
     location: "New Delhi, India",
     rating: "3.8 (49 ratings)",
     beds: "539",
@@ -36,7 +36,7 @@ const hospitals = [
   },
   { 
     name: "Sir Ganga Ram Hospital, New Delhi",
-    img: "public/images/anadolu-Medical.png",
+    img: "/images/Anadolu-Medical.png",
     location: "New Delhi, India",
     rating: "4.4 (24 ratings)",
     beds: "575",
@@ -47,7 +47,7 @@ const hospitals = [
   },
   { 
     name: "BLK-Max Super Speciality Hospital, Delhi",
-    img: "public/images/anadolu-Medical.png",
+    img: "/images/Anadolu-Medical.png",
     location: "New Delhi, India",
     rating: "3.8 (48 ratings)",
     beds: "650",
@@ -58,7 +58,7 @@ const hospitals = [
   },
   { 
     name: "Manipal Hospitals Dwarka, Delhi",
-    img: "public/images/anadolu-Medical.png",
+    img: "/images/Anadolu-Medical.png",
     location: "New Delhi, India",
     rating: "4.4 (54 ratings)",
     beds: "380",
@@ -69,7 +69,7 @@ const hospitals = [
   },
   { 
     name: "Fortis Hospital, Shalimar Bagh, New Delhi",
-    img: "public/images/anadolu-Medical.png",
+    img: "/images/Anadolu-Medical.png",
     location: "New Delhi, India",
     rating: "4.4 (33 ratings)",
     beds: "262",
@@ -80,7 +80,7 @@ const hospitals = [
   },
   { 
     name: "B.R. Healthcare Rohini",
-    img: "public/images/anadolu-Medical.png",
+    img: "/images/Anadolu-Medical.png",
     location: "New Delhi, India",
     rating: "N/A",
     beds: "N/A",
@@ -91,7 +91,7 @@ const hospitals = [
   },
   { 
     name: "Alive Wellness Clinics",
-    img: "public/images/anadolu-Medical.png",
+    img: "/images/Anadolu-Medical.png",
     location: "New Delhi, India",
     rating: "N/A",
     beds: "N/A",
@@ -102,7 +102,7 @@ const hospitals = [
   },
   { 
     name: "Cloudnine Hospital, Kailash Colony",
-    img: "public/images/anadolu-Medical.png",
+    img: "/images/Anadolu-Medical.png",
     location: "New Delhi, India",
     rating: "N/A",
     beds: "N/A",
