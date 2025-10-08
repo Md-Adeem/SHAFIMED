@@ -107,8 +107,8 @@ export default function Signup() {
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               >
                 <option value="patient">Patient</option>
-                <option value="doctor">Doctor</option>
-                <option value="facilitator">Facilitator</option>
+                {/* <option value="doctor">Doctor</option>
+                <option value="facilitator">Facilitator</option> */}
               </select>
             </div>
 
