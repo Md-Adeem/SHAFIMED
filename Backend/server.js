@@ -60,6 +60,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/queries", queryRoutes);
 app.use("/api/profile", profileRoutes);
 
+
 // Global error handling middleware
 app.use((err, req, res, next) => {
   console.error('❌ Server Error:', err.stack);
@@ -69,8 +70,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler for undefined routes
-app.use('*', (req, res) => {
+// 404 handler for undefined routes - Alternative fix for Express 5.x
+app.use((req, res) => {
   res.status(404).json({
     message: `Route ${req.originalUrl} not found`,
     availableRoutes: [
