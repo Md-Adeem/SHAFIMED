@@ -40,6 +40,7 @@ function FacilitatorLayout({ title, actions, children }) {
             <button onClick={() => go("/facilitator/pending")} className={sidebarBtn}>⏳ Pending Cases</button>
             <button onClick={() => go("/facilitator/inprogress")} className={sidebarBtn}>🚧 In Progress</button>
             <button onClick={() => go("/facilitator/followups")} className={sidebarBtn}>🔁 Follow Ups</button>
+            <button  className={sidebarBtn}>❌ Failed Cases</button>
           </div>
 
           {/* Patients / Departments */}
