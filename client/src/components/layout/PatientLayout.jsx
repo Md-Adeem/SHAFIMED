@@ -52,6 +52,42 @@ function PatientLayout({ title, actions, children }) {
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-2">
         <button 
+          onClick={() => go("/profile")} 
+          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 flex items-center gap-3 group"
+        >
+          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-teal-200 transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+          Profile
+        </button>
+
+        <button 
+          onClick={() => go("/submit-case")} 
+          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-blue-700 transition-all duration-200 flex items-center gap-3 group"
+        >
+          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-blue-200 transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+          Submit Case
+        </button>
+
+        <button 
+          onClick={() => go("/my-cases")} 
+          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-emerald-100 hover:text-emerald-700 transition-all duration-200 flex items-center gap-3 group"
+        >
+          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-emerald-200 transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          My Cases
+        </button>
+
+        <button 
           onClick={() => go("/dashboard")} 
           className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 flex items-center gap-3 group"
         >
@@ -64,41 +100,7 @@ function PatientLayout({ title, actions, children }) {
           Overview
         </button>
         
-        <button 
-          onClick={() => go("/my-cases")} 
-          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-emerald-100 hover:text-emerald-700 transition-all duration-200 flex items-center gap-3 group"
-        >
-          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-emerald-200 transition-colors">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </div>
-          My Cases
-        </button>
         
-        <button 
-          onClick={() => go("/submit-case")} 
-          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-blue-700 transition-all duration-200 flex items-center gap-3 group"
-        >
-          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-blue-200 transition-colors">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-            </svg>
-          </div>
-          Submit Case
-        </button>
-        
-        <button 
-          onClick={() => go("/profile")} 
-          className="w-full text-left px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 hover:text-teal-700 transition-all duration-200 flex items-center gap-3 group"
-        >
-          <div className="p-1.5 rounded-lg bg-gray-100 group-hover:bg-teal-200 transition-colors">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-          </div>
-          Profile
-        </button>
         
         {/* Contact Facilitator Button */}
         <div className="pt-6">
