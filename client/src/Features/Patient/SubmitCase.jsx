@@ -9,9 +9,15 @@ import ProfileCompletionBanner from "../../components/ProfileCompletionBanner";
 import useProfileCompletion from "../../hooks/useProfileCompletion";
 
 const SubmitCase = () => {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  console.log(user);
+
+  console.log(user.name);
+ 
+
   const [formData, setFormData] = useState({
-    fullName: "",
-    title: "",
+    fullName: user.name || "",
+    title: user.problemTitle || "",
     description: "",
     country: "",
     contact: "",

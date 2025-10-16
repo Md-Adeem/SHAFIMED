@@ -22,7 +22,10 @@ import Departments from "./Features/Facilitator/Departments";
 import Analytics from "./Features/Facilitator/Analytics";
 import ViewByRef from "./Features/Facilitator/ViewByRef";
 import { Toaster } from "react-hot-toast";
-
+import RunningCases from "./Features/Facilitator/RunningCases";
+// import Test from "./Features/Facilitator/Test";
+// import Running from "./Features/Facilitator/";
+// import RunningCases from "./Features/Facilitator/";
 function App() {
   const location = useLocation();
   const hideNavbar = [
@@ -51,6 +54,7 @@ function App() {
         <Route path="/facilitator" element={<RoleRoute allow={["facilitator"]}><FacilitatorDashboard /></RoleRoute>} />
         <Route path="/facilitator/cases" element={<RoleRoute allow={["facilitator"]}><AllCases /></RoleRoute>} />
         <Route path="/facilitator/pending" element={<RoleRoute allow={["facilitator"]}><PendingCases /></RoleRoute>} />
+        <Route path="/facilitator/running-cases" element={<RoleRoute allow={["facilitator"]}><RunningCases /></RoleRoute>} />
         <Route path="/facilitator/inprogress" element={<RoleRoute allow={["facilitator"]}><InProgress /></RoleRoute>} />
         <Route path="/facilitator/followups" element={<RoleRoute allow={["facilitator"]}><FollowUps /></RoleRoute>} />
         <Route path="/facilitator/patients" element={<RoleRoute allow={["facilitator"]}><Patients /></RoleRoute>} />

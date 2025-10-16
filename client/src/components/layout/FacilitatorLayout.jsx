@@ -38,6 +38,7 @@ function FacilitatorLayout({ title, actions, children }) {
           <div className="mt-2 border-t border-gray-800 shadow-lg pt-2 space-y-1">
             <button onClick={() => go("/facilitator/cases")} className={sidebarBtn}>📋 All Cases</button>
             <button onClick={() => go("/facilitator/pending")} className={sidebarBtn}>⏳ Pending Cases</button>
+            <button onClick={() => go("/facilitator/running-cases")} className={sidebarBtn}>🔍 Assigned Cases</button>
             <button onClick={() => go("/facilitator/inprogress")} className={sidebarBtn}>🚧 In Progress</button>
             <button onClick={() => go("/facilitator/followups")} className={sidebarBtn}>🔁 Follow Ups</button>
             <button  className={sidebarBtn}>❌ Failed Cases</button>
