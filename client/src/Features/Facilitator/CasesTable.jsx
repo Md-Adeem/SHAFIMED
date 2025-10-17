@@ -1,9 +1,10 @@
 // D:\SHAFIMED\client\src\Features\Facilitator\CasesTable.jsx
-import { useMemo } from "react";
+// import { useMemo } from "react";
 import Button from "../../components/ui/Button";
 import Badge from "../../components/ui/Badge";
 import { Card } from "../../components/ui/Card";
 import { Link } from "react-router-dom";
+import AssignDoctor from "./AssignDoctor";
 
 export default function CasesTable({ cases = [], onAssign, onView, onStatus }) {
   const statusToColor = (s) =>
@@ -60,19 +61,20 @@ export default function CasesTable({ cases = [], onAssign, onView, onStatus }) {
                   </td>
                   <td className="px-5 py-3">{c.department || "—"}</td>
                   <td className="px-5 py-3">
-                    {c.assignedDoctorId ? (
-                      <div>
-                        <div className="font-medium text-gray-900">
-                          {c.assignedDoctorId.name}
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          {c.assignedDoctorId.specialization || "General"}
-                        </div>
-                      </div>
-                    ) : (
-                      <span className="text-gray-400">Not assigned</span>
-                    )}
-                  </td>
+  {c.assignedDoctorId ? (
+    <div>
+      <div className="font-medium text-gray-900">
+        {c.assignedDoctorId.name}
+      </div>
+      <div className="text-xs text-gray-500">
+        {c.assignedDoctorId.specialization || "General"}
+      </div>
+    </div>
+  ) : (
+    <AssignDoctor queryId={c._id} onAssigned={() => onAssign?.()} />
+  )}
+</td>
+
                   <td className="px-5 py-3">
                     <Badge color={statusToColor(c.status)}>{c.status}</Badge>
                   </td>

@@ -50,7 +50,7 @@ export default function AllCases() {
           <input value={ref} onChange={(e) => setRef(e.target.value)} placeholder={`${t('common.search')} ${t('facilitator.referenceId')}`} className="px-3 py-2 border rounded-lg" />
         </div>
       </Card>
-      <CasesTable cases={cases} onStatus={handleStatus} onView={() => {}} onAssign={() => {}} />
+      <CasesTable cases={cases} onStatus={handleStatus} onView={() => {}} onAssign={refresh} />
     </FacilitatorLayout>
   );
 }

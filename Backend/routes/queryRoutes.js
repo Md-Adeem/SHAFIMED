@@ -3,7 +3,8 @@ import multer from "multer";
 import Query from "../models/Query.js";
 import PatientProfile from "../models/PatientProfile.js";
 import authMiddleware from "../middleware/authMiddleware.js";
-
+import { doctors } from "../utils/doctors.js";
+import User from "../models/User.js";
 const router = express.Router();
 
 // Setup file storage with multer
@@ -187,7 +188,7 @@ router.get("/analytics/summary", authMiddleware, requireFacilitator, async (req,
 });
 
 // PUT - Update query (assign doctor, update status, add response) - facilitator only
-router.put("/:id", authMiddleware, requireFacilitator, async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
     const { status, assignedDoctorId, response, department } = req.body;
@@ -214,5 +215,33 @@ router.put("/:id", authMiddleware, requireFacilitator, async (req, res) => {
     res.status(500).json({ message: "Failed to update query" });
   }
 });
+
+// GET - list of doctors from DB (role: doctor)
+router.get("/doctors/list", authMiddleware, requireFacilitator, async (req, res) => {
+  try {
+    const doctors = await User.find({ role: "doctor" }).select("name email specialization");
+    res.json(doctors);
+  } catch (error) {
+    console.error("Doctor list fetch error:", error);
+    res.status(500).json({ message: "Failed to fetch doctors" });
+  }
+});
+
+
+// GET - Running cases (Assigned doctor)
+router.get("/running", authMiddleware, async (req, res) => {
+  try {
+    const runningCases = await Query.find({ assignedDoctorId: { $ne: null } })
+      .populate("patientId", "name email")
+      .populate("assignedDoctorId", "name email specialization")
+      .sort({ updatedAt: -1 });
+
+    res.json(runningCases);
+  } catch (error) {
+    console.error("Running cases fetch error:", error);
+    res.status(500).json({ message: "Failed to fetch running cases" });
+  }
+});
+
 
 export default router;
