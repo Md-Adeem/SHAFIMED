@@ -67,6 +67,15 @@ export const sendOtp = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
+    // Password strength check
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+   return res.status(400).json({
+    message: "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.",
+   });
+   }
+
+
     const existingOtpEntry = await OtpRequest.findOne({ email });
 
     // Cooldown check
