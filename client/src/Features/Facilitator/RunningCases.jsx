@@ -1,4 +1,3 @@
-// RunningCases.jsx
 import React, { useEffect, useState } from "react";
 import api from "../../lib/api";
 import Button from "../../components/ui/Button";
@@ -18,17 +17,31 @@ const statusToColor = (status) =>
     ? "yellow"
     : "red";
 
+const statusOptions = [
+  "All",
+  "Pending",
+  "Assigned",
+  "In Progress",
+  "Follow Up",
+  "Responded",
+  "Closed",
+];
+
 const RunningCases = () => {
   const [cases, setCases] = useState([]);
+  const [filteredCases, setFilteredCases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("All");
 
   const fetchRunningCases = async () => {
     setLoading(true);
     setError("");
     try {
       const { data } = await api.get("/queries/running");
-      setCases(Array.isArray(data) ? data : []);
+      const fetchedCases = Array.isArray(data) ? data : [];
+      setCases(fetchedCases);
+      setFilteredCases(fetchedCases);
     } catch (err) {
       console.error(err);
       setError("Failed to load running cases.");
@@ -47,18 +60,45 @@ const RunningCases = () => {
     }
   };
 
+  // Apply filter whenever selectedStatus changes
+  useEffect(() => {
+    if (selectedStatus === "All") {
+      setFilteredCases(cases);
+    } else {
+      setFilteredCases(cases.filter((c) => c.status === selectedStatus));
+    }
+  }, [selectedStatus, cases]);
+
   useEffect(() => {
     fetchRunningCases();
   }, []);
 
   return (
-    <FacilitatorLayout title="Running Cases" actions={<Button onClick={fetchRunningCases}>Refresh</Button>}>
+    <FacilitatorLayout
+      title="Running Cases"
+      actions={
+        <div className="flex items-center gap-3">
+          <select
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value)}
+            className="border rounded-md px-3 py-2 text-sm bg-white"
+          >
+            {statusOptions.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
+          <Button onClick={fetchRunningCases}>Refresh</Button>
+        </div>
+      }
+    >
       {loading ? (
         <p>Loading running cases...</p>
       ) : error ? (
         <p className="text-red-500">{error}</p>
-      ) : cases.length === 0 ? (
-        <p>No running cases found.</p>
+      ) : filteredCases.length === 0 ? (
+        <p>No {selectedStatus !== "All" ? selectedStatus.toLowerCase() : ""} cases found.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border text-sm">
@@ -73,7 +113,7 @@ const RunningCases = () => {
               </tr>
             </thead>
             <tbody>
-              {cases.map((c) => (
+              {filteredCases.map((c) => (
                 <tr key={c._id} className="border-t hover:bg-gray-50">
                   <td className="px-4 py-2">{c.referenceId || "N/A"}</td>
                   <td className="px-4 py-2">{c.patientId?.name || "N/A"}</td>
