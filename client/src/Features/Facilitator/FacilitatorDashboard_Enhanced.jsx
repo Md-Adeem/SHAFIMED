@@ -10,7 +10,6 @@ import { Card } from "../../components/ui/Card";
 const STATUSES = ["Pending", "Assigned", "In Progress", "Follow Up", "Responded", "Rejected"];
 
 export default function FacilitatorDashboard() {
-<<<<<<< HEAD
   const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [doctors, setDoctors] = useState([]);
@@ -18,18 +17,7 @@ export default function FacilitatorDashboard() {
   const [tab, setTab] = useState("All");
   const [q, setQ] = useState("");
   const [selectedCase, setSelectedCase] = useState(null);
-  const [updatingCaseId, setUpdatingCaseId] = useState(null); // disable UI while updating
-=======
-  // -------- STATE VARIABLES --------
-  const [cases, setCases] = useState([]); // All patient cases
-  const [doctors, setDoctors] = useState([]); // All doctors
-  const [loading, setLoading] = useState(true); // Loading state
-  const [tab, setTab] = useState("All"); // Selected status tab
-  const [q, setQ] = useState(""); // Search query (for future use)
-  const [selectedCase, setSelectedCase] = useState(null); // Case currently opened in modal
-  const [updatingCaseId, setUpdatingCaseId] = useState(null); // Prevent multiple updates
-
->>>>>>> 05401ec6fb425765033b4b452b6d08a568d6184f
+  const [updatingCaseId, setUpdatingCaseId] = useState(null);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -108,7 +96,7 @@ export default function FacilitatorDashboard() {
     return count;
   }, [cases]);
 
-  // -------- HELPER: Extract updated case safely from response --------
+  // -------- HELPER: Extract updated case safely from response --------  
   const extractUpdatedCase = (data) => {
     if (!data) return null;
 
@@ -196,7 +184,6 @@ export default function FacilitatorDashboard() {
 
   // -------- KPI CARDS CONFIG --------
   const cardConfigs = [
-<<<<<<< HEAD
     { label: t('myCases.pending'), value: stats.pending, color: "bg-yellow-50", icon: "⏳", statusQuery: "Pending" },
     { label: t('facilitator.inProgress'), value: stats.inprogress, color: "bg-teal-50", icon: "🔄", statusQuery: "In Progress" },
     { label: t('facilitator.followUps'), value: stats.followup, color: "bg-orange-50", icon: "📌", statusQuery: "Follow Up" },
@@ -205,15 +192,6 @@ export default function FacilitatorDashboard() {
     { label: t('myCases.rejected'), value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
     { label: t('facilitator.totalCases'), value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
     { label: t('facilitator.failedCases'), value: stats.failed, color: "bg-gray-50", icon: "📋", statusQuery: "Failed Cases" },
-=======
-    { label: "Pending", value: stats.pending, color: "bg-yellow-50", icon: "⏳" },
-    { label: "In Progress", value: stats.inprogress, color: "bg-blue-50", icon: "🔄" },
-    { label: "Follow Up", value: stats.followup, color: "bg-orange-50", icon: "📌" },
-    { label: "Assigned", value: stats.assigned, color: "bg-indigo-50", icon: "👨‍⚕️" },
-    { label: "Responded", value: stats.responded, color: "bg-green-50", icon: "✅" },
-    { label: "Rejected", value: stats.rejected, color: "bg-red-50", icon: "❌" },
-    { label: "Total Cases", value: stats.total, color: "bg-gray-50", icon: "📋" },
->>>>>>> 05401ec6fb425765033b4b452b6d08a568d6184f
   ];
 
   // -------- WHEN KPI CARD IS CLICKED --------
