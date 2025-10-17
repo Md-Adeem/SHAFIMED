@@ -6,7 +6,15 @@ const patientProfileSchema = new mongoose.Schema(
     age: { type: Number },
     gender: { type: String, enum: ["Male", "Female", "Other"] },
     location: { type: String },
-    medicalHistory: { type: String }, // free text
+    medicalHistory: { type: String },
+    currentMedications: { type: String },
+    allergies: { type: String },
+    emergencyContact: { type: String },
+    emergencyContactRelation: { type: String },
+    bloodGroup: { type: String, enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] },
+    height: { type: String },
+    weight: { type: String },
+    insuranceInfo: { type: String }
   },
   { timestamps: true }
 );
