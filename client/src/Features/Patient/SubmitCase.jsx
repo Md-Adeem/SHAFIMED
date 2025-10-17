@@ -9,11 +9,9 @@ import ProfileCompletionBanner from "../../components/ProfileCompletionBanner";
 import useProfileCompletion from "../../hooks/useProfileCompletion";
 
 const SubmitCase = () => {
-
   const { t } = useTranslation();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   console.log(user);
-
   console.log(user.name);
  
 
