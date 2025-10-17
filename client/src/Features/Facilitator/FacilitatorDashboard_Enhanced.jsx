@@ -17,7 +17,9 @@ export default function FacilitatorDashboard() {
   const [tab, setTab] = useState("All");
   const [q, setQ] = useState("");
   const [selectedCase, setSelectedCase] = useState(null);
-  const [updatingCaseId, setUpdatingCaseId] = useState(null);
+  const [updatingCaseId, setUpdatingCaseId] = useState(null); // disable UI while updating
+  
+
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -192,6 +194,7 @@ export default function FacilitatorDashboard() {
     { label: t('myCases.rejected'), value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
     { label: t('facilitator.totalCases'), value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
     { label: t('facilitator.failedCases'), value: stats.failed, color: "bg-gray-50", icon: "📋", statusQuery: "Failed Cases" },
+   
   ];
 
   // -------- WHEN KPI CARD IS CLICKED --------

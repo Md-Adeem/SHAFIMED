@@ -10,7 +10,6 @@ import useProfileCompletion from "../../hooks/useProfileCompletion";
 
 const SubmitCase = () => {
   const { t } = useTranslation();
-
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   console.log(user);
 
