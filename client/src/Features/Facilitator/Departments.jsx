@@ -1,5 +1,6 @@
 // client/src/Features/Facilitator/Departments.jsx
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import { Card } from "../../components/ui/Card";
@@ -11,6 +12,7 @@ const COMMON_DEPARTMENTS = [
 ];
 
 export default function Departments() {
+  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [dept, setDept] = useState("");
   const [q, setQ] = useState("");
@@ -35,17 +37,17 @@ export default function Departments() {
 //   };
 
   return (
-    <FacilitatorLayout title="Departments">
+    <FacilitatorLayout title={t('facilitator.departments')}>
       <Card className="p-4 mb-4">
         <div className="flex gap-3 flex-wrap">
           <select value={dept} onChange={(e) => setDept(e.target.value)} className="px-3 py-2 border rounded-lg">
-            <option value="">All Departments</option>
+            <option value="">{t('common.search')} {t('facilitator.departments')}</option>
             {departments.map(d => <option key={d} value={d}>{d}</option>)}
           </select>
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search by patient/title/country..."
+            placeholder={`${t('common.search')}...`}
             className="px-3 py-2 border rounded-lg w-full sm:w-80"
           />
         </div>
@@ -56,15 +58,15 @@ export default function Departments() {
           <table className="min-w-full text-sm">
             <thead className="bg-gray-50 text-gray-600">
               <tr>
-                <th className="px-5 py-3 text-left font-semibold">Patient</th>
-                <th className="px-5 py-3 text-left font-semibold">Title</th>
-                <th className="px-5 py-3 text-left font-semibold">Department</th>
-                <th className="px-5 py-3 text-left font-semibold">Created</th>
+                <th className="px-5 py-3 text-left font-semibold">{t('facilitator.patient')}</th>
+                <th className="px-5 py-3 text-left font-semibold">{t('myCases.title')}</th>
+                <th className="px-5 py-3 text-left font-semibold">{t('submitCase.department')}</th>
+                <th className="px-5 py-3 text-left font-semibold">{t('common.created')}</th>
               </tr>
             </thead>
             <tbody>
               {cases.length === 0 ? (
-                <tr><td colSpan="4" className="px-5 py-10 text-center text-gray-500">No cases found.</td></tr>
+                <tr><td colSpan="4" className="px-5 py-10 text-center text-gray-500">{t('facilitator.noCasesAvailable')}</td></tr>
               ) : cases.map(c => (
                 <tr key={c._id} className="border-t hover:bg-gray-50">
                   <td className="px-5 py-3">{c.fullName || "—"}</td>

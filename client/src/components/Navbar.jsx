@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout as logoutAction } from "../store/slices/authSlice";
 import { useState, useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-// import LanguageSwitcher from "./LanguageSwitcher";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 function Navbar() {
   const { t } = useTranslation();
@@ -83,7 +83,7 @@ function Navbar() {
             <span
               className="text-2xl font-extrabold transition-colors text-gray-900"
             >
-              ShafiMed
+              ShaafiMed
             </span>
           </Link>
 
@@ -103,7 +103,7 @@ function Navbar() {
               ))}
 
             {/* Language Switcher */}
-            {/* <LanguageSwitcher /> */}
+            <LanguageSwitcher />
 
             {!isLoggedIn ? (
               <>  
@@ -216,9 +216,9 @@ function Navbar() {
                 ))}
 
               {/* Mobile Language Switcher */}
-              {/* <div className="px-3 py-2">
+              <div className="px-3 py-2">
                 <LanguageSwitcher />
-              </div> */}
+              </div>
 
               {!isLoggedIn ? (
                 <>

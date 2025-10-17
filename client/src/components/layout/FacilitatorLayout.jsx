@@ -25,7 +25,7 @@ function FacilitatorLayout({ title, actions, children }) {
       <aside className="hidden md:flex w-64 flex-col bg-gray-50 h-screen border-r-2 shadow-2xl fixed top-0 left-0">
         <div onClick={() => go("/")} className="px-6 py-5 border-b-4 border-teal-400 shadow-xl flex flex-col gap-1 cursor-pointer">
           <div className="text-2xl font-extrabold text-teal-600">ShafiMed</div>
-          <div className="text-xs font-bold text-gray-900">Facilitator Workspace</div>
+          <div className="text-md font-bold text-gray-900">Facilitator Workspace</div>
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-2">

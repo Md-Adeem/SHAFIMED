@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 function SearchBar() {
+  const { t } = useTranslation();
   const [searchData, setSearchData] = useState({
     treatment: "",
     country: "",
@@ -29,10 +31,10 @@ function SearchBar() {
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-            Find Treatment by <span className="text-blue-600">Specialty</span>
+            {t('searchBar.findBySpecialty').split('Specialty')[0]} <span className="text-teal-600">{t('searchBar.findBySpecialty').includes('Specialty') ? 'Specialty' : t('searchBar.findBySpecialty')}</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Browse our comprehensive range of medical specialties and connect with world-class specialists
+            {t('searchBar.browseSpecialties')}
           </p>
         </div>
 
@@ -40,24 +42,24 @@ function SearchBar() {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Treatment</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t('searchBar.treatment')}</label>
               <input 
                 type="text"
                 value={searchData.treatment}
                 onChange={(e) => setSearchData({...searchData, treatment: e.target.value})}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Search treatments..."
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                placeholder={t('searchBar.placeholder')}
               />
             </div>
             
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t('searchBar.country')}</label>
               <select 
                 value={searchData.country}
                 onChange={(e) => setSearchData({...searchData, country: e.target.value})}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
               >
-                <option value="">All Countries</option>
+                <option value="">{t('searchBar.allCountries')}</option>
                 <option value="india">India</option>
                 <option value="turkey">Turkey</option>
                 <option value="thailand">Thailand</option>
@@ -67,29 +69,29 @@ function SearchBar() {
             </div>
             
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Budget</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t('searchBar.budget')}</label>
               <select 
                 value={searchData.budget}
                 onChange={(e) => setSearchData({...searchData, budget: e.target.value})}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
               >
-                <option value="">Any Budget</option>
-                <option value="under-5k">Under $5,000</option>
-                <option value="5k-15k">$5,000 - $15,000</option>
-                <option value="15k-30k">$15,000 - $30,000</option>
-                <option value="over-30k">Over $30,000</option>
+                <option value="">{t('searchBar.anyBudget')}</option>
+                <option value="under-5k">{t('searchBar.budgetRanges.under5k')}</option>
+                <option value="5k-15k">{t('searchBar.budgetRanges.5k15k')}</option>
+                <option value="15k-30k">{t('searchBar.budgetRanges.15k30k')}</option>
+                <option value="over-30k">{t('searchBar.budgetRanges.over30k')}</option>
               </select>
             </div>
             
             <div className="md:col-span-1 flex items-end">
               <button 
                 onClick={handleSearch}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                Search
+                {t('searchBar.search')}
               </button>
             </div>
           </div>
@@ -115,20 +117,20 @@ function SearchBar() {
         {/* Trust Indicators */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-12 border-t border-gray-200">
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">500+</div>
-            <div className="text-sm text-gray-600">Partner Hospitals</div>
+            <div className="text-2xl font-bold text-teal-600">500+</div>
+            <div className="text-sm text-gray-600">{t('searchBar.partnerHospitals')}</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">45+</div>
-            <div className="text-sm text-gray-600">Countries</div>
+            <div className="text-2xl font-bold text-teal-600">45+</div>
+            <div className="text-sm text-gray-600">{t('searchBar.countries')}</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">25,000+</div>
-            <div className="text-sm text-gray-600">Happy Patients</div>
+            <div className="text-2xl font-bold text-teal-600">25,000+</div>
+            <div className="text-sm text-gray-600">{t('searchBar.happyPatients')}</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">24/7</div>
-            <div className="text-sm text-gray-600">Support</div>
+            <div className="text-2xl font-bold text-teal-600">24/7</div>
+            <div className="text-sm text-gray-600">{t('searchBar.support')}</div>
           </div>
         </div>
       </div>
