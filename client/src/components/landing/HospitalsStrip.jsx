@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 
 const hospitals = [
@@ -100,29 +101,31 @@ const hospitals = [
     specialties: ["Aesthetic Solutions"],
     description: "Specialty clinic offering 360-degree aesthetic solutions founded by Dr. Chiranjiv Chhabra."
   },
-  { 
-    name: "Cloudnine Hospital, Kailash Colony",
-    img: "/images/Anadolu-Medical.png",
-    location: "New Delhi, India",
-    rating: "N/A",
-    beds: "N/A",
-    established: "1970",
-    accreditations: [],
-    specialties: ["Maternity", "Childcare", "Multi-specialty"],
-    description: "Facility specializing in maternity and childcare; known for international standards and stem cell banking services."
-  }
+  // { 
+  //   name: "Cloudnine Hospital, Kailash Colony",
+  //   img: "/images/Anadolu-Medical.png",
+  //   location: "New Delhi, India",
+  //   rating: "N/A",
+  //   beds: "N/A",
+  //   established: "1970",
+  //   accreditations: [],
+  //   specialties: ["Maternity", "Childcare", "Multi-specialty"],
+  //   description: "Facility specializing in maternity and childcare; known for international standards and stem cell banking services."
+  // }
 ];
 
 function HospitalsStrip() {
+  const { t } = useTranslation();
+  
   return (
     <section className="py-20 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="font-heading text-3xl lg:text-4xl font-extrabold text-slate-900 mb-4">
-            Top <span className="text-teal-600">Hospitals in New Delhi</span>
+            {t('hospitals.topHospitalsTitle').split('Top')[0]}<span className="text-teal-600">{t('hospitals.topHospitalsTitle').includes('Top') ? t('hospitals.topHospitalsTitle') : 'Top Hospitals in New Delhi'}</span>
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Curated list of world-class hospitals in New Delhi from Vaidam Health.
+            {t('hospitals.topHospitalsSubtitle')}
           </p>
         </div>
 
@@ -154,15 +157,15 @@ function HospitalsStrip() {
 
               <div className="p-6 flex-grow flex flex-col">
                 <div className="mb-4 text-sm text-slate-600">
-                  <p><strong>Beds:</strong> {hospital.beds}</p>
-                  <p><strong>Established:</strong> {hospital.established}</p>
-                  <p><strong>Accreditations:</strong> {hospital.accreditations.length ? hospital.accreditations.join(", ") : "N/A"}</p>
+                  <p><strong>{t('hospitals.beds')}:</strong> {hospital.beds}</p>
+                  <p><strong>{t('hospitals.established')}:</strong> {hospital.established}</p>
+                  <p><strong>{t('hospitals.accreditations')}:</strong> {hospital.accreditations.length ? hospital.accreditations.join(", ") : "N/A"}</p>
                 </div>
                 <div className="mb-4 text-sm text-slate-700">
                   <p>{hospital.description}</p>
                 </div>
                 <div className="mb-6">
-                  <div className="text-xs text-slate-500 mb-2 font-semibold">TOP SPECIALTIES:</div>
+                  <div className="text-xs text-slate-500 mb-2 font-semibold">{t('hospitals.topSpecialties').toUpperCase()}:</div>
                   <div className="flex flex-wrap gap-2">
                     {hospital.specialties.map((specialty) => (
                       <span 
@@ -174,9 +177,9 @@ function HospitalsStrip() {
                     ))}
                   </div>
                 </div>
-                <button className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors mt-auto">
+                {/* <button className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors mt-auto">
                   View Hospital Details
-                </button>
+                </button> */}
               </div>
             </div>
           ))}

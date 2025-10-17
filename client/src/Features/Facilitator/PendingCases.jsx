@@ -1,5 +1,6 @@
 // client/src/Features/Facilitator/PendingCases.jsx
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
@@ -7,6 +8,7 @@ import CasesTable from "./CasesTable";
 import { Loader2 } from "lucide-react";
 
 export default function PendingCases() {
+  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(null); // track which case is being updated
@@ -51,22 +53,22 @@ export default function PendingCases() {
 
   return (
     <FacilitatorLayout
-      title="Pending Cases"
+      title={t('facilitator.pendingCases')}
       actions={
         <Button onClick={refresh} disabled={loading}>
           {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-          Refresh
+          {t('facilitator.refresh')}
         </Button>
       }
     >
       {loading ? (
         <div className="flex justify-center items-center py-10 text-gray-500">
           <Loader2 className="h-6 w-6 animate-spin mr-2" />
-          Loading cases...
+          {t('facilitator.loadingCases')}
         </div>
       ) : cases.length === 0 ? (
         <div className="text-center py-10 text-gray-500">
-          No pending cases found.
+          {t('facilitator.noCasesAvailable')}
         </div>
       ) : (
         <CasesTable

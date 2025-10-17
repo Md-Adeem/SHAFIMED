@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
@@ -25,6 +26,7 @@ const STATUSES = [
 ];
 
 export default function FacilitatorDashboard() {
+  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -192,14 +194,14 @@ export default function FacilitatorDashboard() {
 
   // Card configs (subtle pastel backgrounds)
   const cardConfigs = [
-    { label: "Pending", value: stats.pending, color: "bg-yellow-50", icon: "⏳", statusQuery: "Pending" },
-    { label: "In Progress", value: stats.inprogress, color: "bg-blue-50", icon: "🔄", statusQuery: "In Progress" },
-    { label: "Follow Up", value: stats.followup, color: "bg-orange-50", icon: "📌", statusQuery: "Follow Up" },
-    { label: "Assigned", value: stats.assigned, color: "bg-indigo-50", icon: "👨‍⚕️", statusQuery: "Assigned" },
-    { label: "Responded", value: stats.responded, color: "bg-green-50", icon: "✅", statusQuery: "Responded" },
-    { label: "Rejected", value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
-    { label: "Total Cases", value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
-    { label: "Failed Cases", value: stats.failed, color: "bg-gray-50", icon: "📋", statusQuery: "Failed Cases" },
+    { label: t('myCases.pending'), value: stats.pending, color: "bg-yellow-50", icon: "⏳", statusQuery: "Pending" },
+    { label: t('facilitator.inProgress'), value: stats.inprogress, color: "bg-teal-50", icon: "🔄", statusQuery: "In Progress" },
+    { label: t('facilitator.followUps'), value: stats.followup, color: "bg-orange-50", icon: "📌", statusQuery: "Follow Up" },
+    { label: t('myCases.assigned'), value: stats.assigned, color: "bg-indigo-50", icon: "👨‍⚕️", statusQuery: "Assigned" },
+    { label: t('myCases.responded'), value: stats.responded, color: "bg-green-50", icon: "✅", statusQuery: "Responded" },
+    { label: t('myCases.rejected'), value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
+    { label: t('facilitator.totalCases'), value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
+    { label: t('facilitator.failedCases'), value: stats.failed, color: "bg-gray-50", icon: "📋", statusQuery: "Failed Cases" },
   ];
 
   // click a card -> set ?status=... (which syncs tab via effect)

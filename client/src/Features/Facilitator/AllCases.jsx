@@ -1,5 +1,6 @@
 // D:\SHAFIMED\client\src\Features\Facilitator\AllCases.jsx
 import { useEffect, useState, useMemo } from "react";
+import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
@@ -7,6 +8,7 @@ import { Card } from "../../components/ui/Card";
 import CasesTable from "./CasesTable";
 
 export default function AllCases() {
+  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [q, setQ] = useState("");
   const [dept, setDept] = useState("");
@@ -37,15 +39,15 @@ export default function AllCases() {
   };
 
   return (
-    <FacilitatorLayout title="All Cases" actions={<Button onClick={refresh}>Refresh</Button>}>
+    <FacilitatorLayout title={t('facilitator.allCases')} actions={<Button onClick={refresh}>{t('facilitator.refresh')}</Button>}>
       <Card className="p-4 mb-4">
         <div className="flex gap-3 flex-wrap">
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search..." className="px-3 py-2 border rounded-lg" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('facilitator.searchCases')} className="px-3 py-2 border rounded-lg" />
           <select value={dept} onChange={(e) => setDept(e.target.value)} className="px-3 py-2 border rounded-lg">
-            <option value="">All Departments</option>
+            <option value="">{t('common.search')} {t('facilitator.departments')}</option>
             {departments.map(d => <option key={d} value={d}>{d}</option>)}
           </select>
-          <input value={ref} onChange={(e) => setRef(e.target.value)} placeholder="Search by Reference ID (exact)" className="px-3 py-2 border rounded-lg" />
+          <input value={ref} onChange={(e) => setRef(e.target.value)} placeholder={`${t('common.search')} ${t('facilitator.referenceId')}`} className="px-3 py-2 border rounded-lg" />
         </div>
       </Card>
       <CasesTable cases={cases} onStatus={handleStatus} onView={() => {}} onAssign={() => {}} />

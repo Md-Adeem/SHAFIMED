@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import { useNavigate } from "react-router-dom";
 import PatientLayout from "../../components/layout/PatientLayout";
@@ -9,6 +9,7 @@ import ProfileCompletionBanner from "../../components/ProfileCompletionBanner";
 import useProfileCompletion from "../../hooks/useProfileCompletion";
 
 const SubmitCase = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     fullName: "",
     title: "",
@@ -16,6 +17,8 @@ const SubmitCase = () => {
     country: "",
     contact: "",
     department: "",
+    preferredTreatmentLocation: "",
+    additionalNotes: ""
   });
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,10 +30,10 @@ const SubmitCase = () => {
   // Redirect to profile if not complete
   useEffect(() => {
     if (!profileLoading && !isProfileComplete) {
-      alert("Please complete your profile before submitting a case.");
+      alert(t('submitCase.completeProfileAlert'));
       navigate("/profile");
     }
-  }, [profileLoading, isProfileComplete, navigate]);
+  }, [profileLoading, isProfileComplete, navigate, t]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -53,17 +56,29 @@ const SubmitCase = () => {
       data.append("country", formData.country);
       data.append("contact", formData.contact);
       if (formData.department) data.append("department", formData.department);
+      if (formData.preferredTreatmentLocation) data.append("preferredTreatmentLocation", formData.preferredTreatmentLocation);
+      if (formData.additionalNotes) data.append("additionalNotes", formData.additionalNotes);
       files.forEach((f) => data.append("attachments", f));
 
       const res = await api.post("/queries", data, { headers: { "Content-Type": "multipart/form-data" } });
-      setMessage(`✅ Submitted! Reference: ${res.data?.query?.referenceId || "—"}`);setFormData({ fullName: "", title: "", description: "", country: "", contact: "" });
+      setMessage(`${t('submitCase.submitSuccess')} ${res.data?.query?.referenceId || "—"}`);
+      setFormData({ 
+        fullName: "", 
+        title: "", 
+        description: "", 
+        country: "", 
+        contact: "",
+        department: "",
+        preferredTreatmentLocation: "",
+        additionalNotes: ""
+      });
       setFiles([]);
 
       setTimeout(() => {
         navigate("/my-cases");
       }, 1500);
     } catch (err) {
-      setMessage("❌ " + (err.response?.data?.message || err.message));
+      setMessage(`${t('submitCase.submitError')} ${err.response?.data?.message || err.message}`);
     } finally {
       setLoading(false);
     }
@@ -72,11 +87,11 @@ const SubmitCase = () => {
   // Show loading state while checking profile
   if (profileLoading) {
     return (
-      <PatientLayout title="Submit a case">
+      <PatientLayout title={t('submitCase.title')}>
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Checking profile status...</p>
+            <p className="text-gray-600">{t('submitCase.checkingProfile')}</p>
           </div>
         </div>
       </PatientLayout>
@@ -86,12 +101,12 @@ const SubmitCase = () => {
   // Don't render form if profile is not complete
   if (!isProfileComplete) {
     return (
-      <PatientLayout title="Submit a case">
+      <PatientLayout title={t('submitCase.title')}>
         <div className="max-w-2xl mx-auto">
           <ProfileCompletionBanner missingFields={missingFields} />
           <div className="mt-6 text-center">
-            <p className="text-gray-600 mb-4">You will be redirected to complete your profile...</p>
-            <Button onClick={() => navigate("/profile")}>Go to Profile</Button>
+            <p className="text-gray-600 mb-4">{t('submitCase.redirecting')}</p>
+            <Button onClick={() => navigate("/profile")}>{t('submitCase.goToProfile')}</Button>
           </div>
         </div>
       </PatientLayout>
@@ -100,17 +115,32 @@ const SubmitCase = () => {
 
   return (
     <PatientLayout
-      title="Submit a case"
-      actions={<Button onClick={() => navigate("/my-cases")} variant="secondary">My Cases</Button>}
+      title={t('submitCase.title')}
+      actions={<Button onClick={() => navigate("/my-cases")} variant="secondary">{t('myCases.title')}</Button>}
     >
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white rounded-xl shadow border-2 border-gray-400 p-6 space-y-5">
+          {/* Information message about profile data usage */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div className="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <h3 className="text-sm font-medium text-blue-800">{t('submitCase.profileDataNoticeTitle')}</h3>
+                <p className="mt-1 text-sm text-blue-700">
+                  {t('submitCase.profileDataNoticeDescription')}
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div>
-            <Label>Full Name</Label>
+            <Label>{t('submitCase.fullName')}</Label>
             <Input
               type="text"
               name="fullName"
-              placeholder="Enter your full name"
+              placeholder={t('submitCase.fullNamePlaceholder')}
               value={formData.fullName}
               onChange={handleChange}
               required
@@ -119,11 +149,11 @@ const SubmitCase = () => {
           </div>
 
           <div>
-            <Label>Problem Title</Label>
+            <Label>{t('submitCase.problemTitle')}</Label>
             <Input
               type="text"
               name="title"
-              placeholder="Briefly describe your health concern"
+              placeholder={t('submitCase.problemTitlePlaceholder')}
               value={formData.title}
               onChange={handleChange}
               required
@@ -132,11 +162,11 @@ const SubmitCase = () => {
           </div>
 
           <div>
-            <Label>Detailed Description</Label>
+            <Label>{t('submitCase.detailedDescription')}</Label>
             <Textarea
               name="description"
               rows={6}
-              placeholder="Write about your health concern in detail..."
+              placeholder={t('submitCase.descriptionPlaceholder')}
               value={formData.description}
               onChange={handleChange}
               required
@@ -146,11 +176,11 @@ const SubmitCase = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <Label>Country</Label>
+              <Label>{t('submitCase.country')}</Label>
               <Input
                 type="text"
                 name="country"
-                placeholder="Enter your country"
+                placeholder={t('submitCase.countryPlaceholder')}
                 value={formData.country}
                 onChange={handleChange}
                 required
@@ -158,11 +188,11 @@ const SubmitCase = () => {
               />
             </div>
             <div>
-              <Label>Contact</Label>
+              <Label>{t('submitCase.contact')}</Label>
               <Input
                 type="tel"
                 name="contact"
-                placeholder="Mobile Number"
+                placeholder={t('submitCase.contactPlaceholder')}
                 value={formData.contact}
                 onChange={handleChange}
                 required
@@ -171,31 +201,56 @@ const SubmitCase = () => {
             </div>
           </div>
 
-          <div>
-            <Label>Department</Label>
-            <select
-              name="department"
-              value={formData.department}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition "
-            >
-              <option value="">Select department (optional)</option>
-              <option>Cardiology</option>
-              <option>Neurology</option>
-              <option>Orthopedics</option>
-              <option>Oncology</option>
-              <option>Gastroenterology</option>
-              <option>Urology</option>
-              <option>Nephrology</option>
-              <option>Pulmonology</option>
-              <option>Dermatology</option>
-              <option>ENT</option>
-              <option>General Surgery</option>
-            </select>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <Label>{t('submitCase.preferredTreatmentLocation')}</Label>
+              <Input
+                type="text"
+                name="preferredTreatmentLocation"
+                placeholder={t('submitCase.preferredTreatmentLocationPlaceholder')}
+                value={formData.preferredTreatmentLocation}
+                onChange={handleChange}
+                className="border-gray-600"
+              />
+            </div>
+            <div>
+              <Label>{t('submitCase.department')}</Label>
+              <select
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition "
+              >
+                <option value="">{t('submitCase.selectDepartment')}</option>
+                <option>{t('departments.cardiology')}</option>
+                <option>{t('departments.neurology')}</option>
+                <option>{t('departments.orthopedics')}</option>
+                <option>{t('departments.oncology')}</option>
+                <option>{t('departments.gastroenterology')}</option>
+                <option>{t('departments.urology')}</option>
+                <option>{t('departments.nephrology')}</option>
+                <option>{t('departments.pulmonology')}</option>
+                <option>{t('departments.dermatology')}</option>
+                <option>{t('departments.ent')}</option>
+                <option>{t('departments.generalSurgery')}</option>
+              </select>
+            </div>
           </div>
 
           <div>
-            <Label>Upload Reports</Label>
+            <Label>{t('submitCase.additionalNotes')}</Label>
+            <Textarea
+              name="additionalNotes"
+              rows={3}
+              placeholder={t('submitCase.additionalNotesPlaceholder')}
+              value={formData.additionalNotes}
+              onChange={handleChange}
+              className="border-gray-600"
+            />
+          </div>
+
+          <div>
+            <Label>{t('submitCase.uploadReports')}</Label>
             <div className="mt-2 border-2 border-dashed border-gray-300 rounded-xl p-4">
               <input
                 id="uploader"
@@ -220,7 +275,7 @@ const SubmitCase = () => {
 
           <div className="pt-2">
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Submitting..." : "Submit Case"}
+              {loading ? t('common.loading') : t('common.submit') + ' ' + t('patient.submitCase').split(' ')[1]}
             </Button>
           </div>
 
