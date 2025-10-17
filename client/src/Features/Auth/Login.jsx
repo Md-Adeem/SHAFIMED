@@ -114,6 +114,14 @@ export default function Login() {
               {t('auth.signup')}
             </button>
           </div>
+          <div className="mt-4 text-center text-sm text-gray-500">
+            <button
+              className="text-blue-600 font-medium hover:underline"
+              // onClick={() => navigate("/forgot-password")}
+            >
+              {t('auth.forgotPassword')}
+            </button>
+          </div>
         </div>
       </div>
     </div>

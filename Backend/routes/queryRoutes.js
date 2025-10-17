@@ -204,7 +204,7 @@ router.get("/doctors/list", authMiddleware, requireFacilitator, async (req, res)
 // GET - Running cases (Assigned doctor)
 router.get("/running", authMiddleware, async (req, res) => {
   try {
-    const runningCases = await Query.find({ assignedDoctorId: { $ne: null } })
+    const runningCases = await Query.find({ assignedDoctorId: { $ne: null }, status: { $nin: ["Responded", "Closed"] } })
       .populate("patientId", "name email")
       .populate("assignedDoctorId", "name email specialization")
       .sort({ updatedAt: -1 });
