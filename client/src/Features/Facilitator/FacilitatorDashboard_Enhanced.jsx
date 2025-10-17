@@ -190,6 +190,7 @@ export default function FacilitatorDashboard() {
     { label: "Assigned", value: stats.assigned, color: "bg-indigo-50", icon: "👨‍⚕️" },
     { label: "Responded", value: stats.responded, color: "bg-green-50", icon: "✅" },
     { label: "Rejected", value: stats.rejected, color: "bg-red-50", icon: "❌" },
+    { label: "Closed", value: stats.closed, color: "bg-gray-50", icon: "🗂️" },
     { label: "Total Cases", value: stats.total, color: "bg-gray-50", icon: "📋" },
   ];
 

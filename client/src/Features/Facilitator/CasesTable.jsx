@@ -6,7 +6,12 @@ import { Card } from "../../components/ui/Card";
 import { Link } from "react-router-dom";
 import AssignDoctor from "./AssignDoctor";
 
+
 export default function CasesTable({ cases = [], onAssign, onView, onStatus }) {
+
+  const onMarkInProgress = (c) => {
+    onStatus?.(c, "In Progress");
+  }
   const statusToColor = (s) =>
     s === "Pending"
       ? "yellow"
@@ -29,9 +34,6 @@ export default function CasesTable({ cases = [], onAssign, onView, onStatus }) {
               <th className="px-5 py-3 text-left font-semibold">Reference</th>
               <th className="px-5 py-3 text-left font-semibold">Title</th>
               <th className="px-5 py-3 text-left font-semibold">Department</th>
-              <th className="px-5 py-3 text-left font-semibold">
-                Assigned Doctor
-              </th>
               <th className="px-5 py-3 text-left font-semibold">Status</th>
               <th className="px-5 py-3 text-left font-semibold">Created</th>
               <th className="px-5 py-3 text-left font-semibold">Actions</th>
@@ -87,9 +89,9 @@ export default function CasesTable({ cases = [], onAssign, onView, onStatus }) {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => onAssign?.(c)}
+                           onClick={() => onMarkInProgress?.(c)}
                         >
-                          Assign Doctor
+                          Mark In Progress
                         </Button>
                       )}
                       {c.status === "In Progress" && (

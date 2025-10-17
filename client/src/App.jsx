@@ -23,6 +23,8 @@ import Analytics from "./Features/Facilitator/Analytics";
 import ViewByRef from "./Features/Facilitator/ViewByRef";
 import { Toaster } from "react-hot-toast";
 import RunningCases from "./Features/Facilitator/RunningCases";
+import Responded from "./Features/Facilitator/Responded";
+import Failed from "./Features/Facilitator/Failed";
 // import Test from "./Features/Facilitator/Test";
 // import Running from "./Features/Facilitator/";
 // import RunningCases from "./Features/Facilitator/";
@@ -57,6 +59,10 @@ function App() {
         <Route path="/facilitator/running-cases" element={<RoleRoute allow={["facilitator"]}><RunningCases /></RoleRoute>} />
         <Route path="/facilitator/inprogress" element={<RoleRoute allow={["facilitator"]}><InProgress /></RoleRoute>} />
         <Route path="/facilitator/followups" element={<RoleRoute allow={["facilitator"]}><FollowUps /></RoleRoute>} />
+        <Route path="/facilitator/rejected" element={<RoleRoute allow={["facilitator"]}><Failed /></RoleRoute>} />
+        <Route path="/facilitator/closed" element={<RoleRoute allow={["facilitator"]}><Responded /></RoleRoute>} />
+        {/* <Route path="/facilitator/test" element={<RoleRoute allow={["facilitator"]}><Test /></RoleRoute>} /> */}
+        {/* <Route path="/facilitator/running-cases" element={<RoleRoute allow={["facilitator"]}><RunningCases /></RoleRoute>} /> */}
         <Route path="/facilitator/patients" element={<RoleRoute allow={["facilitator"]}><Patients /></RoleRoute>} />
         <Route path="/facilitator/departments" element={<RoleRoute allow={["facilitator"]}><Departments /></RoleRoute>} />
         {/* <Route path="/facilitator/case-by-ref" element={<RoleRoute allow={["facilitator"]}><ViewByRef /></RoleRoute>} /> */}
