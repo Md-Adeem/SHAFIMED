@@ -49,7 +49,7 @@ export default function Signup() {
     e.preventDefault();
 
     try {
-      const res = await api.post("/auth/verify-otp", {
+       await api.post("/auth/verify-otp", {
         email,
         otp,
       });
