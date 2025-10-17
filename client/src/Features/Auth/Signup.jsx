@@ -83,6 +83,59 @@ export default function Signup() {
             {t('auth.createAccount')}
           </h2>
 
+          <h2 className="text-3xl font-bold text-teal-700 text-center mb-4">{t('auth.createAccount')}</h2>
+          <p className="text-sm text-gray-500 text-center mb-6">Join us as a Patient, Doctor, or Facilitator</p>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('auth.firstName')}</label>
+              <input
+                type="text"
+                placeholder="Your full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('auth.email')}</label>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('auth.password')}</label>
+              <input
+                type="password"
+                placeholder="Choose a secure password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Signup As</label>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              >
+                <option value="patient">Patient</option>
+                {/* <option value="doctor">Doctor</option>
+                <option value="facilitator">Facilitator</option> */}
+              </select>
+            </div>
+
           {step === 1 ? (
             <form onSubmit={handleSendOtp} className="space-y-5">
               <div>

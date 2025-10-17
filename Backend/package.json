@@ -1,15 +1,20 @@
 {
-  "name": "backend",
+  "name": "shafimed-backend",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
-  "main": "index.js",
+  "description": "SHAFIMED Healthcare Platform Backend API",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "build": "echo 'No build process needed for Node.js backend'"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["healthcare", "api", "backend", "express", "mongodb"],
+  "author": "SHAFIMED Team",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",

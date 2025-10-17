@@ -99,9 +99,9 @@ const SpecialtiesGrid = () => {
                   {specialty.description}
                 </p>
               </div>
-              <div className="text-red-400 group-hover:text-red-500 transition-colors">
+              {/* <div className="text-red-400 group-hover:text-red-500 transition-colors">
                 <BsPlusCircleFill className="w-6 h-6" />
-              </div>
+              </div> */}
             </div>
           ))}
         </div>

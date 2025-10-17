@@ -37,7 +37,6 @@ const genRefId = () => {
 };
 
 // POST - Submit case (Protected) - Requires completed profile
-// POST - Submit case (Protected) - Requires completed profile
 router.post("/", authMiddleware, upload.array("attachments", 5), async (req, res) => {
   try {
     // Check if user's profile is complete before allowing case submission
@@ -67,7 +66,16 @@ router.post("/", authMiddleware, upload.array("attachments", 5), async (req, res
     }
     
     // Profile is complete, proceed with case submission
-    const { fullName, title, description, country, contact, department } = req.body;
+    const { 
+      fullName, 
+      title, 
+      description, 
+      country, 
+      contact, 
+      department,
+      preferredTreatmentLocation,
+      additionalNotes
+    } = req.body;
 
     const newQuery = new Query({
       patientId: req.user.id, // 👈 store logged-in patient
@@ -77,6 +85,8 @@ router.post("/", authMiddleware, upload.array("attachments", 5), async (req, res
       country,
       contact,
       department,
+      preferredTreatmentLocation,
+      additionalNotes,
       referenceId: genRefId(),
       attachments: (req.files || []).map((f) => f.path),
     });
@@ -88,9 +98,8 @@ router.post("/", authMiddleware, upload.array("attachments", 5), async (req, res
     console.error(error);
     res.status(500).json({ message: "Failed to submit case" });
   }
-}); // ✅ This closes router.post
+});
 
-    
 // GET - Fetch all queries of logged-in patient
 router.get("/my", authMiddleware, async (req, res) => {
   try {
@@ -123,7 +132,17 @@ router.get("/", authMiddleware, requireFacilitator, async (req, res) => {
       .populate('patientId', 'name email')
       .populate('assignedDoctorId', 'name email specialization')
       .sort({ createdAt: -1 });
-    res.json(queries);
+    
+    // Add patient profile information to each query
+    const queriesWithProfile = await Promise.all(queries.map(async (query) => {
+      const profile = await PatientProfile.findOne({ userId: query.patientId });
+      return {
+        ...query.toObject(),
+        patientProfile: profile || null
+      };
+    }));
+    
+    res.json(queriesWithProfile);
   } catch (error) {
     console.error('Single query fetch error:', error);
     res.status(500).json({ message: error.message });
@@ -136,8 +155,16 @@ router.get("/ref/:ref", authMiddleware, requireFacilitator, async (req, res) => 
     const q = await Query.findOne({ referenceId: req.params.ref })
       .populate('patientId', 'name email')
       .populate('assignedDoctorId', 'name email specialization');
+      
     if (!q) return res.status(404).json({ message: "Case not found" });
-    res.json(q);
+    
+    // Add patient profile information
+    const profile = await PatientProfile.findOne({ userId: q.patientId });
+    
+    res.json({
+      ...q.toObject(),
+      patientProfile: profile || null
+    });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

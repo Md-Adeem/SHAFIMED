@@ -7,7 +7,20 @@ const router = express.Router();
 // 📌 Create or Update profile
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { age, gender, location, medicalHistory } = req.body;
+    const { 
+      age, 
+      gender, 
+      location, 
+      medicalHistory,
+      currentMedications,
+      allergies,
+      emergencyContact,
+      emergencyContactRelation,
+      bloodGroup,
+      height,
+      weight,
+      insuranceInfo
+    } = req.body;
 
     let profile = await PatientProfile.findOne({ userId: req.user.id });
 
@@ -17,6 +30,14 @@ router.post("/", authMiddleware, async (req, res) => {
       profile.gender = gender;
       profile.location = location;
       profile.medicalHistory = medicalHistory;
+      profile.currentMedications = currentMedications;
+      profile.allergies = allergies;
+      profile.emergencyContact = emergencyContact;
+      profile.emergencyContactRelation = emergencyContactRelation;
+      profile.bloodGroup = bloodGroup;
+      profile.height = height;
+      profile.weight = weight;
+      profile.insuranceInfo = insuranceInfo;
       await profile.save();
     } else {
       // Create new
@@ -26,6 +47,14 @@ router.post("/", authMiddleware, async (req, res) => {
         gender,
         location,
         medicalHistory,
+        currentMedications,
+        allergies,
+        emergencyContact,
+        emergencyContactRelation,
+        bloodGroup,
+        height,
+        weight,
+        insuranceInfo
       });
       await profile.save();
     }

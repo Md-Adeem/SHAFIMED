@@ -9,6 +9,8 @@ const querySchema = new mongoose.Schema(
     country: { type: String, required: true },         // Country
     contact: { type: String, required: true },         // Contact number
     department: { type: String },                      // e.g., Cardiology, Orthopedics
+    preferredTreatmentLocation: { type: String },
+    additionalNotes: { type: String },
     attachments: [{ type: String }],  
     referenceId: { type: String, unique: true, index: true }, // SHF-YYYYMMDD-XXXX                 // File paths (reports)
     status: {
@@ -23,4 +25,3 @@ const querySchema = new mongoose.Schema(
 );
 
 export default mongoose.model("Query", querySchema);
-

@@ -28,11 +28,13 @@ const Home = () => {
       {/* <SearchBar /> */}
       <SpecialtiesGrid />
       {/* Hospital Partners Strip */}
+
+      {/* 3. TopHospitals */}
+      <HospitalsStrip />
       {/* 2. MultiSpecialtyFocus */}
       <MultiSpecialtyFocus />
       
-      {/* 3. TopHospitals */}
-      <HospitalsStrip />
+      
       
       {/* 4. LowestQuotes */}
       <LowestQuotes />
