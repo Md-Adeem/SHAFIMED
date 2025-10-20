@@ -104,35 +104,74 @@ export const sendOtp = async (req, res) => {
       { upsert: true, new: true }
     );
 
-    // Test transporter connection before sending
+    // Enhanced transporter configuration for deployment
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      tls: {
+        rejectUnauthorized: false // Accept self-signed certificates
+      },
+      connectionTimeout: 30000, // 30 seconds
+      greetingTimeout: 30000,
+      socketTimeout: 30000
     });
+
+    // Verify transporter configuration
+    await transporter.verify();
 
     await transporter.sendMail({
       from : `"ShaafiMed" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "ShaafiMed Signup OTP",
       text: `Your OTP is: ${otp}. It will expire in 10 minutes.`,
-    })
+    });
 
-   
     res.status(200).json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
     console.error("Send OTP error:", error);
+    
     // More detailed error message
     if (error.code === 'EAUTH') {
-      res.status(500).json({ message: "Email authentication failed. Please check your email credentials." });
+      res.status(500).json({ 
+        message: "Email authentication failed. Please check your email credentials.",
+        error: error.message,
+        code: 'EAUTH'
+      });
     } else if (error.code === 'ECONNREFUSED') {
-      res.status(500).json({ message: "Unable to connect to email server. Please check your network connection." });
+      res.status(500).json({ 
+        message: "Unable to connect to email server. Please check your network connection.",
+        error: error.message,
+        code: 'ECONNREFUSED'
+      });
+    } else if (error.code === 'ETIMEDOUT') {
+      res.status(500).json({ 
+        message: "Email connection timed out. This might be due to network restrictions in the deployment environment.",
+        error: error.message,
+        code: 'ETIMEDOUT'
+      });
     } else if (error.response && error.response.includes('535')) {
-      res.status(500).json({ message: "Gmail authentication failed. Please ensure you're using an App Password, not your regular Gmail password." });
+      res.status(500).json({ 
+        message: "Gmail authentication failed. Please ensure you're using an App Password, not your regular Gmail password.",
+        error: error.message,
+        code: 'GMAIL_AUTH'
+      });
+    } else if (error.message.includes('Gmail')) {
+      res.status(500).json({ 
+        message: "Gmail service error. This might be due to Gmail security settings or network restrictions.",
+        error: error.message,
+        code: 'GMAIL_ERROR'
+      });
     } else {
-      res.status(500).json({ message: `Error sending OTP: ${error.message}` });
+      res.status(500).json({ 
+        message: `Error sending OTP: ${error.message}`,
+        error: error.message,
+        code: 'UNKNOWN_ERROR'
+      });
     }
   }
 };
@@ -165,12 +204,21 @@ export const verifyOtpAndRegister = async (req, res) => {
 
     await newUser.save();
 
+    // Enhanced transporter configuration for deployment
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      tls: {
+        rejectUnauthorized: false // Accept self-signed certificates
+      },
+      connectionTimeout: 30000, // 30 seconds
+      greetingTimeout: 30000,
+      socketTimeout: 30000
     });
 
     // Send confirmation email
@@ -210,15 +258,38 @@ ShaafiMed Team`,
     });
   } catch (error) {
     console.error("Verify OTP error:", error);
+    
     // More detailed error message
     if (error.code === 'EAUTH') {
-      res.status(500).json({ message: "Email authentication failed during registration." });
+      res.status(500).json({ 
+        message: "Email authentication failed during registration.",
+        error: error.message,
+        code: 'EAUTH'
+      });
     } else if (error.code === 'ECONNREFUSED') {
-      res.status(500).json({ message: "Unable to send welcome email. Please check network connection." });
+      res.status(500).json({ 
+        message: "Unable to send welcome email. Please check network connection.",
+        error: error.message,
+        code: 'ECONNREFUSED'
+      });
+    } else if (error.code === 'ETIMEDOUT') {
+      res.status(500).json({ 
+        message: "Email connection timed out during registration.",
+        error: error.message,
+        code: 'ETIMEDOUT'
+      });
     } else if (error.response && error.response.includes('535')) {
-      res.status(500).json({ message: "Gmail authentication failed. Please ensure you're using an App Password." });
+      res.status(500).json({ 
+        message: "Gmail authentication failed. Please ensure you're using an App Password.",
+        error: error.message,
+        code: 'GMAIL_AUTH'
+      });
     } else {
-      res.status(500).json({ message: `OTP verification failed: ${error.message}` });
+      res.status(500).json({ 
+        message: `OTP verification failed: ${error.message}`,
+        error: error.message,
+        code: 'UNKNOWN_ERROR'
+      });
     }
   }
 };
