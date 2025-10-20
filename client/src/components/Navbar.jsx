@@ -37,7 +37,7 @@ function Navbar() {
 
   // ✅ Role-based navigation items
   const navItems = [
-    { label: t('navigation.home'), path: "/", icon: "🏠", show: true },
+    { label: t('navigation.about'), path: "/about", icon: "🏠", show: true },
     // Patient-specific navigation
     { label: t('navigation.dashboard'), path: "/dashboard", show: isLoggedIn && role === "patient" },
     { label: "My Cases", path: "/my-cases", show: isLoggedIn && role === "patient" },

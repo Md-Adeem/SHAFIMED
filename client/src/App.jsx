@@ -25,6 +25,7 @@ import { Toaster } from "react-hot-toast";
 import RunningCases from "./Features/Facilitator/RunningCases";
 import Responded from "./Features/Facilitator/Responded";
 import Failed from "./Features/Facilitator/Failed";
+import About from "./pages/About";
 // import Test from "./Features/Facilitator/Test";
 // import Running from "./Features/Facilitator/";
 // import RunningCases from "./Features/Facilitator/";
@@ -43,6 +44,7 @@ function App() {
       {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
