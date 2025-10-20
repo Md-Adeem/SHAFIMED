@@ -33,6 +33,8 @@ const RunningCases = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [selectedDoctor, setSelectedDoctor] = useState("All");
+  const [selectedDept, setSelectedDept] = useState("All");
 
   const fetchRunningCases = async () => {
     setLoading(true);
@@ -60,14 +62,18 @@ const RunningCases = () => {
     }
   };
 
-  // Apply filter whenever selectedStatus changes
+  // Get unique doctors and departments from cases for filters
+  const doctors = Array.from(new Set(cases.map((c) => c.assignedDoctorId?.name).filter(Boolean)));
+  const departments = Array.from(new Set(cases.map((c) => c.department).filter(Boolean)));
+
+  // Apply combined filters
   useEffect(() => {
-    if (selectedStatus === "All") {
-      setFilteredCases(cases);
-    } else {
-      setFilteredCases(cases.filter((c) => c.status === selectedStatus));
-    }
-  }, [selectedStatus, cases]);
+    let temp = [...cases];
+    if (selectedStatus !== "All") temp = temp.filter((c) => c.status === selectedStatus);
+    if (selectedDoctor !== "All") temp = temp.filter((c) => c.assignedDoctorId?.name === selectedDoctor);
+    if (selectedDept !== "All") temp = temp.filter((c) => c.department === selectedDept);
+    setFilteredCases(temp);
+  }, [selectedStatus, selectedDoctor, selectedDept, cases]);
 
   useEffect(() => {
     fetchRunningCases();
@@ -77,7 +83,7 @@ const RunningCases = () => {
     <FacilitatorLayout
       title="Running Cases"
       actions={
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
@@ -89,6 +95,33 @@ const RunningCases = () => {
               </option>
             ))}
           </select>
+
+          <select
+            value={selectedDoctor}
+            onChange={(e) => setSelectedDoctor(e.target.value)}
+            className="border rounded-md px-3 py-2 text-sm bg-white"
+          >
+            <option value="All">All Doctors</option>
+            {doctors.map((doc) => (
+              <option key={doc} value={doc}>
+                {doc}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={selectedDept}
+            onChange={(e) => setSelectedDept(e.target.value)}
+            className="border rounded-md px-3 py-2 text-sm bg-white"
+          >
+            <option value="All">All Departments</option>
+            {departments.map((dept) => (
+              <option key={dept} value={dept}>
+                {dept}
+              </option>
+            ))}
+          </select>
+
           <Button onClick={fetchRunningCases}>Refresh</Button>
         </div>
       }
@@ -98,7 +131,7 @@ const RunningCases = () => {
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : filteredCases.length === 0 ? (
-        <p>No {selectedStatus !== "All" ? selectedStatus.toLowerCase() : ""} cases found.</p>
+        <p>No cases found for selected filters.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border text-sm">

@@ -17,7 +17,7 @@ export default function Analytics() {
   useEffect(() => { load(); }, []);
 
   const statusMap = useMemo(() => Object.fromEntries(data.byStatus.map(s => [s._id, s.count])), [data]);
-  const deptMap = useMemo(() => Object.fromEntries(data.byDepartment.map(s => [s._id, s.count])), [data]);
+  // const deptMap = useMemo(() => Object.fromEntries(data.byDepartment.map(s => [s._id, s.count])), [data]);
 
   return (
     <FacilitatorLayout title={t('facilitator.analytics')}>
