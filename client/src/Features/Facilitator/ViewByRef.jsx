@@ -39,88 +39,166 @@ export default function ViewByRef() {
     fetchByRef(ref);
   };
 
+  const labelClass = "text-sm text-gray-600";
+  const valueClass = "text-lg font-semibold";
+
   return (
     <FacilitatorLayout title={t('facilitator.viewByRef')}>
-      <Card className="p-4 mb-4">
-        <div className="flex gap-2 flex-wrap items-center">
+      {/* Search Card */}
+      <Card className="p-6 mb-8">
+        <div className="flex flex-col sm:flex-row gap-4 items-center">
           <input
             value={ref}
             onChange={(e) => setRef(e.target.value)}
             placeholder={`${t('facilitator.enterReferenceId')} (e.g., SHF-20250917-ABCD)`}
-            className="px-3 py-2 border rounded-lg w-full sm:w-96"
+            className="px-4 py-3 border rounded-lg w-full sm:w-96 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
-          <Button onClick={onSearch} disabled={loading}>{loading ? t('facilitator.searching') : t('searchBar.search')}</Button>
-          <Button variant="outline" onClick={() => { setRef(""); setItem(null); setSearchParams({}); }}>{t('facilitator.clear')}</Button>
+          <Button onClick={onSearch} disabled={loading} className="px-6 py-3">
+            {loading ? t('facilitator.searching') : t('searchBar.search')}
+          </Button>
+          <Button variant="outline" onClick={() => { setRef(""); setItem(null); setSearchParams({}); }} className="px-6 py-3">
+            {t('facilitator.clear')}
+          </Button>
         </div>
-        {error && <div className="mt-3 text-sm text-red-600">{error}</div>}
+        {error && <div className="mt-4 text-red-600 text-lg">{error}</div>}
       </Card>
 
+      {/* Case Profile */}
       {item && (
-        <Card className="p-5 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <div className="text-xs text-gray-500">{t('myCases.reference')}</div>
-              <div className="font-mono">{item.referenceId || "—"}</div>
+        <div className="space-y-8">
+          <Card className="p-6">
+            <h2 className="text-2xl font-bold text-blue-700 mb-4">{t('CaseProfile')}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <div className={labelClass}>Reference</div>
+                <div className={`${valueClass} text-indigo-600`}>{item.referenceId || "—"}</div>
+              </div>
+              <div>
+                <div className={labelClass}>Status</div>
+                <div className={`${valueClass} ${item.status === "Pending" ? "text-yellow-600" : "text-green-600"}`}>{item.status || "Pending"}</div>
+              </div>
+              <div>
+                <div className={labelClass}>Title</div>
+                <div className={valueClass}>{item.title || "—"}</div>
+              </div>
+              <div>
+                <div className={labelClass}>Created</div>
+                <div className={valueClass}>{item.createdAt ? new Date(item.createdAt).toLocaleString() : "—"}</div>
+              </div>
+              <div>
+                <div className={labelClass}>Department</div>
+                <div className={valueClass}>{item.department || "—"}</div>
+              </div>
+              <div>
+                <div className={labelClass}>Updated</div>
+                <div className={valueClass}>{item.updatedAt ? new Date(item.updatedAt).toLocaleString() : "—"}</div>
+              </div>
+              <div>
+                <div className={labelClass}>Country</div>
+                <div className={valueClass}>{item.country || "—"}</div>
+              </div>
+              <div>
+                <div className={labelClass}>Contact</div>
+                <div className={valueClass}>{item.contact || item.patientId?.contact || "—"}</div>
+              </div>
             </div>
-            <div>
-              <div className="text-xs text-gray-500">{t('myCases.status')}</div>
-              <div className="font-medium">{item.status || "Pending"}</div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">{t('facilitator.patient')}</div>
-              <div className="font-medium">{item.fullName || "—"}</div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">{t('submitCase.department')}</div>
-              <div>{item.department || "—"}</div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">{t('submitCase.country')}</div>
-              <div>{item.country || "—"}</div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">{t('submitCase.contact')}</div>
-              <div>{item.contact || "—"}</div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">{t('common.created')}</div>
-              <div>{item.createdAt ? new Date(item.createdAt).toLocaleString() : "—"}</div>
-            </div>
-            <div>
-              <div className="text-xs text-gray-500">{t('myCases.updated')}</div>
-              <div>{item.updatedAt ? new Date(item.updatedAt).toLocaleString() : "—"}</div>
-            </div>
-          </div>
 
-          <div>
-            <div className="text-xs text-gray-500">{t('myCases.title')}</div>
-            <div className="font-medium">{item.title}</div>
-          </div>
-
-          <div>
-            <div className="text-xs text-gray-500">{t('submitCase.detailedDescription')}</div>
-            <div className="whitespace-pre-wrap">{item.description || "—"}</div>
-          </div>
-
-          {item.assignedDoctorId && (
-            <div>
-              <div className="text-xs text-gray-500">{t('facilitator.assignedDoctor')}</div>
-              <div className="font-medium">{item.assignedDoctorId.name}</div>
-              {item.assignedDoctorId.specialization && (
-                <div className="text-xs text-gray-500">{item.assignedDoctorId.specialization}</div>
-              )}
+            <div className="mt-6">
+              <div className={labelClass}>Detailed Description</div>
+              <div className="text-lg font-medium whitespace-pre-wrap">{item.description || "—"}</div>
             </div>
+            <div className="mt-4">
+              <div className={labelClass}>Additional Notes</div>
+              <div className="text-lg font-medium whitespace-pre-wrap">{item.additionalNotes || "—"}</div>
+            </div>
+          </Card>
+
+          {/* Patient Profile */}
+          {item.patientProfile && (
+            <Card className="p-6">
+              <h2 className="text-2xl font-bold text-green-700 mb-4">Patient Profile</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
+                <div>
+                  <div className={labelClass}>Age</div>
+                  <div className={valueClass}>{item.patientProfile.age || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Gender</div>
+                  <div className={valueClass}>{item.patientProfile.gender || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Blood Group</div>
+                  <div className={valueClass}>{item.patientProfile.bloodGroup || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Height</div>
+                  <div className={valueClass}>{item.patientProfile.height || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Weight</div>
+                  <div className={valueClass}>{item.patientProfile.weight || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Location</div>
+                  <div className={valueClass}>{item.patientProfile.location || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Medical History</div>
+                  <div className="whitespace-pre-wrap font-medium">{item.patientProfile.medicalHistory || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Current Medications</div>
+                  <div className="whitespace-pre-wrap font-medium">{item.patientProfile.currentMedications || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Allergies</div>
+                  <div className={valueClass}>{item.patientProfile.allergies || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Emergency Contact</div>
+                  <div className={valueClass}>{item.patientProfile.emergencyContact} ({item.patientProfile.emergencyContactRelation})</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Insurance Info</div>
+                  <div className={valueClass}>{item.patientProfile.insuranceInfo || "—"}</div>
+                </div>
+                <div>
+                  <div className={labelClass}>Preferred Treatment Location</div>
+                  <div className={valueClass}>{item.preferredTreatmentLocation || "—"}</div>
+                </div>
+                <div className="col-span-2">
+                  <div className={labelClass}>Patient Email</div>
+                  <div className={valueClass}>{item.patientId?.email || "—"}</div>
+                </div>
+              </div>
+            </Card>
           )}
 
+          {/* Assigned Doctor */}
+          {item.assignedDoctorId && (
+            <Card className="p-6">
+              <h2 className="text-2xl font-bold text-purple-700 mb-4">Assigned Doctor</h2>
+              <div className="text-lg space-y-2">
+                <div className={valueClass}>{item.assignedDoctorId.name}</div>
+                {item.assignedDoctorId.specialization && (
+                  <div className={labelClass}>{item.assignedDoctorId.specialization}</div>
+                )}
+                <div>Email: {item.assignedDoctorId.email || "—"}</div>
+                <div>Phone: {item.assignedDoctorId.phone || "—"}</div>
+              </div>
+            </Card>
+          )}
+
+          {/* Attachments */}
           {item.attachments?.length > 0 && (
-            <div>
-              <div className="text-xs text-gray-500 mb-1">{t('facilitator.attachments')}</div>
-              <ul className="list-disc list-inside text-sm">
+            <Card className="p-6">
+              <div className={labelClass + " mb-2"}>Attachments</div>
+              <ul className="list-disc list-inside text-lg">
                 {item.attachments.map((a, i) => <li key={i}>{a}</li>)}
               </ul>
-            </div>
+            </Card>
           )}
-        </Card>
+        </div>
       )}
     </FacilitatorLayout>
   );
