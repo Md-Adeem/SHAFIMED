@@ -104,26 +104,25 @@ export const sendOtp = async (req, res) => {
       { upsert: true, new: true }
     );
 
-    // Enhanced transporter configuration for deployment
+    // Enhanced transporter configuration for Render deployment
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // true for 465, false for other ports
+      port: 465,
+      secure: true, // Use TLS
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
       tls: {
-        rejectUnauthorized: false // Accept self-signed certificates
+        rejectUnauthorized: false,
+        ciphers: 'SSLv3'
       },
-      connectionTimeout: 30000, // 30 seconds
+      connectionTimeout: 60000, // 60 seconds
       greetingTimeout: 30000,
-      socketTimeout: 30000
+      socketTimeout: 60000
     });
 
-    // Verify transporter configuration
-    await transporter.verify();
-
+    // Try to send email without verification first (to avoid double connection)
     await transporter.sendMail({
       from : `"ShaafiMed" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -204,27 +203,27 @@ export const verifyOtpAndRegister = async (req, res) => {
 
     await newUser.save();
 
-    // Enhanced transporter configuration for deployment
+    // Enhanced transporter configuration for Render deployment
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // true for 465, false for other ports
+      port: 465,
+      secure: true, // Use TLS
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
       tls: {
-        rejectUnauthorized: false // Accept self-signed certificates
+        rejectUnauthorized: false,
+        ciphers: 'SSLv3'
       },
-      connectionTimeout: 30000, // 30 seconds
+      connectionTimeout: 60000, // 60 seconds
       greetingTimeout: 30000,
-      socketTimeout: 30000
+      socketTimeout: 60000
     });
 
     // Send confirmation email
     try {
-      // Test transporter connection before sending welcome email
-      await transporter.verify();
+      // Try to send email without verification first (to avoid double connection)
       await transporter.sendMail({
         from: `"ShaafiMed" <${process.env.EMAIL_USER}>`,
         to: email,
