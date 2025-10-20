@@ -19,8 +19,8 @@ export const registerUser = async (req, res) => {
       role,
       specialization,
     });
-
-    res.status(201).json({ message: "User registered successfully", user });
+    
+   res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

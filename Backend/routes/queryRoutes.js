@@ -152,23 +152,29 @@ router.get("/", authMiddleware, requireFacilitator, async (req, res) => {
 // GET - fetch single case by reference id (facilitators only)
 router.get("/ref/:ref", authMiddleware, requireFacilitator, async (req, res) => {
   try {
-    const q = await Query.findOne({ referenceId: req.params.ref })
-      .populate('patientId', 'name email')
-      .populate('assignedDoctorId', 'name email specialization');
-      
-    if (!q) return res.status(404).json({ message: "Case not found" });
-    
-    // Add patient profile information
-    const profile = await PatientProfile.findOne({ userId: q.patientId });
-    
-    res.json({
-      ...q.toObject(),
-      patientProfile: profile || null
-    });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+    // Fetch the query and populate patient and doctor info
+    const query = await Query.findOne({ referenceId: req.params.ref })
+      .populate("patientId", "name email contact")
+      .populate("assignedDoctorId", "name email specialization");
+
+    if (!query) return res.status(404).json({ message: "Case not found" });
+
+    // Fetch patient profile
+    const profile = await PatientProfile.findOne({ userId: query.patientId._id });
+
+    // Construct response
+    const result = {
+      ...query.toObject(),
+      patientProfile: profile || null,
+    };
+
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 });
+
 
 // GET - analytics summary (facilitators only)
 router.get("/analytics/summary", authMiddleware, requireFacilitator, async (req, res) => {
