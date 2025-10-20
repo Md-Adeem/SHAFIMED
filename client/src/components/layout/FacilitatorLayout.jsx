@@ -24,8 +24,8 @@ function FacilitatorLayout({ title, actions, children }) {
       {/* Sidebar */}
       <aside className="hidden md:flex w-64 flex-col bg-gray-50 h-screen border-r-2 shadow-2xl fixed top-0 left-0">
         <div onClick={() => go("/")} className="px-6 py-5 border-b-4 border-teal-400 shadow-xl flex flex-col gap-1 cursor-pointer">
-          <div className="text-2xl font-extrabold text-teal-600">ShafiMed</div>
-          <div className="text-md font-bold text-gray-900">Facilitator Workspace</div>
+          <div className="text-2xl font-extrabold text-teal-600"> ← ShafiMed</div>
+          <div className="text-md font-bold text-gray-900"> Facilitator Workspace</div>
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-2">
@@ -47,32 +47,20 @@ function FacilitatorLayout({ title, actions, children }) {
 
           {/* Patients / Departments */}
           <div className="mt-2 border-t border-gray-800 shadow-lg pt-2 space-y-1">
-            <button onClick={() => go("/facilitator/patients")} className={sidebarBtn}>🧑‍🤝‍🧑 Patients</button>
+            <button onClick={() => go("/facilitator/patients")} className={sidebarBtn}>🧑‍🤝‍🧑 Patients On Platform</button>
             <button onClick={() => go("/facilitator/departments")} className={sidebarBtn}>🏥 Departments</button>
             <button onClick={() => go("/facilitator/case-by-ref")} className={sidebarBtn}>🔍 By Ref ID</button>
           </div>
 
           {/* Analytics */}
-          <div className="mt-2 border-t border-gray-800 shadow-lg pt-2">
+          <div className="mt-2 border-t border-gray-800 shadow-lg ">
             <button onClick={() => go("/facilitator/analytics")} className={sidebarBtn}>📈 Analytics</button>
           </div>
         </nav>
 
         {/* Footer */}
         <div className="px-4 py-4 border-t-4 flex flex-col gap-3 text-sm text-gray-500 bg-gray-50">
-          {/* Logged in info */}
-          <div className="text-gray-600 p-3 m-3 font-semibold text-md border-t border-b border-gray-500">
-            Logged in as: <span className="font-bold text-gray-800">{user?.name}</span>
-          </div>
-
-          {/* Back to Home */}
-          <button
-            onClick={() => go("/")}
-            className="flex items-center bg-teal-600 text-white w-full text-left px-4 py-4 rounded-lg font-medium hover:bg-teal-800 transition"
-          >
-            ← Back to Home
-          </button>
-
+    
           {/* Logout */}
           <button
             onClick={handleLogout}

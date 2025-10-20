@@ -319,7 +319,7 @@ export default function FacilitatorDashboard() {
           <Button variant="outline" onClick={() => { setSearchParams({}); setQ(""); }}>
             Reset
           </Button>
-          <Button onClick={() => setTab("Pending")}>⏳ View Pending</Button>
+          <Button onClick={() => navigate("/facilitator/pending")}>⏳ View Pending</Button>
         </div>
       }
     >
