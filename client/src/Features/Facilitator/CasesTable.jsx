@@ -34,6 +34,7 @@ export default function CasesTable({ cases = [], onAssign, onView, onStatus }) {
               <th className="px-5 py-3 text-left font-semibold">Reference</th>
               <th className="px-5 py-3 text-left font-semibold">Title</th>
               <th className="px-5 py-3 text-left font-semibold">Department</th>
+              <th className="px-5 py-3 text-left font-semibold">Assigned Doctor</th>
               <th className="px-5 py-3 text-left font-semibold">Status</th>
               <th className="px-5 py-3 text-left font-semibold">Created</th>
               <th className="px-5 py-3 text-left font-semibold">Actions</th>
