@@ -41,55 +41,72 @@ const treatments = [
 
 const MultiSpecialtyFocus = () => {
   return (
-    <div className="py-16 bg-white text-center">
-      <h2 className="text-2xl md:text-3xl font-semibold text-teal-800 mb-2">
-        Lowest Quotes Assured
-      </h2>
-      <p className="text-teal-600 mb-10 max-w-2xl mx-auto">
-        We constantly negotiate better prices and alternatives without
-        compromising treatment quality. Our prices are consistently lower.
-      </p>
-
-      {/* Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6 md:px-12">
-        {treatments.map((item, index) => (
-          <div
-            key={index}
-            className="bg-white border border-teal-200 rounded-xl p-6 shadow-sm hover:shadow-lg hover:border-teal-400 transition-all duration-300"
-          >
-            <div className="flex justify-center mb-4 text-teal-600">
-              {item.icon}
-            </div>
-            <h3 className="text-lg font-semibold text-black">{item.name}</h3>
-            <p className="text-gray-700 mt-2">
-              Starting{" "}
-              <span className="font-bold text-black">{item.price}</span>
-            </p>
-            <button className="text-teal-600 font-medium mt-2 hover:text-teal-800 hover:underline transition-colors">
-              Get Quote
-            </button>
+    <section className="py-20 bg-gradient-to-br from-teal-50 via-white to-emerald-50 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-teal-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-64 h-64 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
+      
+      <div className="max-w-7xl mx-auto px-6 relative">
+        <div className="text-center mb-16">
+          <div className="inline-block bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+            💰 Lowest Quotes Assured
           </div>
-        ))}
-      </div>
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+            Multi-Specialty <span className="text-teal-600">Focus</span>
+          </h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            We constantly negotiate better prices and alternatives without
+            compromising treatment quality. Our prices are consistently lower.
+          </p>
+        </div>
 
-      {/* Bottom Buttons */}
-      <div className="mt-12 flex justify-center gap-6">
-        <Link to="/signup">
-          <button className="bg-teal-600 text-white px-6 py-3 rounded-lg font-medium shadow-lg hover:bg-teal-700 hover:shadow-xl transition-all duration-300">
-            Get Quote
-          </button>
-        </Link>
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {treatments.map((item, index) => (
+            <div
+              key={index}
+              className="group bg-white/90 backdrop-blur-sm border border-teal-100 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="flex justify-center mb-4 text-teal-600 group-hover:text-teal-700 transition-colors">
+                {item.icon}
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-3 text-center group-hover:text-teal-700 transition-colors">{item.name}</h3>
+              <div className="mt-auto">
+                <p className="text-gray-600 text-center mb-4">
+                  Starting at{" "}
+                  <span className="font-bold text-teal-700 text-lg">{item.price}</span>
+                </p>
+                <button className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg hover:from-teal-600 hover:to-emerald-600 transition-all duration-300 inline-flex items-center justify-center">
+                  Get Free Quote
+                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
 
-        <Link to="/chat">
-          <button
-            onClick={() => window.open("https://wa.me/9565188938", "_blank")}
-            className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium shadow-lg hover:bg-emerald-700 hover:shadow-xl transition-all duration-300"
-          >
-            Chat
-          </button>
-        </Link>
+        {/* Bottom Buttons */}
+        <div className="mt-16 flex flex-col sm:flex-row justify-center gap-6">
+          <Link to="/signup">
+            <button className="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+              Get Free Quote
+            </button>
+          </Link>
+
+          <Link to="/chat">
+            <button
+              onClick={() => window.open("https://wa.me/9565188938", "_blank")}
+              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+            >
+              Chat with Expert
+            </button>
+          </Link>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

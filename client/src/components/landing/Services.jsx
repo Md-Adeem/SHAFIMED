@@ -109,85 +109,95 @@ function Services() {
           {services.map((service, index) => (
             <div
               key={service.id}
-              className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 hover:shadow-xl hover:bg-white transition-all duration-300 group transform hover:-translate-y-2"
+              className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-teal-100 p-8 hover:shadow-2xl hover:bg-gradient-to-br hover:from-white hover:to-teal-50 transition-all duration-500 group transform hover:-translate-y-3"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Service Header */}
-              <div className="flex items-start space-x-4 mb-4">
-                <div className="flex-shrink-0 p-3 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl group-hover:scale-110 transition-transform duration-300">
+              <div className="flex items-start space-x-4 mb-6">
+                <div className="flex-shrink-0 p-4 bg-gradient-to-br from-teal-500 to-emerald-600 text-white rounded-2xl group-hover:scale-110 transition-all duration-300 shadow-lg">
                   {service.icon}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{service.title}</h3>
-                  <p className="text-sm text-gray-600">{service.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-teal-700 transition-colors">{service.title}</h3>
+                  <p className="text-gray-600">{service.description}</p>
                 </div>
               </div>
 
               {/* Features List */}
-              <div className="mb-4">
-                <div className="text-sm font-medium text-gray-700 mb-2">What's Included:</div>
-                <ul className="space-y-1">
+              <div className="mb-6">
+                <div className="text-sm font-semibold text-teal-700 mb-3 flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  What's Included:
+                </div>
+                <ul className="space-y-2">
                   {service.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-sm text-gray-600">
-                      <svg className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <li key={index} className="flex items-start text-gray-700">
+                      <svg className="w-5 h-5 text-teal-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
-                      {feature}
+                      <span className="text-sm">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* Service Details */}
-              <div className="border-t border-gray-100 pt-4 space-y-2">
+              <div className="border-t border-gray-200 pt-5 space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Availability:</span>
-                  <span className="font-medium text-gray-900">{service.availability}</span>
+                  <div className="flex items-center text-gray-600">
+                    <svg className="w-4 h-4 mr-2 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Availability:
+                  </div>
+                  <span className="font-medium text-teal-700">{service.availability}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Response Time:</span>
-                  <span className="font-medium text-gray-900">{service.responseTime}</span>
+                  <div className="flex items-center text-gray-600">
+                    <svg className="w-4 h-4 mr-2 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Response Time:
+                  </div>
+                  <span className="font-medium text-teal-700">{service.responseTime}</span>
                 </div>
               </div>
-
-              {/* CTA Button */}
-              <button className="w-full mt-4 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-teal-600 hover:to-emerald-700 hover:text-white text-gray-700 font-medium py-3 px-4 rounded-lg transition-all duration-300 transform group-hover:scale-105">
-                Learn More →
-              </button>
             </div>
           ))}
         </div>
 
         {/* Service Process Timeline */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-          <div className="text-center mb-8">
+        <div className="bg-gradient-to-r from-white to-teal-50 rounded-2xl shadow-xl border border-teal-100 p-8">
+          <div className="text-center mb-10">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Your Service Journey</h3>
-            <p className="text-gray-600">How our comprehensive services work together for your medical journey</p>
+            <p className="text-gray-600 max-w-2xl mx-auto">How our comprehensive services work together for your medical journey</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
+            <div className="text-center group bg-white/50 p-6 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold group-hover:scale-110 transition-transform duration-300 shadow-lg">
                 1
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-teal-600 transition-colors">Pre-Treatment</h4>
-              <p className="text-sm text-gray-600">Medical consultation, hospital selection, travel arrangements</p>
+              <h4 className="font-bold text-lg text-gray-900 mb-3 group-hover:text-teal-600 transition-colors">Pre-Treatment</h4>
+              <p className="text-gray-600">Medical consultation, hospital selection, travel arrangements</p>
             </div>
             
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
+            <div className="text-center group bg-white/50 p-6 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold group-hover:scale-110 transition-transform duration-300 shadow-lg">
                 2
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">During Treatment</h4>
-              <p className="text-sm text-gray-600">Patient support, family assistance, insurance coordination</p>
+              <h4 className="font-bold text-lg text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors">During Treatment</h4>
+              <p className="text-gray-600">Patient support, family assistance, insurance coordination</p>
             </div>
             
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold group-hover:scale-110 transition-transform duration-300">
+            <div className="text-center group bg-white/50 p-6 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold group-hover:scale-110 transition-transform duration-300 shadow-lg">
                 3
               </div>
-              <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">Post-Treatment</h4>
-              <p className="text-sm text-gray-600">Follow-up care, recovery monitoring, continued support</p>
+              <h4 className="font-bold text-lg text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">Post-Treatment</h4>
+              <p className="text-gray-600">Follow-up care, recovery monitoring, continued support</p>
             </div>
           </div>
         </div>

@@ -93,10 +93,17 @@ function Testimonials() {
   };
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-20 bg-gradient-to-br from-teal-50 via-white to-emerald-50 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-teal-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-64 h-64 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
+      
+      <div className="max-w-7xl mx-auto px-6 relative">
         {/* Section Header */}
         <div className="text-center mb-16">
+          <div className="inline-block bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+            💬 Patient Stories
+          </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
             {t('testimonials.title')}
           </h2>
@@ -113,14 +120,14 @@ function Testimonials() {
               onMouseEnter={() => setIsAutoPlaying(false)}
               onMouseLeave={() => setIsAutoPlaying(true)}
             >
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-teal-100 hover:shadow-2xl transition-all duration-500 group transform hover:-translate-y-2">
                 {/* Stars */}
                 <div className="flex items-center mb-4">
                   {renderStars(testimonials[currentIndex].rating)}
                 </div>
                 
                 {/* Quote */}
-                <blockquote className="text-lg text-gray-700 leading-relaxed mb-6">
+                <blockquote className="text-lg text-gray-700 leading-relaxed mb-6 italic">
                   "{testimonials[currentIndex].text}"
                 </blockquote>
                 
@@ -130,10 +137,10 @@ function Testimonials() {
                     <img
                       src={testimonials[currentIndex].image}
                       alt={testimonials[currentIndex].name}
-                      className="w-12 h-12 rounded-full object-cover"
+                      className="w-16 h-16 rounded-full object-cover border-2 border-teal-200 group-hover:border-teal-400 transition-colors duration-300"
                     />
                     {testimonials[currentIndex].verified && (
-                      <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
+                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full flex items-center justify-center shadow-md">
                         <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
@@ -141,30 +148,34 @@ function Testimonials() {
                     )}
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-900">{testimonials[currentIndex].name}</div>
+                    <div className="font-bold text-gray-900 group-hover:text-teal-700 transition-colors">{testimonials[currentIndex].name}</div>
                     <div className="text-sm text-gray-600">{testimonials[currentIndex].location}</div>
                     <div className="text-xs text-gray-500">{testimonials[currentIndex].date}</div>
                   </div>
                   <div className="text-right">
                     <div className="text-sm text-gray-600">Saved</div>
-                    <div className="font-bold text-green-600">{testimonials[currentIndex].savings}</div>
+                    <div className="font-bold text-emerald-600">{testimonials[currentIndex].savings}</div>
                   </div>
                 </div>
                 
                 {/* Treatment and Hospital */}
-                <div className="mt-4 space-y-2">
+                <div className="mt-6 space-y-3">
                   <div className="flex flex-wrap gap-2">
-                    <span className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
+                    <span className="inline-block bg-gradient-to-r from-teal-100 to-emerald-100 text-teal-800 text-sm px-3 py-1 rounded-full font-medium">
                       {testimonials[currentIndex].treatment}
                     </span>
                     {testimonials[currentIndex].verified && (
-                      <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                      <span className="inline-block bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 text-xs px-2 py-1 rounded-full font-medium">
                         ✓ Verified Patient
                       </span>
                     )}
                   </div>
-                  <div className="text-sm text-gray-600">
-                    📍 {testimonials[currentIndex].hospital}
+                  <div className="text-sm text-gray-600 flex items-center">
+                    <svg className="w-4 h-4 text-teal-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {testimonials[currentIndex].hospital}
                   </div>
                 </div>
               </div>
@@ -177,8 +188,8 @@ function Testimonials() {
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                      index === currentIndex ? 'bg-blue-600 w-8' : 'bg-gray-300 hover:bg-gray-400'
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === currentIndex ? 'bg-gradient-to-r from-teal-500 to-emerald-600 w-8' : 'bg-gray-300 hover:bg-teal-400'
                     }`}
                   />
                 ))}
@@ -187,7 +198,7 @@ function Testimonials() {
               <div className="flex space-x-2">
                 <button
                   onClick={() => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
-                  className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                  className="p-3 text-gray-600 hover:text-teal-600 bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:bg-teal-50"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -195,7 +206,7 @@ function Testimonials() {
                 </button>
                 <button
                   onClick={() => setCurrentIndex((prev) => (prev + 1) % testimonials.length)}
-                  className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                  className="p-3 text-gray-600 hover:text-teal-600 bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 hover:bg-teal-50"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -207,54 +218,73 @@ function Testimonials() {
 
           {/* Statistics */}
           <div className="order-1 lg:order-2">
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-blue-50 rounded-xl p-6 text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">18,500+</div>
-                <div className="text-sm text-gray-600">{t('hero.stats.patientsTreated')}</div>
-                <div className="text-xs text-gray-400 mt-1">Since 2019</div>
+            <div className="grid grid-cols-2 gap-6 mb-8">
+              <div className="bg-gradient-to-br from-teal-50 to-emerald-50 rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-teal-100">
+                <div className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent mb-2">18,500+</div>
+                <div className="text-sm text-gray-700 font-medium">{t('hero.stats.patientsTreated')}</div>
+                <div className="text-xs text-gray-500 mt-1">Since 2019</div>
               </div>
-              <div className="bg-green-50 rounded-xl p-6 text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">94.2%</div>
-                <div className="text-sm text-gray-600">Success Rate</div>
-                <div className="text-xs text-gray-400 mt-1">Verified Outcomes</div>
+              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-emerald-100">
+                <div className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">94.2%</div>
+                <div className="text-sm text-gray-700 font-medium">Success Rate</div>
+                <div className="text-xs text-gray-500 mt-1">Verified Outcomes</div>
               </div>
-              <div className="bg-purple-50 rounded-xl p-6 text-center">
-                <div className="text-3xl font-bold text-purple-600 mb-2">28+</div>
-                <div className="text-sm text-gray-600">{t('searchBar.countries')}</div>
-                <div className="text-xs text-gray-400 mt-1">Active Network</div>
+              <div className="bg-gradient-to-br from-purple-50 to-teal-50 rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-purple-100">
+                <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent mb-2">28+</div>
+                <div className="text-sm text-gray-700 font-medium">{t('searchBar.countries')}</div>
+                <div className="text-xs text-gray-500 mt-1">Active Network</div>
               </div>
-              <div className="bg-orange-50 rounded-xl p-6 text-center">
-                <div className="text-3xl font-bold text-orange-600 mb-2">12min</div>
-                <div className="text-sm text-gray-600">Avg Response</div>
-                <div className="text-xs text-gray-400 mt-1">24/7 Support</div>
+              <div className="bg-gradient-to-br from-orange-50 to-emerald-50 rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow duration-300 border border-orange-100">
+                <div className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-emerald-600 bg-clip-text text-transparent mb-2">12min</div>
+                <div className="text-sm text-gray-700 font-medium">Avg Response</div>
+                <div className="text-xs text-gray-500 mt-1">24/7 Support</div>
               </div>
             </div>
             
             {/* Feature List */}
-            <div className="mt-8 space-y-4">
-              <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700">Free consultation with medical experts</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700">Verified hospitals and doctors</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700">Complete travel and stay assistance</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700">Post-treatment follow-up care</span>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-md border border-teal-100">
+              <h3 className="font-bold text-lg text-gray-900 mb-4">Why Patients Choose Us</h3>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3 group">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-6 h-6 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <span className="text-gray-700 group-hover:text-teal-700 transition-colors">Free consultation with medical experts</span>
+                </div>
+                <div className="flex items-start space-x-3 group">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-6 h-6 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <span className="text-gray-700 group-hover:text-teal-700 transition-colors">Verified hospitals and doctors</span>
+                </div>
+                <div className="flex items-start space-x-3 group">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-6 h-6 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <span className="text-gray-700 group-hover:text-teal-700 transition-colors">Complete travel and stay assistance</span>
+                </div>
+                <div className="flex items-start space-x-3 group">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="w-6 h-6 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <span className="text-gray-700 group-hover:text-teal-700 transition-colors">Post-treatment follow-up care</span>
+                </div>
               </div>
             </div>
           </div>

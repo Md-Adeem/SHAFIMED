@@ -37,7 +37,9 @@ function Navbar() {
 
   // ✅ Role-based navigation items
   const navItems = [
-    { label: t('navigation.about'), path: "/about", icon: "🏠", show: true },
+    { label: "Home", path: "/", icon: "🏠", show: true },
+    { label: t('navigation.about'), path: "/about", icon: "ℹ️", show: true },
+    { label: "Hospitals", path: "/hospitals", icon: "🏥", show: true },
     // Patient-specific navigation
     { label: t('navigation.dashboard'), path: "/dashboard", show: isLoggedIn && role === "patient" },
     { label: "My Cases", path: "/my-cases", show: isLoggedIn && role === "patient" },
@@ -95,7 +97,7 @@ function Navbar() {
                 <Link
                   key={path}
                   to={path}
-                  className="text-gray-700 font-bold transition hover:scale-105"
+                  className="text-gray-700 font-bold transition hover:scale-105 flex items-center"
                 >
                   {icon && <span className="mr-1">{icon}</span>}
                   {label}
@@ -204,13 +206,14 @@ function Navbar() {
             <div className="px-4 py-2 space-y-1">
               {navItems
                 .filter((i) => i.show)
-                .map(({ label, path }) => (
+                .map(({ label, path, icon }) => (
                   <Link
                     key={path}
                     to={path}
-                    className="block px-3 py-2 text-gray-700 font-medium hover:bg-teal-50 hover:text-teal-600 rounded-lg"
+                    className="block px-3 py-2 text-gray-700 font-medium hover:bg-teal-50 hover:text-teal-600 rounded-lg flex items-center"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
+                    {icon && <span className="mr-2">{icon}</span>}
                     {label}
                   </Link>
                 ))}

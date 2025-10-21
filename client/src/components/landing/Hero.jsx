@@ -15,12 +15,12 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   const { t } = useTranslation();
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-blue-50 overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-teal-50 via-emerald-50 to-teal-100 overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-72 h-72 bg-teal-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
         <div className="absolute top-40 right-10 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-2000"></div>
-        <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-4000"></div>
+        <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-teal-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-4000"></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
@@ -28,7 +28,7 @@ const Hero = () => {
           {/* Left Content - 7 columns */}
           <div className="lg:col-span-7 text-center lg:text-left">
             {/* Trust badge */}
-            <div className="inline-flex items-center px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 rounded-full text-sm font-medium mb-6 shadow-md">
               <FaShieldAlt className="mr-2" />
               {t("hero.trustBadge")}
             </div>
@@ -39,7 +39,7 @@ const Hero = () => {
             </h1>
 
             {/* Subheading */}
-            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl">
+            <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-2xl">
               {t("hero.subtitle")}
             </p>
 
@@ -47,12 +47,12 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <Link to="/login">
                 <button className="group bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-                  {/* {t("hero.Get started")} */} Get Started
+                  Get Started
                 </button>
               </Link>
 
               <Link to="/signup">
-                <button className="group border-2 border-teal-600 text-teal-700 hover:bg-teal-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-lg">
+                <button className="group bg-white border-2 border-teal-600 text-teal-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-lg">
                   {t("hero.emergencyCare")} 
                 </button>
               </Link>
@@ -60,35 +60,35 @@ const Hero = () => {
 
             {/* Feature highlights */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <FaUserMd className="text-blue-600 text-xl" />
+              <div className="text-center group">
+                <div className="w-12 h-12 bg-gradient-to-br from-teal-100 to-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:from-teal-200 group-hover:to-emerald-200 transition-all duration-300">
+                  <FaUserMd className="text-teal-600 text-xl" />
                 </div>
-                <p className="text-sm font-medium text-gray-700">
+                <p className="text-sm font-medium text-gray-700 group-hover:text-teal-700 transition-colors">
                   {t("hero.features.expertDoctors")}
                 </p>
               </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <FaClock className="text-green-600 text-xl" />
+              <div className="text-center group">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:from-emerald-200 group-hover:to-teal-200 transition-all duration-300">
+                  <FaClock className="text-emerald-600 text-xl" />
                 </div>
-                <p className="text-sm font-medium text-gray-700">
+                <p className="text-sm font-medium text-gray-700 group-hover:text-emerald-700 transition-colors">
                   {t("hero.features.available247")}
                 </p>
               </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <div className="text-center group">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-teal-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:from-purple-200 group-hover:to-teal-200 transition-all duration-300">
                   <FaGlobe className="text-purple-600 text-xl" />
                 </div>
-                <p className="text-sm font-medium text-gray-700">
+                <p className="text-sm font-medium text-gray-700 group-hover:text-purple-700 transition-colors">
                   {t("hero.features.globalReach")}
                 </p>
               </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <div className="text-center group">
+                <div className="w-12 h-12 bg-gradient-to-br from-yellow-100 to-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:from-yellow-200 group-hover:to-emerald-200 transition-all duration-300">
                   <FaAward className="text-yellow-600 text-xl" />
                 </div>
-                <p className="text-sm font-medium text-gray-700">
+                <p className="text-sm font-medium text-gray-700 group-hover:text-yellow-700 transition-colors">
                   {t("hero.features.awardWinning")}
                 </p>
               </div>
@@ -98,9 +98,9 @@ const Hero = () => {
           {/* Right Content - 5 columns */}
           <div className="lg:col-span-5">
             {/* Success Story Card */}
-            <div className="bg-white rounded-2xl shadow-2xl p-8 relative">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-8 relative border border-teal-100 hover:shadow-3xl transition-all duration-300">
               {/* Floating stats */}
-              <div className="absolute -top-4 -right-4 bg-blue-600 text-white rounded-xl p-4 shadow-lg">
+              <div className="absolute -top-4 -right-4 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-xl p-4 shadow-lg">
                 <div className="text-center">
                   <div className="text-2xl font-bold">94.7%</div>
                   <div className="text-xs">Success Rate</div>
@@ -112,7 +112,7 @@ const Hero = () => {
                   <img
                     src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=80&h=80&fit=crop&crop=face"
                     alt="Patient"
-                    className="w-16 h-16 rounded-full mr-4"
+                    className="w-16 h-16 rounded-full mr-4 border-2 border-teal-200"
                   />
                   <div>
                     <h3 className="font-semibold text-gray-900">
@@ -141,13 +141,13 @@ const Hero = () => {
               </div>
 
               {/* Quick stats */}
-              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200">
+              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-teal-100">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">12h</div>
+                  <div className="text-2xl font-bold text-teal-600">12h</div>
                   <div className="text-xs text-gray-600">Avg Response</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">847</div>
+                  <div className="text-2xl font-bold text-emerald-600">847</div>
                   <div className="text-xs text-gray-600">Specialists</div>
                 </div>
                 <div className="text-center">
@@ -159,10 +159,10 @@ const Hero = () => {
               </div>
 
               {/* Medical icons decoration */}
-              <div className="absolute -bottom-2 -left-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-3 shadow-lg">
+              <div className="absolute -bottom-2 -left-2 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-full p-3 shadow-lg">
                 <FaStethoscope className="text-white text-xl" />
               </div>
-              <div className="absolute top-1/2 -right-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-full p-2 shadow-lg">
+              <div className="absolute top-1/2 -right-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full p-2 shadow-lg">
                 <FaHospital className="text-white text-sm" />
               </div>
             </div>
@@ -170,37 +170,37 @@ const Hero = () => {
         </div>
 
         {/* Bottom stats section */}
-        <div className="mt-16 pt-16 border-t border-gray-200">
+        <div className="mt-16 pt-16 border-t border-teal-200">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            <div className="group">
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent mb-2">
                 50k+
               </div>
-              <div className="text-gray-600">
+              <div className="text-gray-700 group-hover:text-teal-700 transition-colors">
                 {t("hero.stats.patientsTreated")}
               </div>
             </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            <div className="group">
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">
                 500+
               </div>
-              <div className="text-gray-600">
+              <div className="text-gray-700 group-hover:text-emerald-700 transition-colors">
                 {t("hero.stats.expertDoctors")}
               </div>
             </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            <div className="group">
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent mb-2">
                 50+
               </div>
-              <div className="text-gray-600">
+              <div className="text-gray-700 group-hover:text-purple-700 transition-colors">
                 {t("hero.stats.specializations")}
               </div>
             </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            <div className="group">
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-2">
                 24/7
               </div>
-              <div className="text-gray-600">
+              <div className="text-gray-700 group-hover:text-blue-700 transition-colors">
                 {t("hero.stats.supportAvailable")}
               </div>
             </div>

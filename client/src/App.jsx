@@ -26,6 +26,8 @@ import RunningCases from "./Features/Facilitator/RunningCases";
 import Responded from "./Features/Facilitator/Responded";
 import Failed from "./Features/Facilitator/Failed";
 import About from "./pages/About";
+import Hospitals from "./pages/Hospitals";
+import ScrollToTop from "./components/ScrollToTop";
 // import Test from "./Features/Facilitator/Test";
 // import Running from "./Features/Facilitator/";
 // import RunningCases from "./Features/Facilitator/";
@@ -42,8 +44,10 @@ function App() {
   return (
     <>
       {!hideNavbar && <Navbar />}
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/hospitals" element={<Hospitals />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

@@ -71,37 +71,45 @@ const specialties = [
 
 const SpecialtiesGrid = () => {
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-20 bg-gradient-to-br from-teal-50 via-white to-emerald-50 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-teal-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-64 h-64 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
+      
+      <div className="max-w-7xl mx-auto px-6 relative">
         <div className="text-center mb-16">
-          <h2 className="font-heading text-3xl lg:text-4xl font-extrabold text-slate-900 mb-4">
+          <div className="inline-block bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+            🏥 Medical Specialties
+          </div>
+          <h2 className="font-heading text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
             Multi-Specialty <span className="text-teal-600">Focus</span>
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             We cover all medical needs, from hair transplants to heart transplants.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {specialties.map((specialty) => (
+          {specialties.map((specialty, index) => (
             <div 
               key={specialty.name}
-              className="group bg-white rounded-xl shadow-lg shadow-slate-200/60 hover:shadow-xl hover:shadow-slate-300/70 p-6 flex items-center space-x-6 transition-all duration-300 hover:-translate-y-2"
+              className="group bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-teal-100 p-6 flex items-center space-x-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="flex-shrink-0 text-teal-500 bg-teal-50 p-4 rounded-lg">
+              <div className="flex-shrink-0 bg-gradient-to-br from-teal-500 to-emerald-600 text-white p-4 rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                 {specialty.icon}
               </div>
               <div className="flex-1">
-                <h3 className="font-bold text-lg text-slate-800 group-hover:text-teal-600 transition-colors">
+                <h3 className="font-bold text-lg text-gray-900 group-hover:text-teal-700 transition-colors">
                   {specialty.name}
                 </h3>
-                <p className="text-sm text-slate-600 mt-1">
+                <p className="text-sm text-gray-600 mt-1">
                   {specialty.description}
                 </p>
               </div>
-              {/* <div className="text-red-400 group-hover:text-red-500 transition-colors">
+              <div className="text-teal-400 group-hover:text-teal-600 transition-colors opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0">
                 <BsPlusCircleFill className="w-6 h-6" />
-              </div> */}
+              </div>
             </div>
           ))}
         </div>
