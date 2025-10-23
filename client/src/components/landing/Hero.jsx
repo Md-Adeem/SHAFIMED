@@ -45,17 +45,29 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <Link to="/login">
-                <button className="group bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-                  Get Started
-                </button>
-              </Link>
+              {/* Red "Let's Help" button */}
+              <button className="group bg-gradient-to-r from-red-600 to-rose-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                Let’s Help
+              </button>
 
-              <Link to="/signup">
-                <button className="group bg-white border-2 border-teal-600 text-teal-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-emerald-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-lg">
-                  {t("hero.emergencyCare")} 
+              {/* WhatsApp Chat button */}
+              <a
+                href="https://wa.me/+919565188938" // Replace with your actual WhatsApp number, e.g. 15551234567 (no '+' or spaces)
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="group bg-white border-2 border-green-600 text-green-700 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-lg flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6 text-green-600"
+                  >
+                    <path d="M12 2C6.477 2 2 6.266 2 11.5c0 2.022.626 3.939 1.804 5.563L2 22l5.111-1.767C8.016 21.191 9.982 21.9 12 21.9c5.523 0 10-4.266 10-9.5S17.523 2 12 2zm0 17.9c-1.741 0-3.447-.564-4.864-1.606l-.349-.25-3.036 1.05 1.037-2.958-.228-.31C3.831 15.137 3.4 13.354 3.4 11.5 3.4 7.361 7.26 4 12 4s8.6 3.361 8.6 7.5-3.86 7.4-8.6 7.4zm4.211-5.037c-.231-.116-1.363-.674-1.574-.75-.211-.077-.365-.116-.519.116-.154.231-.595.75-.73.904-.135.154-.269.173-.5.058-.231-.115-.975-.359-1.857-1.143-.687-.607-1.151-1.354-1.286-1.585-.134-.231-.014-.356.101-.471.104-.104.231-.269.346-.404.115-.135.154-.231.231-.385.077-.154.038-.289-.019-.404-.058-.115-.519-1.25-.712-1.711-.187-.449-.376-.388-.519-.396l-.442-.008c-.154 0-.404.058-.617.289-.211.231-.808.789-.808 1.923s.828 2.232.943 2.385c.115.154 1.63 2.487 3.946 3.482.552.238.982.381 1.318.487.554.176 1.057.151 1.456.092.444-.066 1.363-.556 1.554-1.093.191-.537.191-.996.134-1.093-.057-.097-.211-.154-.442-.27z" />
+                  </svg>
+                  Chat on WhatsApp
                 </button>
-              </Link>
+              </a>
             </div>
 
             {/* Feature highlights */}
