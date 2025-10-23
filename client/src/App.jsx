@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./Features/Auth/Login";
 import Signup from "./Features/Auth/Signup";
@@ -28,6 +28,7 @@ import Failed from "./Features/Facilitator/Failed";
 import About from "./pages/About";
 import Hospitals from "./pages/Hospitals";
 import ScrollToTop from "./components/ScrollToTop";
+import AppNavbar from "./components/AppNavbar";
 // import Test from "./Features/Facilitator/Test";
 // import Running from "./Features/Facilitator/";
 // import RunningCases from "./Features/Facilitator/";
@@ -43,7 +44,7 @@ function App() {
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
+      {!hideNavbar && <AppNavbar />}
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
