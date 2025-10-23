@@ -69,7 +69,7 @@ const specialties = [
   }
 ];
 
-const SpecialtiesGrid = () => {
+const MultiSpecialtyFocus = () => {
   return (
     <section className="py-20 bg-gradient-to-br from-teal-50 via-white to-emerald-50 relative overflow-hidden">
       {/* Background Elements */}
@@ -118,4 +118,4 @@ const SpecialtiesGrid = () => {
   );
 };
 
-export default SpecialtiesGrid;
+export default MultiSpecialtyFocus;

@@ -45,12 +45,25 @@ function Navbar() {
   }, []);
 
   const leftNavItems = [
-    { label: "🏠 Home", path: "/", show: true },
-    { label: " Cost", action: () => handleScrollToSection("quote"), show: true },
-    { label: " Hospitals", path: "/hospitals", show: true },
-    { label: " Our Services", action: () => handleScrollToSection("services"), show: true },
-    { label: " Your Journey", action: () => handleScrollToSection("journey"), show: true },
+    { label: "Home",action: () => handleScrollToSection("hero-section"), show: true },
+    {
+      label: "Lowest Quotes",
+      action: () => handleScrollToSection("lowest-quotes"),
+      show: true,
+    },
+    {
+      label: "Hospitals",
+      action: () => handleScrollToSection("hospitals-strip"),
+      show: true,
+    },
+    {
+      label: "Amenities",
+      action: () => handleScrollToSection("services"),
+      show: true,
+    },
+    
     { label: " About", path: "/about", show: true },
+    { label: " Contact", path: "/contact", show: true },
   ];
 
   const navbarStyle = isScrolled
@@ -58,14 +71,13 @@ function Navbar() {
     : "bg-white/90 backdrop-blur-md shadow border-b border-gray-100";
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${navbarStyle}`}>
+    <nav
+      className={`fixed w-full z-50 transition-all duration-300 ${navbarStyle}`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-
           {/* Left Section */}
           <div className="flex items-center gap-8">
-           
-
             <div className="hidden md:flex items-center gap-6">
               {leftNavItems
                 .filter((item) => item.show)
@@ -96,23 +108,21 @@ function Navbar() {
             <LanguageSwitcher />
 
             {!isLoggedIn ? (
-           <>
-            <Link
-    to="/login"
-    className="px-5 py-2 text-sm font-semibold text-white hover:text-white hover:scale-105 transition-all duration-100 rounded-full bg-teal-700 hover:bg-teal-800"
-  >
-    {t("auth.login")}
-  </Link>
+              <>
+                <Link
+                  to="/login"
+                  className="px-5 py-2 text-sm font-semibold text-white hover:text-white hover:scale-105 transition-all duration-100 rounded-full bg-teal-700 hover:bg-teal-800"
+                >
+                  {t("auth.login")}
+                </Link>
 
-  <Link
-    to="/signup"
-    className="px-5 py-2 text-sm font-semibold bg-white text-teal-700 rounded-full shadow hover:scale-105 hover:bg-white/90 hover:shadow-lg transition-all duration-300"
-  >
-    {t("auth.signup")}
-  </Link>
-           </>
-
-
+                <Link
+                  to="/signup"
+                  className="px-5 py-2 text-sm font-semibold bg-white text-teal-700 rounded-full shadow hover:scale-105 hover:bg-white/90 hover:shadow-lg transition-all duration-300"
+                >
+                  {t("auth.signup")}
+                </Link>
+              </>
             ) : (
               <div className="flex items-center gap-4">
                 <button

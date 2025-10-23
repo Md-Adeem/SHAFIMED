@@ -39,7 +39,7 @@ const treatments = [
   { name: "Hysterectomy", price: "$3000", icon: <GiBodyHeight size={32} /> },
 ];
 
-const MultiSpecialtyFocus = () => {
+const Quotes = () => {
   return (
     <section className="py-20 bg-gradient-to-br from-teal-50 via-white to-emerald-50 relative overflow-hidden">
       {/* Background Elements */}
@@ -110,4 +110,4 @@ const MultiSpecialtyFocus = () => {
   );
 };
 
-export default MultiSpecialtyFocus;
+export default Quotes;
