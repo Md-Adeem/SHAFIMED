@@ -295,7 +295,7 @@ function FAQSection() {
         </div>
 
         {/* Contact CTA */}
-        <div className="mt-16 bg-gradient-to-r from-white to-teal-50 rounded-2xl shadow-xl border border-teal-100 p-8 text-center">
+        {/* <div className="mt-16 bg-gradient-to-r from-white to-teal-50 rounded-2xl shadow-xl border border-teal-100 p-8 text-center">
           <h3 className="text-2xl font-bold text-gray-900 mb-4">Still Have Questions?</h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
             Our medical experts are available 24/7 to answer your specific questions and provide personalized guidance
@@ -307,10 +307,10 @@ function FAQSection() {
             <button className="bg-white border-2 border-teal-600 text-teal-600 hover:bg-teal-50 font-semibold py-4 px-8 rounded-xl shadow hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
               💬 Start Live Chat
             </button>
-          </div>
+          </div> */}
           
           {/* Contact Methods */}
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+          {/* <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
             <div className="text-center p-4 bg-white/50 rounded-lg border border-teal-100">
               <div className="text-teal-600 font-semibold">Phone Support</div>
               <div className="text-sm text-gray-600">+971-4-589-2847</div>
@@ -324,7 +324,7 @@ function FAQSection() {
               <div className="text-sm text-gray-600">saafimedindia@gmail.com</div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

@@ -48,11 +48,11 @@ const MultiSpecialtyFocus = () => {
       
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className="text-center mb-16">
-          <div className="inline-block bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+          {/* <div className="inline-block bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
             💰 Lowest Quotes Assured
-          </div>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-            Multi-Specialty <span className="text-teal-600">Focus</span>
+          </div> */}
+          <h2 className="font-heading text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
+            Lowest Quotes <span className="text-teal-600">Assured</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             We constantly negotiate better prices and alternatives without
