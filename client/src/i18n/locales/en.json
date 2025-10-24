@@ -378,7 +378,7 @@
     "title": "Our Partner Hospitals",
     "subtitle": "Trusted healthcare institutions worldwide",
     "topHospitalsTitle": "Top Hospitals in New Delhi",
-    "topHospitalsSubtitle": "Curated list of world-class hospitals in New Delhi from Vaidam Health.",
+    "topHospitalsSubtitle": "Curated list of world-class hospitals in New Delhi.",
     "beds": "Beds",
     "established": "Established",
     "accreditations": "Accreditations",
@@ -485,10 +485,10 @@
     "ourOffices": "Our Offices",
     "ourOfficesDescription": "Visit our offices or reach out to our regional teams for localized support.",
     "headOffice": "Head Office",
-    "headOfficeAddress": "123 Healthcare Avenue, New Delhi, India",
+    "headOfficeAddress": "Abu Fazal Enclave, Okhla, India",
     "regionalOffice": "Regional Office",
     "regionalOfficeAddress": "456 Medical Plaza, Mumbai, India",
-    "internationalOffice": "International Office",
-    "internationalOfficeAddress": "789 Wellness Tower, Dubai, UAE"
+    "internationalOffice": "Global HQ",
+    "internationalOfficeAddress": "Business Bay, Dubai, UAE"
   }
 }
