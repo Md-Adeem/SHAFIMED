@@ -29,6 +29,7 @@ import About from "./pages/About";
 import Hospitals from "./pages/Hospitals";
 import ScrollToTop from "./components/ScrollToTop";
 import AppNavbar from "./components/AppNavbar";
+import QuotesList from "./Features/Facilitator/QuotesList";
 // import Test from "./Features/Facilitator/Test";
 // import Running from "./Features/Facilitator/";
 // import RunningCases from "./Features/Facilitator/";
@@ -161,6 +162,15 @@ function App() {
             </RoleRoute>
           }
         />
+        <Route path="/facilitator" element={<RoleRoute allow={["facilitator"]}><FacilitatorDashboard /></RoleRoute>} />
+        <Route path="/facilitator/cases" element={<RoleRoute allow={["facilitator"]}><AllCases /></RoleRoute>} />
+        <Route path="/facilitator/pending" element={<RoleRoute allow={["facilitator"]}><PendingCases /></RoleRoute>} />
+        <Route path="/facilitator/running-cases" element={<RoleRoute allow={["facilitator"]}><RunningCases /></RoleRoute>} />
+        <Route path="/facilitator/inprogress" element={<RoleRoute allow={["facilitator"]}><InProgress /></RoleRoute>} />
+        <Route path="/facilitator/followups" element={<RoleRoute allow={["facilitator"]}><FollowUps /></RoleRoute>} />
+        <Route path="/facilitator/rejected" element={<RoleRoute allow={["facilitator"]}><Failed /></RoleRoute>} />
+        <Route path="/facilitator/closed" element={<RoleRoute allow={["facilitator"]}><Responded /></RoleRoute>} />
+        <Route path="/facilitator/quotes" element={<RoleRoute allow={["facilitator"]}><QuotesList /></RoleRoute>} />
         {/* <Route path="/facilitator/test" element={<RoleRoute allow={["facilitator"]}><Test /></RoleRoute>} /> */}
         {/* <Route path="/facilitator/running-cases" element={<RoleRoute allow={["facilitator"]}><RunningCases /></RoleRoute>} /> */}
         <Route
