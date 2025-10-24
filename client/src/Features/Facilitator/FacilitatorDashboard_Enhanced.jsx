@@ -194,6 +194,7 @@ export default function FacilitatorDashboard() {
     { label: t('myCases.rejected'), value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
     { label: t('facilitator.totalCases'), value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
     { label: t('facilitator.failedCases'), value: stats.failed, color: "bg-gray-50", icon: "📋", statusQuery: "Failed Cases" },
+    // { label: t('facilitator.quotes'), value: stats.unknown, color: "bg-gray-50", icon: "❓", statusQuery: "quotes" },
    
   ];
 

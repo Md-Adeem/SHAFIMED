@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/User.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import PatientProfile from "../models/PatientProfile.js";
+import authFacilitator from "../middleware/authFacilitator.js";
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.get("/doctors", authMiddleware, async (req, res) => {
 });
 
 // GET - Fetch all users (admin only)
-router.get("/", authMiddleware, async (req, res) => {
+router.get("/", authMiddleware, authFacilitator, async (req, res) => {
   try {
     // Only facilitators can access this
     if (req.user.role !== "facilitator") {
@@ -32,11 +33,8 @@ router.get("/", authMiddleware, async (req, res) => {
 
 
 // GET - Patients list with profile (facilitators only)
-router.get("/patients", authMiddleware, async (req, res) => {
+router.get("/patients", authMiddleware, authFacilitator, async (req, res) => {
   try {
-    if (req.user.role !== "facilitator") {
-      return res.status(403).json({ message: "Access denied" });
-    }
     const patients = await User.find({ role: "patient" }).select("-password");
     const patientIds = patients.map(p => p._id);
     const profiles = await PatientProfile.find({ userId: { $in: patientIds } });

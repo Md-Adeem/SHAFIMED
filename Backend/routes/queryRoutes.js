@@ -5,6 +5,7 @@ import PatientProfile from "../models/PatientProfile.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import { doctors } from "../utils/doctors.js";
 import User from "../models/User.js";
+import authFacilitator from "../middleware/authFacilitator.js";
 const router = express.Router();
 
 // Setup file storage with multer
@@ -112,7 +113,7 @@ router.get("/my", authMiddleware, async (req, res) => {
 });
 
 // GET - fetch all cases (facilitators only) with filtering
-router.get("/", authMiddleware, requireFacilitator, async (req, res) => {
+router.get("/", authMiddleware, authFacilitator, async (req, res) => {
   try {
     const { status, department, q, ref } = req.query;
     const filter = {};
@@ -150,7 +151,7 @@ router.get("/", authMiddleware, requireFacilitator, async (req, res) => {
 });
 
 // GET - fetch single case by reference id (facilitators only)
-router.get("/ref/:ref", authMiddleware, requireFacilitator, async (req, res) => {
+router.get("/ref/:ref", authMiddleware,  authFacilitator, async (req, res) => {
   try {
     // Fetch the query and populate patient and doctor info
     const query = await Query.findOne({ referenceId: req.params.ref })
@@ -177,7 +178,7 @@ router.get("/ref/:ref", authMiddleware, requireFacilitator, async (req, res) => 
 
 
 // GET - analytics summary (facilitators only)
-router.get("/analytics/summary", authMiddleware, requireFacilitator, async (req, res) => {
+router.get("/analytics/summary", authMiddleware, authFacilitator, async (req, res) => {
   try {
     const [byStatus, byDepartment, totals] = await Promise.all([
       Query.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }]),
@@ -194,7 +195,7 @@ router.get("/analytics/summary", authMiddleware, requireFacilitator, async (req,
 });
 
 // PUT - Update query (assign doctor, update status, add response) - facilitator only
-router.put("/:id", authMiddleware, async (req, res) => {
+router.put("/:id", authMiddleware, authFacilitator, async (req, res) => {
   try {
     const { id } = req.params;
     const { status, assignedDoctorId, response, department } = req.body;
@@ -223,10 +224,10 @@ router.put("/:id", authMiddleware, async (req, res) => {
 });
 
 // GET - list of doctors from DB (role: doctor)
-router.get("/doctors/list", authMiddleware, requireFacilitator, async (req, res) => {
+router.get("/doctors/list", authMiddleware, authFacilitator, async (req, res) => {
   try {
     const doctors = await User.find({ role: "doctor" }).select("name email specialization");
-    res.json(doctors);
+    res.json({ message: "Doctor List fetched successfully", data: doctors });
   } catch (error) {
     console.error("Doctor list fetch error:", error);
     res.status(500).json({ message: "Failed to fetch doctors" });
@@ -235,7 +236,7 @@ router.get("/doctors/list", authMiddleware, requireFacilitator, async (req, res)
 
 
 // GET - Running cases (Assigned doctor)
-router.get("/running", authMiddleware, async (req, res) => {
+router.get("/running", authMiddleware, authFacilitator, async (req, res) => {
   try {
     const runningCases = await Query.find({ assignedDoctorId: { $ne: null }, status: { $nin: ["Responded", "Closed"] } })
       .populate("patientId", "name email")
