@@ -44,8 +44,11 @@ const Quotes = () => {
     <section className="py-20 bg-gradient-to-br from-teal-50 via-white to-emerald-50 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-teal-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-      <div className="absolute bottom-0 right-0 w-64 h-64 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
-      
+      <div
+        className="absolute bottom-0 right-0 w-64 h-64 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"
+        style={{ animationDelay: "2s" }}
+      ></div>
+
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className="text-center mb-16">
           {/* <div className="inline-block bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
@@ -71,16 +74,30 @@ const Quotes = () => {
               <div className="flex justify-center mb-4 text-teal-600 group-hover:text-teal-700 transition-colors">
                 {item.icon}
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-3 text-center group-hover:text-teal-700 transition-colors">{item.name}</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-3 text-center group-hover:text-teal-700 transition-colors">
+                {item.name}
+              </h3>
               <div className="mt-auto">
                 <p className="text-gray-600 text-center mb-4">
                   Starting at{" "}
-                  <span className="font-bold text-teal-700 text-lg">{item.price}</span>
+                  <span className="font-bold text-teal-700 text-lg">
+                    {item.price}
+                  </span>
                 </p>
                 <button className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg hover:from-teal-600 hover:to-emerald-600 transition-all duration-300 inline-flex items-center justify-center">
                   Get Free Quote
-                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg
+                    className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 </button>
               </div>
@@ -96,14 +113,21 @@ const Quotes = () => {
             </button>
           </Link>
 
-          <Link to="/chat">
-            <button
-              onClick={() => window.open("https://wa.me/9565188938", "_blank")}
-              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
-            >
-              Chat with Expert
-            </button>
-          </Link>
+          <button
+            onClick={() => {
+              const message = encodeURIComponent(
+                `Hello Team ShaafiMed International,
+
+I am interested in your medical services and would appreciate more information about the treatments and facilities you offer. Kindly provide the relevant details at your earliest convenience.
+
+Thank you very much.`
+              );
+              window.open(`https://wa.me/919198986796?text=${message}`, "_blank");
+            }}
+            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+          >
+            Chat with Expert
+          </button>
         </div>
       </div>
     </section>

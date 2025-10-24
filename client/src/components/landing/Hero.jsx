@@ -52,7 +52,13 @@ const Hero = () => {
 
               {/* WhatsApp Chat button */}
               <a
-                href="https://wa.me/+919565188938" // Replace with your actual WhatsApp number, e.g. 15551234567 (no '+' or spaces)
+                href={`https://wa.me/919198986796?text=${encodeURIComponent(
+                  `Hello Team ShaafiMed International,
+
+I am interested in your medical services and would appreciate more information about the treatments and facilities you offer. Kindly provide the relevant details at your earliest convenience.
+
+Thank you very much.`
+                )}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
