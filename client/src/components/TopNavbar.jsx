@@ -25,7 +25,7 @@ const TopNavbar = () => {
             <span
               className="text-2xl font-extrabold transition-colors text-white"
             >
-              ShaafiMed
+              ShaafiMed - International
             </span>
           </Link>
 
