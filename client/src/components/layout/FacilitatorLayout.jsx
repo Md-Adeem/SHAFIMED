@@ -48,6 +48,7 @@ function FacilitatorLayout({ title, actions, children }) {
           {/* Patients / Departments */}
           <div className="mt-2 border-t border-gray-800 shadow-lg pt-2 space-y-1">
             <button onClick={() => go("/facilitator/patients")} className={sidebarBtn}>🧑‍🤝‍🧑 Patients On Platform</button>
+            <button onClick={() => go("/facilitator/quotes")} className={sidebarBtn}>💬 Query Log</button>
             <button onClick={() => go("/facilitator/departments")} className={sidebarBtn}>🏥 Departments</button>
             <button onClick={() => go("/facilitator/case-by-ref")} className={sidebarBtn}>🔍 By Ref ID</button>
           </div>

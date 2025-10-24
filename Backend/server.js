@@ -7,6 +7,8 @@ import userRoutes from "./routes/userRoutes.js";
 import queryRoutes from "./routes/queryRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import connectDB from "./config/db.js";
+import quotesRoutes from "./routes/quotesRoutes.js";
+// import doctorRoutes from "./routes/doctorRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -59,6 +61,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/queries", queryRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/quotes", quotesRoutes);
+// app.use("/api/doctors", doctorRoutes); // Moved doctor routes to queryRoutes.js duplicate entry
 
 // Global error handling middleware
 app.use((err, req, res, next) => {

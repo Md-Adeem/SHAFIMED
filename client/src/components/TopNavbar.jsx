@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { useState } from "react";
+import QuoteModal from "./ui/QuoteModal";
 
 const TopNavbar = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-2 shadow-sm">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 text-sm">
@@ -34,10 +37,13 @@ const TopNavbar = () => {
         {/* Right - Actions */}
         <div className="flex items-center  gap-3">
           
-          <button className="bg-red-600 hover:bg-red-700 px-7 py-3 text-white rounded-md text-sm font-semibold">
+          <button onClick={() => setIsModalOpen(true)} className="bg-red-600 hover:bg-red-700 px-7 py-3 text-white rounded-md text-sm font-semibold">
             Get Quote
           </button>
         </div>
+
+        {/* Quote Modal */}
+        <QuoteModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </div>
     </div>
   );
