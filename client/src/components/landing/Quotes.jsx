@@ -1,9 +1,10 @@
+import { useState } from "react";
+import QuoteModal from "../ui/QuoteModal"; // make sure path is correct
 import {
   GiKneeCap,
   GiFemale,
   GiHairStrands,
   GiBodyHeight,
-  GiHeartOrgan,
 } from "react-icons/gi";
 import {
   FaUserMd,
@@ -25,21 +26,21 @@ const treatments = [
   { name: "Breast Cancer", price: "$5000", icon: <FaStethoscope size={32} /> },
   { name: "Lung Cancer", price: "$5500", icon: <FaLungs size={32} /> },
   { name: "Rhinoplasty", price: "$1800", icon: <FaCut size={32} /> },
-  {
-    name: "Breast Implants",
-    price: "$2750",
-    icon: <FaStethoscope size={32} />,
-  },
-  {
-    name: "Hair Transplant",
-    price: "$1400",
-    icon: <GiHairStrands size={32} />,
-  },
+  { name: "Breast Implants", price: "$2750", icon: <FaStethoscope size={32} /> },
+  { name: "Hair Transplant", price: "$1400", icon: <GiHairStrands size={32} /> },
   { name: "Cervical Cancer", price: "$4500", icon: <GiFemale size={32} /> },
   { name: "Hysterectomy", price: "$3000", icon: <GiBodyHeight size={32} /> },
 ];
 
 const Quotes = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTreatment, setSelectedTreatment] = useState(null);
+
+  const handleOpenModal = (treatment) => {
+    setSelectedTreatment(treatment || null); // optional parameter
+    setIsModalOpen(true);
+  };
+
   return (
     <section className="py-20 bg-gradient-to-br from-teal-50 via-white to-emerald-50 relative overflow-hidden">
       {/* Background Elements */}
@@ -51,9 +52,6 @@ const Quotes = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative">
         <div className="text-center mb-16">
-          {/* <div className="inline-block bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
-            💰 Lowest Quotes Assured
-          </div> */}
           <h2 className="font-heading text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
             Lowest Quotes <span className="text-teal-600">Assured</span>
           </h2>
@@ -69,7 +67,6 @@ const Quotes = () => {
             <div
               key={index}
               className="group bg-white/90 backdrop-blur-sm border border-teal-100 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full"
-              style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="flex justify-center mb-4 text-teal-600 group-hover:text-teal-700 transition-colors">
                 {item.icon}
@@ -84,7 +81,10 @@ const Quotes = () => {
                     {item.price}
                   </span>
                 </p>
-                <button className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg hover:from-teal-600 hover:to-emerald-600 transition-all duration-300 inline-flex items-center justify-center">
+                <button
+                  onClick={() => handleOpenModal(item.name)}
+                  className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg hover:from-teal-600 hover:to-emerald-600 transition-all duration-300 inline-flex items-center justify-center"
+                >
                   Get Free Quote
                   <svg
                     className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
@@ -107,11 +107,12 @@ const Quotes = () => {
 
         {/* Bottom Buttons */}
         <div className="mt-16 flex flex-col sm:flex-row justify-center gap-6">
-          <Link to="/signup">
-            <button className="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-              Get Free Quote
-            </button>
-          </Link>
+          <button
+            onClick={() => handleOpenModal()}
+            className="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+          >
+            Get Free Quote
+          </button>
 
           <button
             onClick={() => {
@@ -130,6 +131,13 @@ Thank you very much.`
           </button>
         </div>
       </div>
+
+      {/* Quote Modal */}
+      <QuoteModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        treatment={selectedTreatment}
+      />
     </section>
   );
 };
