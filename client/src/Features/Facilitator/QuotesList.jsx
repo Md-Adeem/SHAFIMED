@@ -4,6 +4,8 @@ import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
+import QuotesShimmer from "../../components/ui/QuotesShimmer";
+
 
 export default function QuotesList() {
   const { t } = useTranslation();
@@ -73,12 +75,15 @@ export default function QuotesList() {
     }
   };
 
+
+
   if (loading)
-    return (
-      <FacilitatorLayout>
-        <p className="text-center text-gray-500 mt-10">Loading quotes...</p>
-      </FacilitatorLayout>
-    );
+  return (
+    <FacilitatorLayout title={t("facilitator.quotes")}>
+      <QuotesShimmer />
+    </FacilitatorLayout>
+  );
+
 
   if (error)
     return (

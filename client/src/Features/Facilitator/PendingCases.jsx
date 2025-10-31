@@ -6,6 +6,8 @@ import Button from "../../components/ui/Button";
 import CasesTable from "./CasesTable";
 import { Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import dayjs from "dayjs";
+import TableShimmer from "../../components/ui/TableShimmer";
+
 
 export default function PendingCases() {
   const { t } = useTranslation();
@@ -116,11 +118,11 @@ const groupedCases = useMemo(() => {
     }
   >
     {loading ? (
-      <div className="flex justify-center items-center py-10 text-gray-500">
-        <Loader2 className="h-6 w-6 animate-spin mr-2" />
-        {t("facilitator.loadingCases")}
-      </div>
-    ) : Object.keys(groupedCases).length === 0 ? (
+  <div className="p-4">
+    <TableShimmer rows={8} columns={6} /> 
+  </div>
+) : Object.keys(groupedCases).length === 0 ? (
+
       <div className="text-center py-10 text-gray-500">
         {t("facilitator.noCasesAvailable")}
       </div>
