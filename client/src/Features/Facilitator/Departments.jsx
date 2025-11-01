@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import { Card } from "../../components/ui/Card";
+import ShimmerLoader from "../../components/ui/ShimmerLoader";
 import Button from "../../components/ui/Button";
 
 const COMMON_DEPARTMENTS = [
@@ -16,12 +17,24 @@ export default function Departments() {
   const [cases, setCases] = useState([]);
   const [dept, setDept] = useState("");
   const [q, setQ] = useState("");
+   const [loading, setLoading] = useState(true);
 //   const [custom, setCustom] = useState("");
 
+
   const load = async () => {
-    const { data } = await api.get("/queries", { params: { department: dept || undefined, q: q || undefined } });
+  try {
+    setLoading(true); // show shimmer before fetching
+    const { data } = await api.get("/queries", {
+      params: { department: dept || undefined, q: q || undefined },
+    });
     setCases(data || []);
-  };
+  } catch (err) {
+    console.error("Error loading departments:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => { load(); }, [dept, q]);
 
@@ -55,6 +68,10 @@ export default function Departments() {
 
       <Card className="overflow-hidden">
         <div className="overflow-x-auto">
+
+           {loading ? (
+            <ShimmerLoader rows={16} />
+          ) : (
           <table className="min-w-full text-sm">
             <thead className="bg-gray-50 text-gray-600">
               <tr>
@@ -77,6 +94,7 @@ export default function Departments() {
               ))}
             </tbody>
           </table>
+          )}
         </div>
       </Card>
     </FacilitatorLayout>
