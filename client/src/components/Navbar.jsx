@@ -120,7 +120,8 @@ function Navbar() {
                   to="/signup"
                   className="px-5 py-2 text-sm font-semibold bg-white text-teal-700 rounded-full shadow hover:scale-105 hover:bg-white/90 hover:shadow-lg transition-all duration-300"
                 >
-                  {t("auth.signup")}
+                  {/* {t("auth.signup")} */}
+                  Register Here
                 </Link>
               </>
             ) : (
@@ -256,7 +257,7 @@ function Navbar() {
                     className="block px-3 py-2 bg-teal-600 text-white font-semibold rounded-lg text-center hover:bg-teal-700 transition"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Sign Up
+                    Register Here
                   </Link>
                 </>
               ) : (
