@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from "react-router-dom";
@@ -39,43 +40,47 @@ export default function ViewByRef() {
     fetchByRef(ref);
   };
 
-  const labelClass = "text-sm text-gray-600";
-  const valueClass = "text-lg font-semibold";
+  const labelClass = "text-sm text-gray-600 dark:text-gray-400";
+  const valueClass = "text-lg font-semibold text-gray-900 dark:text-gray-100";
 
   return (
     <FacilitatorLayout title={t('facilitator.viewByRef')}>
       {/* Search Card */}
-      <Card className="p-6 mb-8">
+      <Card className="p-6 mb-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
         <div className="flex flex-col sm:flex-row gap-4 items-center">
           <input
             value={ref}
             onChange={(e) => setRef(e.target.value)}
             placeholder={`${t('facilitator.enterReferenceId')} (e.g., SHF-20250917-ABCD)`}
-            className="px-4 py-3 border rounded-lg w-full sm:w-96 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg w-full sm:w-96 text-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-teal-500"
           />
           <Button onClick={onSearch} disabled={loading} className="px-6 py-3">
             {loading ? t('facilitator.searching') : t('searchBar.search')}
           </Button>
-          <Button variant="outline" onClick={() => { setRef(""); setItem(null); setSearchParams({}); }} className="px-6 py-3">
+          <Button
+            variant="outline"
+            onClick={() => { setRef(""); setItem(null); setSearchParams({}); }}
+            className="px-6 py-3"
+          >
             {t('facilitator.clear')}
           </Button>
         </div>
-        {error && <div className="mt-4 text-red-600 text-lg">{error}</div>}
+        {error && <div className="mt-4 text-red-600 dark:text-red-400 text-lg">{error}</div>}
       </Card>
 
       {/* Case Profile */}
       {item && (
         <div className="space-y-8">
-          <Card className="p-6">
-            <h2 className="text-2xl font-bold text-blue-700 mb-4">{t('CaseProfile')}</h2>
+          <Card className="p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-2xl font-bold text-blue-700 dark:text-blue-400 mb-4">{t('CaseProfile')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <div className={labelClass}>Reference</div>
-                <div className={`${valueClass} text-indigo-600`}>{item.referenceId || "—"}</div>
+                <div className={`${valueClass} text-indigo-600 dark:text-indigo-400`}>{item.referenceId || "—"}</div>
               </div>
               <div>
                 <div className={labelClass}>Status</div>
-                <div className={`${valueClass} ${item.status === "Pending" ? "text-yellow-600" : "text-green-600"}`}>{item.status || "Pending"}</div>
+                <div className={`${valueClass} ${item.status === "Pending" ? "text-yellow-600 dark:text-yellow-400" : "text-green-600 dark:text-green-400"}`}>{item.status || "Pending"}</div>
               </div>
               <div>
                 <div className={labelClass}>Title</div>
@@ -105,18 +110,22 @@ export default function ViewByRef() {
 
             <div className="mt-6">
               <div className={labelClass}>Detailed Description</div>
-              <div className="text-lg font-medium whitespace-pre-wrap">{item.description || "—"}</div>
+              <div className="text-lg font-medium text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
+                {item.description || "—"}
+              </div>
             </div>
             <div className="mt-4">
               <div className={labelClass}>Additional Notes</div>
-              <div className="text-lg font-medium whitespace-pre-wrap">{item.additionalNotes || "—"}</div>
+              <div className="text-lg font-medium text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
+                {item.additionalNotes || "—"}
+              </div>
             </div>
           </Card>
 
           {/* Patient Profile */}
           {item.patientProfile && (
-            <Card className="p-6">
-              <h2 className="text-2xl font-bold text-green-700 mb-4">Patient Profile</h2>
+            <Card className="p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-green-700 dark:text-green-400 mb-4">Patient Profile</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
                 <div>
                   <div className={labelClass}>Age</div>
@@ -144,11 +153,11 @@ export default function ViewByRef() {
                 </div>
                 <div>
                   <div className={labelClass}>Medical History</div>
-                  <div className="whitespace-pre-wrap font-medium">{item.patientProfile.medicalHistory || "—"}</div>
+                  <div className="whitespace-pre-wrap font-medium text-gray-800 dark:text-gray-200">{item.patientProfile.medicalHistory || "—"}</div>
                 </div>
                 <div>
                   <div className={labelClass}>Current Medications</div>
-                  <div className="whitespace-pre-wrap font-medium">{item.patientProfile.currentMedications || "—"}</div>
+                  <div className="whitespace-pre-wrap font-medium text-gray-800 dark:text-gray-200">{item.patientProfile.currentMedications || "—"}</div>
                 </div>
                 <div>
                   <div className={labelClass}>Allergies</div>
@@ -176,9 +185,9 @@ export default function ViewByRef() {
 
           {/* Assigned Doctor */}
           {item.assignedDoctorId && (
-            <Card className="p-6">
-              <h2 className="text-2xl font-bold text-purple-700 mb-4">Assigned Doctor</h2>
-              <div className="text-lg space-y-2">
+            <Card className="p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-purple-700 dark:text-purple-400 mb-4">Assigned Doctor</h2>
+              <div className="text-lg space-y-2 text-gray-900 dark:text-gray-100">
                 <div className={valueClass}>{item.assignedDoctorId.name}</div>
                 {item.assignedDoctorId.specialization && (
                   <div className={labelClass}>{item.assignedDoctorId.specialization}</div>
@@ -191,9 +200,9 @@ export default function ViewByRef() {
 
           {/* Attachments */}
           {item.attachments?.length > 0 && (
-            <Card className="p-6">
+            <Card className="p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
               <div className={labelClass + " mb-2"}>Attachments</div>
-              <ul className="list-disc list-inside text-lg">
+              <ul className="list-disc list-inside text-lg text-gray-900 dark:text-gray-100">
                 {item.attachments.map((a, i) => <li key={i}>{a}</li>)}
               </ul>
             </Card>

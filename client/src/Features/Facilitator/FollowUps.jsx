@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import api from "../../lib/api";
@@ -5,7 +6,6 @@ import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
 import CasesTable from "./CasesTable";
 import TableShimmer from "../../components/ui/TableShimmer";
-
 
 export default function FollowUps() {
   const { t } = useTranslation();
@@ -39,7 +39,7 @@ export default function FollowUps() {
     refresh();
   };
 
-  // Get unique departments and doctors for filters
+  // Unique departments and doctors for filters
   const departments = useMemo(() => ["All", ...Array.from(new Set(cases.map((c) => c.department).filter(Boolean)))], [cases]);
   const doctors = useMemo(() => ["All", ...Array.from(new Set(cases.map((c) => c.assignedDoctorId?.name).filter(Boolean)))], [cases]);
 
@@ -59,10 +59,14 @@ export default function FollowUps() {
     <FacilitatorLayout
       title={t("facilitator.followUps")}
       actions={
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap gap-3 items-center text-gray-900 dark:text-gray-100">
           <Button onClick={refresh}>{t("facilitator.refresh")}</Button>
 
-          <select value={deptFilter} onChange={(e) => setDeptFilter(e.target.value)} className="border rounded-md px-3 py-2 bg-white text-sm">
+          <select
+            value={deptFilter}
+            onChange={(e) => setDeptFilter(e.target.value)}
+            className="border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-gray-100"
+          >
             {departments.map((d) => (
               <option key={d} value={d}>
                 {d}
@@ -70,7 +74,11 @@ export default function FollowUps() {
             ))}
           </select>
 
-          <select value={doctorFilter} onChange={(e) => setDoctorFilter(e.target.value)} className="border rounded-md px-3 py-2 bg-white text-sm">
+          <select
+            value={doctorFilter}
+            onChange={(e) => setDoctorFilter(e.target.value)}
+            className="border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 bg-white dark:bg-gray-700 text-sm text-gray-900 dark:text-gray-100"
+          >
             {doctors.map((d) => (
               <option key={d} value={d}>
                 {d}
@@ -83,23 +91,22 @@ export default function FollowUps() {
             placeholder="Search by patient or ref ID"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border rounded-md px-3 py-2 text-sm"
+            className="border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           />
         </div>
       }
     >
       {loading ? (
-  <TableShimmer />
-) : error ? (
-  <p className="text-red-500 py-5 text-center">{error}</p>
-) : filteredCases.length === 0 ? (
-  <p className="text-gray-500 py-5 text-center">No follow up cases found.</p>
-) : (
-  <div className="overflow-x-auto">
-    <CasesTable cases={filteredCases} onStatus={handleStatus} />
-  </div>
-)}
-
+        <TableShimmer />
+      ) : error ? (
+        <p className="text-red-500 dark:text-red-400 py-5 text-center">{error}</p>
+      ) : filteredCases.length === 0 ? (
+        <p className="text-gray-500 dark:text-gray-400 py-5 text-center">No follow up cases found.</p>
+      ) : (
+        <div className="overflow-x-auto bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg shadow">
+          <CasesTable cases={filteredCases} onStatus={handleStatus} />
+        </div>
+      )}
     </FacilitatorLayout>
   );
 }
