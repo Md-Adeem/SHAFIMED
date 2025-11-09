@@ -66,7 +66,6 @@ function Navbar() {
     },
     
     { label: " About Us",
-       //action: () => handleScrollToSection("about"),
         path: "/about", 
        show: true 
     },
