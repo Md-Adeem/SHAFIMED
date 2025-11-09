@@ -28,13 +28,14 @@ function ShimmerLoader() {
 
 const STATUS_OPTIONS = ["Pending", "Assigned", "In Progress", "Follow Up", "Responded", "Rejected"];
 const STATUS_COLORS = {
-  Pending: "bg-yellow-100 text-yellow-800",
-  Assigned: "bg-indigo-100 text-indigo-800",
-  "In Progress": "bg-teal-100 text-teal-800",
-  "Follow Up": "bg-orange-100 text-orange-800",
-  Responded: "bg-green-100 text-green-800",
-  Rejected: "bg-red-100 text-red-800",
+  Pending: "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-300",
+  Assigned: "bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300",
+  "In Progress": "bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-300",
+  "Follow Up": "bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-300",
+  Responded: "bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300",
+  Rejected: "bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300",
 };
+
 
 export default function AllCases() {
   const { t } = useTranslation();
@@ -127,38 +128,25 @@ export default function AllCases() {
       title={t("facilitator.allCases")}
       actions={<Button onClick={refresh}>{t("facilitator.refresh")}</Button>}
     >
-      {/* KPI Cards */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
-          <div className="text-gray-500 text-sm">Total Cases</div>
-          <div className="text-3xl font-bold">{cases.length}</div>
-        </Card>
-        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
-          <div className="text-gray-500 text-sm">Filtered Cases</div>
-          <div className="text-3xl font-bold">{filteredCases.length}</div>
-        </Card>
-        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
-          <div className="text-gray-500 text-sm">Date Filtered Cases</div>
-          <div className="text-3xl font-bold">{startDate || endDate ? filteredCases.length : cases.length}</div>
-        </Card>
-      </div> */}
-
+  
 
         {/* KPI Cards */}
 {loading ? (
   <ShimmerLoader />
 ) : (
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-    <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
-      <div className="text-gray-500 text-sm">Total Cases</div>
+    <Card className="p-4 flex flex-col items-center justify-center bg-teal-100 dark:bg-teal-400/50 text-gray-900 dark:text-gray-100 hover:shadow-lg transition cursor-pointer">
+      <div className="text-gray-500 dark:text-gray-200 text-sm">Total Cases</div>
       <div className="text-3xl font-bold">{cases.length}</div>
     </Card>
-    <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
-      <div className="text-gray-500 text-sm">Filtered Cases</div>
+
+
+    <Card className="p-4 flex flex-col items-center justify-center bg-teal-100 dark:bg-indigo-400/50 text-gray-900 dark:text-gray-100 hover:shadow-lg transition cursor-pointer">
+      <div className="text-gray-500 dark:text-gray-200 text-sm">Filtered Cases</div>
       <div className="text-3xl font-bold">{filteredCases.length}</div>
     </Card>
-    <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
-      <div className="text-gray-500 text-sm">Date Filtered Cases</div>
+    <Card className="p-4 flex flex-col items-center justify-center bg-teal-100 dark:bg-green-400/50 text-gray-900 dark:text-gray-100 hover:shadow-lg transition cursor-pointer">
+      <div className="text-gray-500 dark:text-gray-200 text-sm">Date Filtered Cases</div>
       <div className="text-3xl font-bold">
         {startDate || endDate ? filteredCases.length : cases.length}
       </div>
@@ -168,23 +156,24 @@ export default function AllCases() {
 
 
       {/* Filters */}
-      <Card className="p-4 mb-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-center">
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search by patient or title"
-            className="px-3 py-2 border rounded-lg w-full"
-          />
-          <select value={dept} onChange={(e) => setDept(e.target.value)} className="px-3 py-2 border rounded-lg w-full">
+      <Card className="p-4 mb-4 bg-white dark:bg-gray-800">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-center">
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search by patient or title"
+          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+        />
+
+          <select value={dept} onChange={(e) => setDept(e.target.value)} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
             <option value="">All Departments</option>
             {departments.map((d) => <option key={d} value={d}>{d}</option>)}
           </select>
-          <select value={status} onChange={(e) => setStatus(e.target.value)} className="px-3 py-2 border rounded-lg w-full">
+          <select value={status} onChange={(e) => setStatus(e.target.value)} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
             <option value="">All Statuses</option>
             {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
-          <select value={doctor} onChange={(e) => setDoctor(e.target.value)} className="px-3 py-2 border rounded-lg w-full">
+          <select value={doctor} onChange={(e) => setDoctor(e.target.value)} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
             <option value="">Assigned Doctor</option>
             {doctors.map((d) => <option key={d._id} value={d._id}>{d.name}</option>)}
           </select>
@@ -192,10 +181,10 @@ export default function AllCases() {
             value={ref}
             onChange={(e) => setRef(e.target.value)}
             placeholder="Reference ID"
-            className="px-3 py-2 border rounded-lg w-full"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           />
-          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="px-3 py-2 border rounded-lg w-full" />
-          <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="px-3 py-2 border rounded-lg w-full" />
+          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
+          <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" />
           <Button size="sm" variant="outline" onClick={() => {
             setQ(""); setDept(""); setStatus(""); setDoctor(""); setRef(""); setStartDate(""); setEndDate("");
           }}>Reset Filters</Button>
