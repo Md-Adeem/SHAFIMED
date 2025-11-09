@@ -77,12 +77,12 @@ export default function About() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
               {[
                 {
-                  icon: "💼",
+                  icon: "🏨",
                   title: "Connect with Top International Hospitals",
                   desc: "Access a curated network of accredited Indian hospitals and global medical specialists.",
                 },
                 {
-                  icon: "🏨",
+                  icon: "💼",
                   title: "Free 5-Day Hotel Stay Post-Surgery",
                   desc: "Relax and recover comfortably after surgery with complimentary accommodation.",
                 },
