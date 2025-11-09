@@ -1,9 +1,14 @@
+
+import React, { useState } from "react";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import QuoteModal from "../components/ui/QuoteModal";
 import hospitals from "../data/hospitals";
 import Footer from "../components/landing/Footer";
 
+
 function Hospitals() {
+   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   // const { t } = useTranslation();
 
   return (
@@ -147,16 +152,28 @@ function Hospitals() {
               >
                 Contact Our Team
               </Link>
-              <Link
+              {/* <Link
                 to="/quote"
                 className="bg-transparent border-2 border-white text-white font-bold py-3 px-6 rounded-lg hover:bg-white/10 transition-colors hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
               >
                 Get a Free Quote
-              </Link>
+              </Link> */}
+
+                <button
+  onClick={() => setIsQuoteOpen(true)}
+  className="bg-transparent border-2 border-white text-white font-bold py-3 px-6 rounded-lg hover:bg-white/10 transition-colors hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+>
+  Get a Free Quote
+</button>
+
             </div>
           </div>
         </div>
       </div>
+      {/* Quote Modal */}
+<QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
+
+
       <Footer />
     </>
   );
