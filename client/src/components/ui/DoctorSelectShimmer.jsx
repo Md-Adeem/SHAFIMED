@@ -2,7 +2,8 @@ import React from "react";
 
 export default function DoctorSelectShimmer() {
   return (
-    <div className="overflow-x-auto mt-4 border rounded-lg">
+    <div className="overflow-x-auto mt-4 border rounded-lg border-gray-200 dark:border-gray-700">
+   
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr className="bg-gray-50">
