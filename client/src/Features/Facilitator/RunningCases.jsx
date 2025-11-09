@@ -79,10 +79,51 @@ const RunningCases = () => {
     fetchRunningCases();
   }, []);
 
+
+
+  // Shimmer Loader UI
+  const ShimmerLoader = () => (
+    <div className="animate-pulse">
+
+      {/* Table shimmer */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full border text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              {["Ref ID", "Patient", "Doctor", "Department", "Status", "Actions"].map(
+                (head, i) => (
+                  <th key={i} className="px-4 py-2 text-left text-gray-500">
+                    {head}
+                  </th>
+                )
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {[1,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19].map((row) => (
+              <tr key={row} className="border-t">
+                {Array(6)
+                  .fill(0)
+                  .map((_, col) => (
+                    <td key={col} className="px-4 py-3">
+                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                    </td>
+                  ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+
+
   return (
     <FacilitatorLayout
       title="Running Cases"
       actions={
+        !loading && ( 
         <div className="flex flex-wrap items-center gap-3">
           <select
             value={selectedStatus}
@@ -124,11 +165,12 @@ const RunningCases = () => {
 
           <Button onClick={fetchRunningCases}>Refresh</Button>
         </div>
+  )
       }
     >
       {loading ? (
-        <p>Loading running cases...</p>
-      ) : error ? (
+  <ShimmerLoader />
+) : error ? (
         <p className="text-red-500">{error}</p>
       ) : filteredCases.length === 0 ? (
         <p>No cases found for selected filters.</p>

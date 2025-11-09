@@ -5,6 +5,7 @@ import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
+import TableShimmer from "../../components/ui/DoctorSelectShimmer";
 
 // ✅ Possible case statuses
 const STATUSES = ["Pending", "Assigned", "In Progress", "Follow Up", "Closed", "Rejected"];
@@ -346,100 +347,113 @@ export default function FacilitatorDashboard() {
       </div>
 
       {/* RECENT CASES TABLE */}
-      <div>
-        <div className="flex justify-between mb-4">
-          <h2 className="text-xl font-semibold">Recent Cases (Latest 6)</h2>
-          <Button variant="outline" onClick={() => navigate("/facilitator/cases")}>
-            View All Cases →
-          </Button>
-        </div>
+<div>
+  <div className="flex justify-between mb-4">
+    <h2 className="text-xl font-semibold">Recent Cases (Latest 6)</h2>
+    <Button variant="outline" onClick={() => navigate("/facilitator/cases")}>
+      View All Cases →
+    </Button>
+  </div>
 
-        <Card className="overflow-hidden border shadow-lg">
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-sm">
-              <thead className="bg-gray-50 text-gray-600">
-                <tr>
-                  {["Patient", "Reference", "Title", "Country", "Doctor", "Status", "Created", "Actions"].map(
-                    (head) => (
-                      <th key={head} className="px-5 py-3 text-left font-semibold">
-                        {head}
-                      </th>
-                    )
-                  )}
-                </tr>
-              </thead>
+  <Card className="overflow-hidden border shadow-lg">
+    {loading ? (
+      <TableShimmer rows={6} cols={8} />
+    ) : (
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-sm">
+          <thead className="bg-gray-50 text-gray-600">
+            <tr>
+              {[
+                "Patient",
+                "Reference",
+                "Title",
+                "Country",
+                "Assigned Doctor",
+                "Status",
+                "Created",
+                "Actions",
+              ].map((head) => (
+                <th key={head} className="px-5 py-3 text-left font-semibold">
+                  {head}
+                </th>
+              ))}
+            </tr>
+          </thead>
 
-              <tbody>
-                {recentCases.length === 0 ? (
-                  <tr>
-                    <td colSpan="8" className="px-5 py-10 text-center text-gray-500">
-                      No recent cases found.
+          <tbody>
+            {recentCases.length === 0 ? (
+              <tr>
+                <td colSpan="8" className="px-5 py-10 text-center text-gray-500">
+                  No recent cases found.
+                </td>
+              </tr>
+            ) : (
+              recentCases.map((c) => {
+                const assigned = getAssignedDoctor(c.assignedDoctorId);
+                return (
+                  <tr key={c._id} className="border-t hover:bg-gray-50">
+                    <td className="px-5 py-3">{c.fullName || "—"}</td>
+                    <td className="px-5 py-3 font-mono text-xs font-semibold">
+                      {c.referenceId || "—"}
+                    </td>
+                    <td className="px-5 py-3 truncate max-w-xs">{c.title}</td>
+                    <td className="px-5 py-3">{c.country}</td>
+
+                    {/* Assigned Doctor */}
+                    <td className="px-5 py-3">
+                      {assigned ? (
+                        <>
+                          <div className="font-medium">{assigned.name}</div>
+                          {assigned.specialization && (
+                            <div className="text-xs text-gray-500">
+                              {assigned.specialization}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <span className="text-gray-400">Not assigned</span>
+                      )}
+                    </td>
+
+                    {/* Status Dropdown */}
+                    <td className="px-5 py-3">
+                      <select
+                        value={c.status || "Pending"}
+                        onChange={(e) => handleUpdateStatus(c._id, e.target.value)}
+                        disabled={updatingCaseId === c._id}
+                        className="px-2 py-1 border rounded text-sm"
+                      >
+                        {STATUSES.map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+
+                    <td className="px-5 py-3 text-gray-600">
+                      {c.createdAt
+                        ? new Date(c.createdAt).toLocaleDateString()
+                        : "—"}
+                    </td>
+
+                    <td className="px-5 py-3">
+                      <Button size="sm" onClick={() => setSelectedCase(c)}>
+                        View Details
+                      </Button>
                     </td>
                   </tr>
-                ) : (
-                  recentCases.map((c) => {
-                    const assigned = getAssignedDoctor(c.assignedDoctorId);
-                    return (
-                      <tr key={c._id} className="border-t hover:bg-gray-50">
-                        <td className="px-5 py-3">{c.fullName || "—"}</td>
-                        <td className="px-5 py-3 font-mono text-xs font-semibold">
-                          {c.referenceId || "—"}
-                        </td>
-                        <td className="px-5 py-3 truncate max-w-xs">{c.title}</td>
-                        <td className="px-5 py-3">{c.country}</td>
-
-                        {/* Assigned Doctor */}
-                        <td className="px-5 py-3">
-                          {assigned ? (
-                            <>
-                              <div className="font-medium">{assigned.name}</div>
-                              {assigned.specialization && (
-                                <div className="text-xs text-gray-500">
-                                  {assigned.specialization}
-                                </div>
-                              )}
-                            </>
-                          ) : (
-                            <span className="text-gray-400">Not assigned</span>
-                          )}
-                        </td>
-
-                        {/* Status Dropdown */}
-                        <td className="px-5 py-3">
-                          <select
-                            value={c.status || "Pending"}
-                            onChange={(e) => handleUpdateStatus(c._id, e.target.value)}
-                            disabled={updatingCaseId === c._id}
-                            className="px-2 py-1 border rounded text-sm"
-                          >
-                            {STATUSES.map((s) => (
-                              <option key={s} value={s}>
-                                {s}
-                              </option>
-                            ))}
-                          </select>
-                        </td>
-
-                        <td className="px-5 py-3 text-gray-600">
-                          {c.createdAt
-                            ? new Date(c.createdAt).toLocaleDateString()
-                            : "—"}
-                        </td>
-
-                        <td className="px-5 py-3">
-                          <Button size="sm" onClick={() => setSelectedCase(c)}>
-                            View Details
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-          </div>
-        </Card>
+                );
+              })
+            )}
+          </tbody>
+        </table>
       </div>
+    )}
+  </Card>
+</div>
+
+      
 
       {/* CASE DETAILS MODAL */}
       {selectedCase && (

@@ -6,6 +6,25 @@ import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import CasesTable from "./CasesTable";
+import TableShimmer from "../../components/ui/TableShimmer";
+
+
+
+
+
+
+function ShimmerLoader() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="animate-shimmer h-32 rounded-lg"></div>
+      ))}
+    </div>
+  );
+}
+
+
+
 
 const STATUS_OPTIONS = ["Pending", "Assigned", "In Progress", "Follow Up", "Closed", "Rejected"];
 const STATUS_COLORS = {
@@ -21,6 +40,7 @@ export default function AllCases() {
   const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Filters
   const [q, setQ] = useState("");
@@ -32,20 +52,29 @@ export default function AllCases() {
   const [endDate, setEndDate] = useState("");
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const [{ data: casesData }, { data: doctorsData }] = await Promise.all([
-          api.get("/queries"),
-          api.get("/users/doctors"),
-        ]);
-        setCases(Array.isArray(casesData) ? casesData : []);
-        setDoctors(Array.isArray(doctorsData) ? doctorsData : []);
-      } catch (err) {
-        console.error("Error fetching cases/doctors:", err);
-      }
-    };
-    load();
-  }, []);
+  const load = async () => {
+    try {
+      setLoading(true);
+      const [{ data: casesData }, { data: doctorsData }] = await Promise.all([
+        api.get("/queries"),
+        api.get("/users/doctors"),
+      ]);
+      setCases(Array.isArray(casesData) ? casesData : []);
+      setDoctors(Array.isArray(doctorsData) ? doctorsData : []);
+    } catch (err) {
+      console.error("Error fetching cases/doctors:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  load();
+}, []);
+
+
+
+
+  
+
 
   const departments = useMemo(() => {
     const s = new Set();
@@ -99,7 +128,7 @@ export default function AllCases() {
       actions={<Button onClick={refresh}>{t("facilitator.refresh")}</Button>}
     >
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
           <div className="text-gray-500 text-sm">Total Cases</div>
           <div className="text-3xl font-bold">{cases.length}</div>
@@ -112,7 +141,31 @@ export default function AllCases() {
           <div className="text-gray-500 text-sm">Date Filtered Cases</div>
           <div className="text-3xl font-bold">{startDate || endDate ? filteredCases.length : cases.length}</div>
         </Card>
+      </div> */}
+
+
+        {/* KPI Cards */}
+{loading ? (
+  <ShimmerLoader />
+) : (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
+      <div className="text-gray-500 text-sm">Total Cases</div>
+      <div className="text-3xl font-bold">{cases.length}</div>
+    </Card>
+    <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
+      <div className="text-gray-500 text-sm">Filtered Cases</div>
+      <div className="text-3xl font-bold">{filteredCases.length}</div>
+    </Card>
+    <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
+      <div className="text-gray-500 text-sm">Date Filtered Cases</div>
+      <div className="text-3xl font-bold">
+        {startDate || endDate ? filteredCases.length : cases.length}
       </div>
+    </Card>
+  </div>
+)}
+
 
       {/* Filters */}
       <Card className="p-4 mb-4">
@@ -150,13 +203,30 @@ export default function AllCases() {
       </Card>
 
       {/* Cases Table */}
-      <CasesTable 
+      {/* <CasesTable 
         cases={filteredCases} 
         onStatus={handleStatus} 
         onView={() => {}} 
         onAssign={refresh} 
         statusColors={STATUS_COLORS} 
-      />
+      /> */}
+
+
+     {/* Cases Table */}
+{loading ? (
+  <TableShimmer />
+) : (
+  <CasesTable
+    cases={filteredCases}
+    onStatus={handleStatus}
+    onView={() => {}}
+    onAssign={refresh}
+    statusColors={STATUS_COLORS}
+  />
+)}
+
+
+
     </FacilitatorLayout>
   );
 }

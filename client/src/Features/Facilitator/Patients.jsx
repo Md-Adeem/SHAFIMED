@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import { Card } from "../../components/ui/Card";
+import PatientsShimmer from "../../components/ui/PatientsShimmer";
+
 
 export default function Patients() {
   const { t } = useTranslation();
@@ -64,9 +66,13 @@ export default function Patients() {
 
       {/* Table */}
       <Card className="overflow-hidden">
-        {loading ? (
+        {/* {loading ? (
           <div className="p-6 text-center text-gray-500">{t('facilitator.loadingCases')}</div>
-        ) : error ? (
+        ) : error ? ( */}
+        {loading ? (
+  <PatientsShimmer />
+) : error ? (
+
           <div className="p-6 text-center text-red-500">{error}</div>
         ) : filtered.length === 0 ? (
           <div className="p-6 text-center text-gray-500">{t('facilitator.noCasesAvailable')}</div>

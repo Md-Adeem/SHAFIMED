@@ -4,6 +4,8 @@ import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
 import CasesTable from "./CasesTable";
+import TableShimmer from "../../components/ui/TableShimmer";
+
 
 export default function FollowUps() {
   const { t } = useTranslation();
@@ -87,16 +89,17 @@ export default function FollowUps() {
       }
     >
       {loading ? (
-        <p className="text-gray-500 py-5">Loading follow up cases...</p>
-      ) : error ? (
-        <p className="text-red-500 py-5">{error}</p>
-      ) : filteredCases.length === 0 ? (
-        <p className="text-gray-500 py-5">No follow up cases found.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <CasesTable cases={filteredCases} onStatus={handleStatus} />
-        </div>
-      )}
+  <TableShimmer />
+) : error ? (
+  <p className="text-red-500 py-5 text-center">{error}</p>
+) : filteredCases.length === 0 ? (
+  <p className="text-gray-500 py-5 text-center">No follow up cases found.</p>
+) : (
+  <div className="overflow-x-auto">
+    <CasesTable cases={filteredCases} onStatus={handleStatus} />
+  </div>
+)}
+
     </FacilitatorLayout>
   );
 }
