@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import api from "../../lib/api";
@@ -6,7 +7,6 @@ import Button from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import QuotesShimmer from "../../components/ui/QuotesShimmer";
 
-
 export default function QuotesList() {
   const { t } = useTranslation();
   const [quotes, setQuotes] = useState([]);
@@ -14,12 +14,12 @@ export default function QuotesList() {
   const [error, setError] = useState(null);
 
   // Filters
-  const [q, setQ] = useState("");   // Search by name or description
-  const [country, setCountry] = useState("");  // Search by country
-  const [city, setCity] = useState("");  // Search by city
-  const [name, setName] = useState("");  // Search by patient name
-  const [startDate, setStartDate] = useState("");  // Start date for filtering
-  const [endDate, setEndDate] = useState("");  // End date for filtering
+  const [q, setQ] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [name, setName] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   useEffect(() => {
     const fetchQuotes = async () => {
@@ -35,7 +35,6 @@ export default function QuotesList() {
         setLoading(false);
       }
     };
-
     fetchQuotes();
   }, []);
 
@@ -49,11 +48,10 @@ export default function QuotesList() {
       if (start) start.setHours(0, 0, 0, 0);
       if (end) end.setHours(23, 59, 59, 999);
 
-      // Handle missing fields and ensure case-insensitive search
-      const normalizedCountry = quote.country ? quote.country.toLowerCase() : "";
-      const normalizedCity = quote.city ? quote.city.toLowerCase() : "";
-      const normalizedName = quote.name ? quote.name.toLowerCase() : "";
-      const normalizedDescription = quote.description ? quote.description.toLowerCase() : "";
+      const normalizedCountry = quote.country?.toLowerCase() || "";
+      const normalizedCity = quote.city?.toLowerCase() || "";
+      const normalizedName = quote.name?.toLowerCase() || "";
+      const normalizedDescription = quote.description?.toLowerCase() || "";
 
       return (
         (!q || normalizedName.includes(q.toLowerCase()) || normalizedDescription.includes(q.toLowerCase())) &&
@@ -75,20 +73,19 @@ export default function QuotesList() {
     }
   };
 
-
-
   if (loading)
-  return (
-    <FacilitatorLayout title={t("facilitator.quotes")}>
-      <QuotesShimmer />
-    </FacilitatorLayout>
-  );
-
+    return (
+      <FacilitatorLayout title={t("facilitator.quotes")}>
+        <QuotesShimmer />
+      </FacilitatorLayout>
+    );
 
   if (error)
     return (
       <FacilitatorLayout>
-        <p className="text-center text-red-500 mt-10">Error: {error}</p>
+        <p className="text-center text-red-500 dark:text-red-400 mt-10">
+          Error: {error}
+        </p>
       </FacilitatorLayout>
     );
 
@@ -96,58 +93,55 @@ export default function QuotesList() {
     <FacilitatorLayout title={t("facilitator.quotes")}>
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
-          <div className="text-gray-500 text-sm">Total Quotes</div>
+        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+          <div className="text-gray-500 dark:text-gray-400 text-sm">Total Quotes</div>
           <div className="text-3xl font-bold">{quotes.length}</div>
         </Card>
-        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
-          <div className="text-gray-500 text-sm">Filtered Quotes</div>
+        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+          <div className="text-gray-500 dark:text-gray-400 text-sm">Filtered Quotes</div>
           <div className="text-3xl font-bold">{filteredQuotes.length}</div>
         </Card>
       </div>
 
       {/* Filters */}
-      <Card className="p-4 mb-4">
+      <Card className="p-4 mb-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 items-center">
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by name or description"
-            className="px-3 py-2 border rounded-lg w-full"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 w-full"
           />
           <input
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             placeholder="Search by country"
-            className="px-3 py-2 border rounded-lg w-full"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 w-full"
           />
           <input
             value={city}
             onChange={(e) => setCity(e.target.value)}
             placeholder="Search by city"
-            className="px-3 py-2 border rounded-lg w-full"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 w-full"
           />
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Search by patient name"
-            className="px-3 py-2 border rounded-lg w-full"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 w-full"
           />
-          {/* <input
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="px-3 py-2 border rounded-lg w-full"
-          />
-          <input
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            className="px-3 py-2 border rounded-lg w-full"
-          /> */}
-          <Button size="sm" variant="outline" onClick={() => {
-            setQ(""); setCountry(""); setCity(""); setName(""); setStartDate(""); setEndDate("");
-          }}>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => {
+              setQ("");
+              setCountry("");
+              setCity("");
+              setName("");
+              setStartDate("");
+              setEndDate("");
+            }}
+          >
             Reset Filters
           </Button>
         </div>
@@ -158,17 +152,25 @@ export default function QuotesList() {
         {filteredQuotes.map((quote) => (
           <Card
             key={quote._id || quote.id}
-            className="bg-white border border-gray-200 rounded-lg shadow-lg p-5 hover:shadow-xl transition-shadow duration-300"
+            className="border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-5 hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           >
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Patient: {quote.name}</h3>
-            <p className="text-sm text-gray-500 mb-2">
-              <span className="font-semibold">Mobile: {quote.countryCode} {quote.mobile}</span> 
+            <h3 className="text-xl font-semibold mb-2">
+              Patient: {quote.name}
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+              <span className="font-semibold">Mobile:</span>{" "}
+              {quote.countryCode} {quote.mobile}
             </p>
-            <p className="text-sm text-gray-500 mb-2">
-              <span className="font-semibold">Location: {quote.city}, {quote.country}</span> 
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+              <span className="font-semibold">Location:</span>{" "}
+              {quote.city}, {quote.country}
             </p>
-            <p className="text-gray-700 mb-4">Description: {quote.description}</p>
-            <p className="text-xs text-gray-400">Quote ID: {quote.id}</p>
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              Description: {quote.description}
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Quote ID: {quote.id}
+            </p>
           </Card>
         ))}
       </div>

@@ -1,11 +1,10 @@
-// client/src/Features/Facilitator/Patients.jsx
+
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import { Card } from "../../components/ui/Card";
 import PatientsShimmer from "../../components/ui/PatientsShimmer";
-
 
 export default function Patients() {
   const { t } = useTranslation();
@@ -34,9 +33,7 @@ export default function Patients() {
       }
     };
     load();
-    return () => {
-      active = false; // cleanup to avoid state update on unmounted component
-    };
+    return () => { active = false; };
   }, []);
 
   // Filtered patients (memoized)
@@ -52,34 +49,30 @@ export default function Patients() {
   return (
     <FacilitatorLayout title={t('facilitator.patients')}>
       {/* Search Bar */}
-      <Card className="p-4 mb-4 flex flex-col sm:flex-row gap-3 sm:items-center">
+      <Card className="p-4 mb-4 flex flex-col sm:flex-row gap-3 sm:items-center bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={`${t('common.search')}...`}
-          className="px-3 py-2 border rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
+          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg flex-1 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
         />
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-gray-500 dark:text-gray-400">
           {filtered.length} {t('common.of')} {patients.length} {t('facilitator.patients').toLowerCase()}
         </span>
       </Card>
 
       {/* Table */}
-      <Card className="overflow-hidden">
-        {/* {loading ? (
-          <div className="p-6 text-center text-gray-500">{t('facilitator.loadingCases')}</div>
-        ) : error ? ( */}
+      <Card className="overflow-hidden bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
         {loading ? (
-  <PatientsShimmer />
-) : error ? (
-
-          <div className="p-6 text-center text-red-500">{error}</div>
+          <PatientsShimmer />
+        ) : error ? (
+          <div className="p-6 text-center text-red-500 dark:text-red-400">{error}</div>
         ) : filtered.length === 0 ? (
-          <div className="p-6 text-center text-gray-500">{t('facilitator.noCasesAvailable')}</div>
+          <div className="p-6 text-center text-gray-500 dark:text-gray-400">{t('facilitator.noCasesAvailable')}</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full text-sm">
-              <thead className="bg-gray-50 text-gray-600">
+            <table className="min-w-full text-sm text-gray-900 dark:text-gray-100">
+              <thead className="bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                 <tr>
                   <th className="px-5 py-3 text-left font-semibold">{t('common.name')}</th>
                   <th className="px-5 py-3 text-left font-semibold">{t('auth.email')}</th>
@@ -92,8 +85,11 @@ export default function Patients() {
               </thead>
               <tbody>
                 {filtered.map((p) => (
-                  <tr key={p._id} className="border-t hover:bg-gray-50 transition">
-                    <td className="px-5 py-3 font-medium text-gray-900">{p.name}</td>
+                  <tr
+                    key={p._id}
+                    className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition"
+                  >
+                    <td className="px-5 py-3 font-medium">{p.name}</td>
                     <td className="px-5 py-3">{p.email}</td>
                     <td className="px-5 py-3">{p.profile?.age ?? "—"}</td>
                     <td className="px-5 py-3">{p.profile?.gender ?? "—"}</td>
@@ -104,7 +100,7 @@ export default function Patients() {
                     >
                       {p.profile?.medicalHistory ?? "—"}
                     </td>
-                    <td className="px-5 py-3 text-gray-600">
+                    <td className="px-5 py-3 text-gray-600 dark:text-gray-400">
                       {new Date(p.createdAt).toLocaleDateString()}
                     </td>
                   </tr>

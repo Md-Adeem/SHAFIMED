@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
@@ -77,103 +77,125 @@ export default function Analytics() {
     <FacilitatorLayout title={t("facilitator.analytics")}>
       {/* Top Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <Card className="p-4">
-          <div className="text-sm text-gray-600">{t("facilitator.totalCases")}</div>
-          <div className="text-3xl font-bold text-gray-900">{data.totals}</div>
+        <Card className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+          <div className="text-sm text-gray-600 dark:text-gray-400">{t("facilitator.totalCases")}</div>
+          <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">{data.totals}</div>
         </Card>
-        <Card className="p-4">
-          <div className="text-sm text-gray-600">{t("myCases.pending")}</div>
-          <div className="text-3xl font-bold text-yellow-600">
+        <Card className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+          <div className="text-sm text-gray-600 dark:text-gray-400">{t("myCases.pending")}</div>
+          <div className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">
             {statusMap["Pending"] || 0}
           </div>
         </Card>
-        <Card className="p-4">
-          <div className="text-sm text-gray-600">{t("facilitator.inProgress")}</div>
-          <div className="text-3xl font-bold text-teal-600">
+        <Card className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+          <div className="text-sm text-gray-600 dark:text-gray-400">{t("facilitator.inProgress")}</div>
+          <div className="text-3xl font-bold text-teal-600 dark:text-teal-400">
             {statusMap["In Progress"] || 0}
           </div>
         </Card>
       </div>
-        {loading ? (
-  <ShimmerAnalytics />
-) : (
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
+      {loading ? (
+        <ShimmerAnalytics />
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* By Status Chart */}
-          <Card className="p-4">
-            <div className="text-lg font-bold mb-3">{t("facilitator.byStatus")}</div>
-            {data.byStatus.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
+          <Card className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 h-[540px]"> 
+  <div className="text-lg font-bold mb-3 text-gray-900 dark:text-gray-100">
+    {t("facilitator.byStatus")}
+  </div>
+  {data.byStatus.length > 0 ? (
+    <ResponsiveContainer width="100%" height={400}>
+      <PieChart>
+        <Pie
+          data={data.byStatus}
+          dataKey="count"
+          nameKey="_id"
+          cx="50%"
+          cy="50%"
+          outerRadius={130}
+          innerRadius={50}
+          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+          labelLine={false}
+        >
+          {data.byStatus.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={COLORS[index % COLORS.length]} // Ensures color consistency
+            />
+          ))}
+        </Pie>
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "#D3D3D3",
+            color: "#f9fafb",
+            borderRadius: "8px",
+          }}
+        />
+        <Legend
+          layout="vertical"
+          verticalAlign="top"
+          align="left"
+          wrapperStyle={{
+            fontSize: "14px",
+            marginLeft: "10px",
+            marginTop: "10px",
+          }}
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  ) : (
+    <p className="text-gray-500 dark:text-gray-400 text-center py-5">
+      No status data available.
+    </p>
+  )}
+</Card>
+
+
+          {/* By Department Chart */}
+          <Card className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 h-[540px]"> {/* Increased height */}
+            <div className="text-lg font-bold mb-3 text-gray-900 dark:text-gray-100">
+              {t("facilitator.byDepartment")}
+            </div>
+            {data.byDepartment.length > 0 ? (
+              <ResponsiveContainer width="100%" height={400}>
                 <PieChart>
                   <Pie
-                    data={data.byStatus}
+                    data={data.byDepartment}
                     dataKey="count"
                     nameKey="_id"
                     cx="50%"
                     cy="50%"
-                    outerRadius={100}
+                    outerRadius={130}
+                    innerRadius={50}
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                     labelLine={false}
-                    label={renderCustomLabel}
                   >
-                    {data.byStatus.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
+                    {data.byDepartment.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip />
-                  <Legend />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#D3D3D3",
+                      color: "#f9fafb",
+                      borderRadius: "8px",
+                    }}
+                  />
+                  <Legend
+                    layout="vertical"  
+                    verticalAlign="top"
+                    align="left"
+                    wrapperStyle={{
+                      fontSize: "13px",
+                      marginLeft: "10px",
+                      marginTop: "10px",
+                    }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
-
             ) : (
-              <p className="text-gray-500 text-center py-5">
-                No status data available.
-              </p>
-            )}
-          </Card>
-
-          {/* By Department Chart */}
-          <Card className="p-4">
-            <div className="text-lg font-bold mb-3">
-              {t("facilitator.byDepartment")}
-            </div>
-            {data.byDepartment.length > 0 ? (
-             <ResponsiveContainer width="100%" height={400}>
-  <PieChart>
-    <Pie
-      data={data.byDepartment}
-      dataKey="count"
-      nameKey="_id"
-      cx="50%"
-      cy="50%"
-      outerRadius={130}
-      innerRadius={50}
-      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-      labelLine={false}
-    >
-      {data.byDepartment.map((entry, index) => (
-        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-      ))}
-    </Pie>
-    <Tooltip />
-    <Legend
-      layout="horizontal"
-      verticalAlign="bottom"
-      align="center"
-      wrapperStyle={{
-        fontSize: "12px",
-        flexWrap: "wrap",
-        maxWidth: "90%",
-        margin: "auto",
-      }}
-    />
-  </PieChart>
-</ResponsiveContainer>
-
-            ) : (
-              <p className="text-gray-500 text-center py-5">
+              <p className="text-gray-500 dark:text-gray-400 text-center py-5">
                 No department data available.
               </p>
             )}
@@ -183,3 +205,4 @@ export default function Analytics() {
     </FacilitatorLayout>
   );
 }
+

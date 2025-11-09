@@ -1,4 +1,4 @@
-// D:\SHAFIMED\client\src\Features\Facilitator\AssignDoctor.jsx
+
 import { useEffect, useState } from "react";
 import api from "../../lib/api";
 import Button from "../../components/ui/Button";
@@ -9,23 +9,22 @@ export default function AssignDoctor({ queryId, onAssigned }) {
   const [loading, setLoading] = useState(false);
 
   // Fetch doctors when component mounts
- useEffect(() => {
-  const loadDoctors = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const { data } = await api.get("/queries/doctors/list", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      // console.log("Doctors fetched:", data.data);
-      setDoctors(Array.isArray(data.data) ? data.data : []);
-    } catch (err) {
-      console.error("Failed to load doctors:", err);
-      setDoctors([]);
-    }
-  };
+  useEffect(() => {
+    const loadDoctors = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const { data } = await api.get("/queries/doctors/list", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setDoctors(Array.isArray(data.data) ? data.data : []);
+      } catch (err) {
+        console.error("Failed to load doctors:", err);
+        setDoctors([]);
+      }
+    };
 
-  loadDoctors();
-}, []);
+    loadDoctors();
+  }, []);
 
   // Assign selected doctor to the query
   const handleAssign = async () => {
@@ -52,7 +51,7 @@ export default function AssignDoctor({ queryId, onAssigned }) {
       <select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
-        className="px-2 py-1 border rounded"
+        className="px-2 py-1 border rounded bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600"
       >
         <option value="">Select Doctor</option>
         {Array.isArray(doctors) &&
@@ -69,3 +68,4 @@ export default function AssignDoctor({ queryId, onAssigned }) {
     </div>
   );
 }
+

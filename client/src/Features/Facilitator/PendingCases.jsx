@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import api from "../../lib/api";
@@ -7,7 +8,6 @@ import CasesTable from "./CasesTable";
 import { Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import dayjs from "dayjs";
 import TableShimmer from "../../components/ui/TableShimmer";
-
 
 export default function PendingCases() {
   const { t } = useTranslation();
@@ -60,115 +60,105 @@ export default function PendingCases() {
     return Array.from(s);
   }, [cases]);
 
- // Group cases by month
-const groupedCases = useMemo(() => {
-  const groups = {};
+  // Group cases by month
+  const groupedCases = useMemo(() => {
+    const groups = {};
 
-  cases
-    .filter((c) => !dept || c.department === dept)
-    .forEach((c) => {
-      // Parse the case date correctly
-      const date = dayjs(c.date, "MM/DD/YYYY, h:mm:ss A");
+    cases
+      .filter((c) => !dept || c.department === dept)
+      .forEach((c) => {
+        const date = dayjs(c.date, "MM/DD/YYYY, h:mm:ss A");
+        if (!date.isValid()) {
+          if (!groups["Invalid Date"]) groups["Invalid Date"] = [];
+          groups["Invalid Date"].push(c);
+          return;
+        }
+        const monthYear = date.format("MMMM YYYY");
+        if (!groups[monthYear]) groups[monthYear] = [];
+        groups[monthYear].push(c);
+      });
 
-      // Check if valid
-      if (!date.isValid()) {
-        if (!groups["Invalid Date"]) groups["Invalid Date"] = [];
-        groups["Invalid Date"].push(c);
-        return;
-      }
-
-      // Create Month-Year key (e.g., "October 2025")
-      const monthYear = date.format("MMMM YYYY");
-
-      // Group cases
-      if (!groups[monthYear]) groups[monthYear] = [];
-      groups[monthYear].push(c);
-    });
-
-  return groups;
-}, [cases, dept]);
+    return groups;
+  }, [cases, dept]);
 
   const toggleMonth = (month) => {
     setExpandedMonths((prev) => ({ ...prev, [month]: !prev[month] }));
   };
 
   return (
-  <FacilitatorLayout
-    title={t("facilitator.pendingCases")}
-    actions={
-      <div className="flex gap-3 items-center">
-        <select
-          value={dept}
-          onChange={(e) => setDept(e.target.value)}
-          className="px-3 py-2 border rounded-lg text-sm bg-white"
-        >
-          <option value="">{t("common.allDepartments")}</option>
-          {departments.map((d) => (
-            <option key={d} value={d}>
-              {d}
-            </option>
-          ))}
-        </select>
+    <FacilitatorLayout
+      title={t("facilitator.pendingCases")}
+      actions={
+        <div className="flex gap-3 items-center text-gray-900 dark:text-gray-100">
+          <select
+            value={dept}
+            onChange={(e) => setDept(e.target.value)}
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+          >
+            <option value="">{t("common.allDepartments")}</option>
+            {departments.map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
 
-        <Button onClick={refresh} disabled={loading}>
-          {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-          {t("facilitator.refresh")}
-        </Button>
-      </div>
-    }
-  >
-    {loading ? (
-  <div className="p-4">
-    <TableShimmer rows={8} columns={6} /> 
-  </div>
-) : Object.keys(groupedCases).length === 0 ? (
-
-      <div className="text-center py-10 text-gray-500">
-        {t("facilitator.noCasesAvailable")}
-      </div>
-    ) : (
-      // Scrollable container
-      <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
-        {Object.entries(groupedCases)
-          .sort(([a], [b]) => new Date(b) - new Date(a))
-          .map(([month, monthCases]) => (
-            <div
-              key={month}
-              className="border border-gray-200 rounded-xl shadow-sm bg-white overflow-hidden"
-            >
-              {/* Header */}
+          <Button onClick={refresh} disabled={loading}>
+            {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+            {t("facilitator.refresh")}
+          </Button>
+        </div>
+      }
+    >
+      {loading ? (
+        <div className="p-4">
+          <TableShimmer rows={8} columns={6} />
+        </div>
+      ) : Object.keys(groupedCases).length === 0 ? (
+        <div className="text-center py-10 text-gray-500 dark:text-gray-400">
+          {t("facilitator.noCasesAvailable")}
+        </div>
+      ) : (
+        <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+          {Object.entries(groupedCases)
+            .sort(([a], [b]) => new Date(b) - new Date(a))
+            .map(([month, monthCases]) => (
               <div
-                className="flex justify-between items-center p-4 bg-gray-100 cursor-pointer hover:bg-gray-200 transition"
-                onClick={() => toggleMonth(month)}
+                key={month}
+                className="border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm bg-white dark:bg-gray-800 overflow-hidden"
               >
-                <h3 className="text-lg font-semibold text-gray-700">
-                  {month}{" "}
-                  <span className="text-sm text-gray-500">
-                    ({monthCases.length} cases)
-                  </span>
-                </h3>
-                {expandedMonths[month] ? (
-                  <ChevronUp className="text-gray-500" />
-                ) : (
-                  <ChevronDown className="text-gray-500" />
+                {/* Header */}
+                <div
+                  className="flex justify-between items-center p-4 bg-gray-100 dark:bg-gray-700 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+                  onClick={() => toggleMonth(month)}
+                >
+                  <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-100">
+                    {month}{" "}
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      ({monthCases.length} cases)
+                    </span>
+                  </h3>
+                  {expandedMonths[month] ? (
+                    <ChevronUp className="text-gray-500 dark:text-gray-300" />
+                  ) : (
+                    <ChevronDown className="text-gray-500 dark:text-gray-300" />
+                  )}
+                </div>
+
+                {/* Table */}
+                {expandedMonths[month] && (
+                  <div className="p-4 bg-gray-50 dark:bg-gray-900">
+                    <CasesTable
+                      cases={monthCases}
+                      onStatus={handleStatus}
+                      updating={updating}
+                    />
+                  </div>
                 )}
               </div>
-
-              {/* Table */}
-              {expandedMonths[month] && (
-                <div className="p-4 bg-gray-50">
-                  <CasesTable
-                    cases={monthCases}
-                    onStatus={handleStatus}
-                    updating={updating}
-                  />
-                </div>
-              )}
-            </div>
-          ))}
-      </div>
-    )}
-  </FacilitatorLayout>
-);
-
+            ))}
+        </div>
+      )}
+    </FacilitatorLayout>
+  );
 }
