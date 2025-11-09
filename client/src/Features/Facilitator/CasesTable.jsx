@@ -17,7 +17,7 @@ export default function CasesTable({ cases = [], onAssign, onView, onStatus }) {
       ? "yellow"
       : s === "Assigned"
       ? "blue"
-      : s === "Responded"
+      : s === "Closed"
       ? "green"
       : s === "In Progress"
       ? "blue"
@@ -119,9 +119,9 @@ export default function CasesTable({ cases = [], onAssign, onView, onStatus }) {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => onStatus?.(c, "Responded")}
+                          onClick={() => onStatus?.(c, "Closed")}
                         >
-                          Mark Responded
+                          Mark Closed
                         </Button>
                       )}
 

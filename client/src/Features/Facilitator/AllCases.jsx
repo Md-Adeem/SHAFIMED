@@ -7,13 +7,13 @@ import Button from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import CasesTable from "./CasesTable";
 
-const STATUS_OPTIONS = ["Pending", "Assigned", "In Progress", "Follow Up", "Responded", "Rejected"];
+const STATUS_OPTIONS = ["Pending", "Assigned", "In Progress", "Follow Up", "Closed", "Rejected"];
 const STATUS_COLORS = {
   Pending: "bg-yellow-100 text-yellow-800",
   Assigned: "bg-indigo-100 text-indigo-800",
   "In Progress": "bg-teal-100 text-teal-800",
   "Follow Up": "bg-orange-100 text-orange-800",
-  Responded: "bg-green-100 text-green-800",
+  Closed: "bg-green-100 text-green-800",
   Rejected: "bg-red-100 text-red-800",
 };
 

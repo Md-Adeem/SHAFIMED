@@ -304,7 +304,7 @@
     "all": "الكل",
     "pending": "قيد الانتظار",
     "assigned": "معين",
-    "responded": "تم الرد",
+    "Closed": "تم الرد",
     "rejected": "مرفوض",
     "searchPlaceholder": "البحث بالعنوان أو المرجع...",
     "reference": "المرجع",

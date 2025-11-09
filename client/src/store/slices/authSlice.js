@@ -6,7 +6,9 @@ const initialState = (() => {
   try {
     token = localStorage.getItem("token");
     user = JSON.parse(localStorage.getItem("user") || "null");
-  } catch {}
+  } catch {
+    console.error("Failed to parse auth data from localStorage");
+  }
   return { token, user };
 })();
 
@@ -32,7 +34,9 @@ const authSlice = createSlice({
       try {
         state.token = localStorage.getItem("token");
         state.user = JSON.parse(localStorage.getItem("user") || "null");
-      } catch {}
+      } catch {
+        console.error("Failed to parse auth data from localStorage");
+      }
     },
   },
 });

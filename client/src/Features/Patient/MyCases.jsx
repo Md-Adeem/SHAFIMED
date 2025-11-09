@@ -33,7 +33,7 @@ function MyCases() {
       .filter((c) => (!q ? true : ((c.title || "").toLowerCase().includes(q.toLowerCase()) || (c.referenceId || "").toLowerCase().includes(q.toLowerCase()))));
   }, [cases, tab, q, t]);
 
-  const statusToColor = (s) => (s === t('myCases.pending') ? "yellow" : s === t('myCases.assigned') ? "blue" : s === t('myCases.responded') ? "green" : "red");
+  const statusToColor = (s) => (s === t('myCases.pending') ? "yellow" : s === t('myCases.assigned') ? "blue" : s === t('myCases.closed') ? "green" : "red");
 
   return (
     <PatientLayout
@@ -43,7 +43,7 @@ function MyCases() {
       <div className="bg-white rounded-xl shadow border">
         <div className="px-5 py-4 border-b flex items-center gap-3 flex-wrap">
           <div className="flex gap-2">
-            {([t('myCases.all'), t('myCases.pending'), t('myCases.assigned'), t('myCases.responded'), t('myCases.rejected')]).map((t_val) => (
+            {([t('myCases.all'), t('myCases.pending'), t('myCases.assigned'), t('myCases.closed'), t('myCases.rejected')]).map((t_val) => (
               <button
                 key={t_val}
                 onClick={() => setTab(t_val)}

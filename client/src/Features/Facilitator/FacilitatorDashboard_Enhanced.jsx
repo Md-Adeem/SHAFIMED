@@ -7,7 +7,7 @@ import Button from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 
 // ✅ Possible case statuses
-const STATUSES = ["Pending", "Assigned", "In Progress", "Follow Up", "Responded", "Rejected"];
+const STATUSES = ["Pending", "Assigned", "In Progress", "Follow Up", "Closed", "Rejected"];
 
 export default function FacilitatorDashboard() {
   const { t } = useTranslation();
@@ -83,7 +83,7 @@ export default function FacilitatorDashboard() {
       assigned: 0,
       inprogress: 0,
       followup: 0,
-      responded: 0,
+      Closed: 0,
       rejected: 0,
       unknown: 0,
     };
@@ -190,7 +190,7 @@ export default function FacilitatorDashboard() {
     { label: t('facilitator.inProgress'), value: stats.inprogress, color: "bg-teal-50", icon: "🔄", statusQuery: "In Progress" },
     { label: t('facilitator.followUps'), value: stats.followup, color: "bg-orange-50", icon: "📌", statusQuery: "Follow Up" },
     { label: t('myCases.assigned'), value: stats.assigned, color: "bg-indigo-50", icon: "👨‍⚕️", statusQuery: "Assigned" },
-    { label: t('myCases.responded'), value: stats.responded, color: "bg-green-50", icon: "✅", statusQuery: "Responded" },
+    { label: t('myCases.closed'), value: stats.closed, color: "bg-green-50", icon: "✅", statusQuery: "Closed" },
     { label: t('myCases.rejected'), value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
     { label: t('facilitator.totalCases'), value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
     { label: t('facilitator.failedCases'), value: stats.failed, color: "bg-gray-50", icon: "📋", statusQuery: "Failed Cases" },

@@ -15,12 +15,12 @@ export default function Responded() {
   const refresh = async () => {
     try {
       setLoading(true);
-      const { data } = await api.get("/queries", { params: { status: "Responded" } });
+      const { data } = await api.get("/queries", { params: { status: "Closed" } });
       setCases(data || []);
       setError("");
     } catch (err) {
       console.error(err);
-      setError("Failed to load responded cases.");
+      setError("Failed to load Closed cases.");
     } finally {
       setLoading(false);
     }
@@ -53,7 +53,7 @@ export default function Responded() {
 
   return (
     <FacilitatorLayout
-      title="Responded Cases"
+      title="Closed Cases"
       actions={
         <div className="flex flex-wrap gap-3 items-center">
           <Button onClick={refresh}>Refresh</Button>
@@ -81,11 +81,11 @@ export default function Responded() {
       }
     >
       {loading ? (
-        <p className="text-gray-500 py-5">Loading responded cases...</p>
+        <p className="text-gray-500 py-5">Loading Closed cases...</p>
       ) : error ? (
         <p className="text-red-500 py-5">{error}</p>
       ) : filteredCases.length === 0 ? (
-        <p className="text-gray-500 py-5">No responded cases found.</p>
+        <p className="text-gray-500 py-5">No Closed cases found.</p>
       ) : (
         <div className="overflow-x-auto">
           <CasesTable cases={filteredCases} onStatus={handleStatus} />

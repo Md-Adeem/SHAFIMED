@@ -329,7 +329,7 @@
     "all": "All",
     "pending": "Pending",
     "assigned": "Assigned",
-    "responded": "Responded",
+    "Closed": "Closed",
     "rejected": "Rejected",
     "searchPlaceholder": "Search by title or reference...",
     "reference": "Reference",

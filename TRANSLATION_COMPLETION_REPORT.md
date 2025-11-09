@@ -47,7 +47,7 @@ Patient case submission form:
 
 ### 4. **My Cases Section** (14 keys)
 Case management and viewing:
-- Filters: `all`, `pending`, `assigned`, `responded`, `rejected`
+- Filters: `all`, `pending`, `assigned`, `Closed`, `rejected`
 - Table headers: `reference`, `title`, `country`, `status`, `updated`
 - Actions: `view`, `searchPlaceholder`
 - Messages: `noCasesFound`
@@ -324,7 +324,7 @@ Patient case submission form:
 
 ### 4. **My Cases Section** (14 keys)
 Case management and viewing:
-- Filters: `all`, `pending`, `assigned`, `responded`, `rejected`
+- Filters: `all`, `pending`, `assigned`, `Closed`, `rejected`
 - Table headers: `reference`, `title`, `country`, `status`, `updated`
 - Actions: `view`, `searchPlaceholder`
 - Messages: `noCasesFound`

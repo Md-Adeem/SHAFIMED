@@ -9,7 +9,7 @@ const statusToColor = (status) =>
     ? "yellow"
     : status === "Assigned"
     ? "blue"
-    : status === "Responded"
+    : status === "Closed"
     ? "green"
     : status === "In Progress"
     ? "blue"
@@ -23,7 +23,7 @@ const statusOptions = [
   "Assigned",
   "In Progress",
   "Follow Up",
-  "Responded",
+  "Closed",
   "Closed",
 ];
 
@@ -159,8 +159,8 @@ const RunningCases = () => {
                     <Button size="sm" variant="outline" onClick={() => updateStatus(c._id, "Follow Up")}>
                       Mark Follow Up
                     </Button>
-                    <Button size="sm" variant="outline" onClick={() => updateStatus(c._id, "Responded")}>
-                      Mark Responded
+                    <Button size="sm" variant="outline" onClick={() => updateStatus(c._id, "Closed")}>
+                      Mark Closed
                     </Button>
                   </td>
                 </tr>
