@@ -46,11 +46,7 @@ function Navbar() {
 
   const leftNavItems = [
     { label: "Home",action: () => handleScrollToSection("hero-section"), show: true },
-    {
-      label: "Lowest Quotes",
-      action: () => handleScrollToSection("lowest-quotes"),
-      show: true,
-    },
+    
     {
       label: "Hospitals",
       action: () => handleScrollToSection("hospitals-strip"),
@@ -61,9 +57,20 @@ function Navbar() {
       action: () => handleScrollToSection("services"),
       show: true,
     },
+   
+
+    {
+      label: "Lowest Quotes",
+      action: () => handleScrollToSection("lowest-quotes"),
+      show: true,
+    },
     
-    { label: " About", path: "/about", show: true },
-    { label: " Contact", path: "/contact", show: true },
+    { label: " About Us",
+       //action: () => handleScrollToSection("about"),
+        path: "/about", 
+       show: true 
+    },
+    { label: " Contact Us", path: "/contact", show: true },
   ];
 
   const navbarStyle = isScrolled
