@@ -124,7 +124,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
         </button>
 
         {/* Title */}
-        <h2 className="text-2xl font-bold mb-4 text-green-800">Get a Quote</h2>
+        {/* <h2 className="text-2xl font-bold mb-4 text-green-800">Get a Quote</h2> */}
+      <div className="flex justify-center mb-6">
+  <div className="bg-green-600 text-white font-bold text-2xl px-8 py-1 rounded-md shadow-md text-center">
+    Get a Quote
+  </div>
+</div>
+
+
         {success && <p className="mb-3 text-sm text-green-600">{success}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
