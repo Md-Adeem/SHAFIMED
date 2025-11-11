@@ -21,6 +21,7 @@ function MyCases() {
         setCases(data || []);
       } catch (err) {
         setCases([]);
+        console.error("Failed to fetch cases:", err);
       }
     };
     fetchCases();
