@@ -1,6 +1,5 @@
 // client/src/Features/Facilitator/AllCases.jsx
 import { useEffect, useState, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
@@ -18,7 +17,6 @@ const STATUS_COLORS = {
 };
 
 export default function AllCases() {
-  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [doctors, setDoctors] = useState([]);
 
@@ -95,20 +93,20 @@ export default function AllCases() {
 
   return (
     <FacilitatorLayout
-      title={t("facilitator.allCases")}
-      actions={<Button onClick={refresh}>{t("facilitator.refresh")}</Button>}
+      title={"All Cases"}
+      actions={<Button onClick={refresh}>Refresh</Button>}
     >
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
+        <Card className="p-4">
           <div className="text-gray-500 text-sm">Total Cases</div>
           <div className="text-3xl font-bold">{cases.length}</div>
         </Card>
-        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
+        <Card className="p-4">
           <div className="text-gray-500 text-sm">Filtered Cases</div>
           <div className="text-3xl font-bold">{filteredCases.length}</div>
         </Card>
-        <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
+        <Card className="p-4">
           <div className="text-gray-500 text-sm">Date Filtered Cases</div>
           <div className="text-3xl font-bold">{startDate || endDate ? filteredCases.length : cases.length}</div>
         </Card>

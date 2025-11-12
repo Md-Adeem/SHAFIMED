@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-
 const faqData = [
   {
     category: 'General',
@@ -130,7 +128,6 @@ const faqData = [
 ];
 
 function FAQSection() {
-  const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState('General');
   const [openQuestion, setOpenQuestion] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');

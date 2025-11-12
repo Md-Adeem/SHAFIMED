@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
 import { useSearchParams } from "react-router-dom";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
@@ -7,7 +6,6 @@ import { Card } from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
 
 export default function ViewByRef() {
-  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const initial = searchParams.get("ref") || "";
   const [ref, setRef] = useState(initial);
@@ -24,7 +22,7 @@ export default function ViewByRef() {
       setItem(data || null);
     } catch (e) {
       setItem(null);
-      setError(e.response?.data?.message || t('facilitator.caseNotFound'));
+      setError(e.response?.data?.message || "Case not found");
     } finally {
       setLoading(false);
     }
@@ -43,21 +41,21 @@ export default function ViewByRef() {
   const valueClass = "text-lg font-semibold";
 
   return (
-    <FacilitatorLayout title={t('facilitator.viewByRef')}>
+    <FacilitatorLayout title="View by Reference">
       {/* Search Card */}
       <Card className="p-6 mb-8">
         <div className="flex flex-col sm:flex-row gap-4 items-center">
           <input
             value={ref}
             onChange={(e) => setRef(e.target.value)}
-            placeholder={`${t('facilitator.enterReferenceId')} (e.g., SHF-20250917-ABCD)`}
+            placeholder="Enter reference ID (e.g., SHF-20250917-ABCD)"
             className="px-4 py-3 border rounded-lg w-full sm:w-96 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <Button onClick={onSearch} disabled={loading} className="px-6 py-3">
-            {loading ? t('facilitator.searching') : t('searchBar.search')}
+            {loading ? "Searching..." : "Search"}
           </Button>
           <Button variant="outline" onClick={() => { setRef(""); setItem(null); setSearchParams({}); }} className="px-6 py-3">
-            {t('facilitator.clear')}
+            Clear
           </Button>
         </div>
         {error && <div className="mt-4 text-red-600 text-lg">{error}</div>}
@@ -67,7 +65,7 @@ export default function ViewByRef() {
       {item && (
         <div className="space-y-8">
           <Card className="p-6">
-            <h2 className="text-2xl font-bold text-blue-700 mb-4">{t('CaseProfile')}</h2>
+            <h2 className="text-2xl font-bold text-blue-700 mb-4">Case Profile</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <div className={labelClass}>Reference</div>

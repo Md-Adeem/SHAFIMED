@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
@@ -8,7 +7,6 @@ import { Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import dayjs from "dayjs";
 
 export default function PendingCases() {
-  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(null);
@@ -92,7 +90,7 @@ const groupedCases = useMemo(() => {
 
   return (
   <FacilitatorLayout
-    title={t("facilitator.pendingCases")}
+    title="Pending Cases"
     actions={
       <div className="flex gap-3 items-center">
         <select
@@ -100,7 +98,7 @@ const groupedCases = useMemo(() => {
           onChange={(e) => setDept(e.target.value)}
           className="px-3 py-2 border rounded-lg text-sm bg-white"
         >
-          <option value="">{t("common.allDepartments")}</option>
+          <option value="">All Departments</option>
           {departments.map((d) => (
             <option key={d} value={d}>
               {d}
@@ -110,7 +108,7 @@ const groupedCases = useMemo(() => {
 
         <Button onClick={refresh} disabled={loading}>
           {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-          {t("facilitator.refresh")}
+          Refresh
         </Button>
       </div>
     }
@@ -118,11 +116,11 @@ const groupedCases = useMemo(() => {
     {loading ? (
       <div className="flex justify-center items-center py-10 text-gray-500">
         <Loader2 className="h-6 w-6 animate-spin mr-2" />
-        {t("facilitator.loadingCases")}
+        Loading cases...
       </div>
     ) : Object.keys(groupedCases).length === 0 ? (
       <div className="text-center py-10 text-gray-500">
-        {t("facilitator.noCasesAvailable")}
+        No cases available
       </div>
     ) : (
       // Scrollable container

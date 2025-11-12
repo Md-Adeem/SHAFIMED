@@ -1,12 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
 import CasesTable from "./CasesTable";
 
 export default function FollowUps() {
-  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -55,10 +53,10 @@ export default function FollowUps() {
 
   return (
     <FacilitatorLayout
-      title={t("facilitator.followUps")}
+      title="Follow Ups"
       actions={
         <div className="flex flex-wrap gap-3 items-center">
-          <Button onClick={refresh}>{t("facilitator.refresh")}</Button>
+          <Button onClick={refresh}>Refresh</Button>
 
           <select value={deptFilter} onChange={(e) => setDeptFilter(e.target.value)} className="border rounded-md px-3 py-2 bg-white text-sm">
             {departments.map((d) => (

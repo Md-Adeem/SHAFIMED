@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import PatientLayout from "../../components/layout/PatientLayout";
 import Button from "../../components/ui/Button";
 import { Label, Input, Textarea } from "../../components/ui/Input";
 
 const PatientProfile = () => {
-  const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     age: "",
@@ -71,14 +69,14 @@ const PatientProfile = () => {
 
     try {
       await api.post("/profile", formData);
-      setMessage(t('patientProfile.saveSuccess'));
+      setMessage("Profile saved successfully! ✅");
 
       // ✅ Re-fetch updated data immediately
       const res = await api.get("/profile");
       if (res.data?.profile) setFormData(res.data.profile);
     } catch (err) {
       console.error("❌ Error saving profile:", err);
-      setMessage(t('patientProfile.saveError'));
+      setMessage("Failed to save profile. Please try again.");
     } finally {
       setSaving(false);
     }
@@ -86,50 +84,50 @@ const PatientProfile = () => {
 
   if (loading) {
     return (
-      <PatientLayout title={t('patientProfile.title')}>
-        <div className="text-center py-10 text-gray-500">{t('loading')}...</div>
+      <PatientLayout title="My Profile">
+        <div className="text-center py-10 text-gray-500">Loading...</div>
       </PatientLayout>
     );
   }
 
   return (
-    <PatientLayout title={t('patientProfile.title')}>
+    <PatientLayout title="My Profile">
       <div className="max-w-2xl">
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow border p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <Label>{t('patientProfile.age')}</Label>
+              <Label>Age</Label>
               <Input
                 type="number"
                 name="age"
                 value={formData.age}
                 onChange={handleChange}
-                placeholder={t('patientProfile.agePlaceholder')}
+                placeholder="Enter your age"
               />
             </div>
 
             <div>
-              <Label>{t('patientProfile.gender')}</Label>
+              <Label>Gender</Label>
               <select
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
                 className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
               >
-                <option value="">{t('patientProfile.selectGender')}</option>
-                <option value="Male">{t('patientProfile.male')}</option>
-                <option value="Female">{t('patientProfile.female')}</option>
-                <option value="Other">{t('patientProfile.other')}</option>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
               </select>
             </div>
           </div>
 
           <div>
-            <Label>{t('patientProfile.location')}</Label>
+            <Label>Location</Label>
             <Input
               type="text"
               name="location"
-              placeholder={t('patientProfile.locationPlaceholder')}
+              placeholder="Your location"
               value={formData.location}
               onChange={handleChange}
             />
@@ -137,22 +135,22 @@ const PatientProfile = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <Label>{t('patientProfile.height')}</Label>
+              <Label>Height</Label>
               <Input
                 type="text"
                 name="height"
-                placeholder={t('patientProfile.heightPlaceholder')}
+                placeholder="e.g., 5'10\"
                 value={formData.height}
                 onChange={handleChange}
               />
             </div>
 
             <div>
-              <Label>{t('patientProfile.weight')}</Label>
+              <Label>Weight</Label>
               <Input
                 type="text"
                 name="weight"
-                placeholder={t('patientProfile.weightPlaceholder')}
+                placeholder="e.g., 70 kg"
                 value={formData.weight}
                 onChange={handleChange}
               />
@@ -160,14 +158,14 @@ const PatientProfile = () => {
           </div>
 
           <div>
-            <Label>{t('patientProfile.bloodGroup')}</Label>
+            <Label>Blood Group</Label>
             <select
               name="bloodGroup"
               value={formData.bloodGroup}
               onChange={handleChange}
               className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
             >
-              <option value="">{t('patientProfile.selectBloodGroup')}</option>
+              <option value="">Select Blood Group</option>
               <option value="A+">A+</option>
               <option value="A-">A-</option>
               <option value="B+">B+</option>
@@ -180,11 +178,11 @@ const PatientProfile = () => {
           </div>
 
           <div>
-            <Label>{t('patientProfile.medicalHistory')}</Label>
+            <Label>Medical History</Label>
             <Textarea
               name="medicalHistory"
               rows={4}
-              placeholder={t('patientProfile.medicalHistoryPlaceholder')}
+              placeholder="Describe your medical history"
               value={formData.medicalHistory}
               onChange={handleChange}
             />
@@ -192,22 +190,22 @@ const PatientProfile = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <Label>{t('patientProfile.currentMedications')}</Label>
+              <Label>Current Medications</Label>
               <Input
                 type="text"
                 name="currentMedications"
-                placeholder={t('patientProfile.currentMedicationsPlaceholder')}
+                placeholder="List current medications"
                 value={formData.currentMedications}
                 onChange={handleChange}
               />
             </div>
 
             <div>
-              <Label>{t('patientProfile.allergies')}</Label>
+              <Label>Allergies</Label>
               <Input
                 type="text"
                 name="allergies"
-                placeholder={t('patientProfile.allergiesPlaceholder')}
+                placeholder="Known allergies"
                 value={formData.allergies}
                 onChange={handleChange}
               />
@@ -216,22 +214,22 @@ const PatientProfile = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <Label>{t('patientProfile.emergencyContact')}</Label>
+              <Label>Emergency Contact</Label>
               <Input
                 type="tel"
                 name="emergencyContact"
-                placeholder={t('patientProfile.emergencyContactPlaceholder')}
+                placeholder="Emergency contact number"
                 value={formData.emergencyContact}
                 onChange={handleChange}
               />
             </div>
 
             <div>
-              <Label>{t('patientProfile.emergencyContactRelation')}</Label>
+              <Label>Emergency Contact Relation</Label>
               <Input
                 type="text"
                 name="emergencyContactRelation"
-                placeholder={t('patientProfile.emergencyContactRelationPlaceholder')}
+                placeholder="Relation to emergency contact"
                 value={formData.emergencyContactRelation}
                 onChange={handleChange}
               />
@@ -239,11 +237,11 @@ const PatientProfile = () => {
           </div>
 
           <div>
-            <Label>{t('patientProfile.insuranceInfo')}</Label>
+            <Label>Insurance Info</Label>
             <Input
               type="text"
               name="insuranceInfo"
-              placeholder={t('patientProfile.insuranceInfoPlaceholder')}
+              placeholder="Insurance information"
               value={formData.insuranceInfo}
               onChange={handleChange}
             />
@@ -251,7 +249,7 @@ const PatientProfile = () => {
 
           <div className="pt-2">
             <Button type="submit" disabled={saving} className="w-full">
-              {saving ? t('saving') + "..." : t('patientProfile.saveProfile')}
+              {saving ? "Saving..." : "Save Profile"}
             </Button>
           </div>
 

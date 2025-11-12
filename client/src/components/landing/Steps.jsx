@@ -1,5 +1,3 @@
-import { useTranslation } from "react-i18next";
-
 const steps = [
   {
     title: "Medical Consultation & Review",
@@ -20,7 +18,7 @@ const steps = [
       </svg>
     ),
     step: "01",
-    timeline: "24-48 hrs",
+    timeline: "0-24 hrs",
     features: [
       "Free medical consultation",
       "Medical report analysis",
@@ -46,7 +44,7 @@ const steps = [
       </svg>
     ),
     step: "02",
-    timeline: "3-7 days",
+    timeline: "2-3 days",
     features: [
       "Multiple verified quotes",
       "Doctor background checks",
@@ -72,7 +70,7 @@ const steps = [
       </svg>
     ),
     step: "03",
-    timeline: "7-14 days",
+    timeline: "3-7 days",
     features: ["Visa support", "Travel arrangements", "Hotel bookings"],
   },
   {
@@ -104,36 +102,34 @@ const steps = [
 ];
 
 function Steps() {
-  const { t } = useTranslation();
-
   const stepsData = [
     {
-      title: t("steps.step1.title"),
-      text: t("steps.step1.description"),
+      title: 'Medical Consultation & Review',
+      text: 'Upload medical reports and book a free consultation. Our medical advisors review your case within 24 hours and recommend treatment options.',
       icon: steps[0].icon,
       step: "01",
       timeline: steps[0].timeline,
       features: steps[0].features,
     },
     {
-      title: t("steps.step2.title"),
-      text: t("steps.step2.description"),
+      title: 'Hospital & Doctor Selection',
+      text: 'Receive verified quotes from 3-5 top hospitals. Compare success rates, costs, and doctor credentials before making your decision.',
       icon: steps[1].icon,
       step: "02",
       timeline: steps[1].timeline,
       features: steps[1].features,
     },
     {
-      title: t("steps.step3.title"),
-      text: t("steps.step3.description"),
+      title: 'Travel & Documentation',
+      text: 'Complete visa assistance, flight bookings, and accommodation arrangements. We coordinate with hospitals for appointment scheduling.',
       icon: steps[2].icon,
       step: "03",
       timeline: steps[2].timeline,
       features: steps[2].features,
     },
     {
-      title: t("steps.step4.title"),
-      text: t("steps.step4.description"),
+      title: 'Treatment & Recovery Support',
+      text: '24/7 support during treatment, language interpretation, family assistance, and post-treatment follow-up care coordination.',
       icon: steps[3].icon,
       step: "04",
       timeline: steps[3].timeline,
@@ -156,10 +152,10 @@ function Steps() {
             🔄 Simple Process
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-            {t("steps.title")}
+            How It Works
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {t("steps.subtitle")}
+            Your journey to better health made simple and seamless
           </p>
         </div>
 
@@ -239,10 +235,10 @@ function Steps() {
         {/* Bottom CTA */}
         <div className="bg-gradient-to-r from-white to-teal-50 rounded-2xl shadow-xl border border-teal-100 p-8 text-center">
           <h3 className="text-2xl font-bold text-gray-900 mb-4">
-            {t("cta.title")}
+            Start Your Medical Journey Today
           </h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            {t("cta.subtitle")}
+            Connect with our experts for a free consultation and personalized treatment plan
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
@@ -261,7 +257,7 @@ Thank you very much.`
               }}
               className="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
             >
-              {t("cta.primaryButton")}
+              Chat with Expert
             </button>
           </div>
         </div>

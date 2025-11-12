@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 
 export default function QuotesList() {
-  const { t } = useTranslation();
   const [quotes, setQuotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -88,7 +86,7 @@ export default function QuotesList() {
     );
 
   return (
-    <FacilitatorLayout title={t("facilitator.quotes")}>
+    <FacilitatorLayout title="Quotes">
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
         <Card className="p-4 flex flex-col items-center justify-center hover:shadow-lg transition cursor-pointer">
