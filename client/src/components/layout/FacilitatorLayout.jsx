@@ -40,8 +40,8 @@ function FacilitatorLayout({ title, actions, children }) {
             <button onClick={() => go("/facilitator/pending")} className={sidebarBtn}>⏳ Pending Cases</button>
             <button onClick={() => go("/facilitator/running-cases")} className={sidebarBtn}>🔍 Assigned Cases</button>
             <button onClick={() => go("/facilitator/inprogress")} className={sidebarBtn}>🚧 In Progress</button>
-            <button onClick={() => go("/facilitator/followups")} className={sidebarBtn}>🔁 Follow Ups</button>
             <button onClick={() => go("/facilitator/closed")} className={sidebarBtn}>✅ Closed Cases</button>
+            <button onClick={() => go("/facilitator/followups")} className={sidebarBtn}>🔁 Follow Ups</button>
             <button onClick={() => go("/facilitator/rejected")} className={sidebarBtn}>❌ Failed Cases</button>
           </div>
 

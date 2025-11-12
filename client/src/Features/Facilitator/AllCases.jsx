@@ -26,7 +26,7 @@ function ShimmerLoader() {
 
 
 
-const STATUS_OPTIONS = ["Pending", "Assigned", "In Progress", "Follow Up", "Closed", "Rejected"];
+const STATUS_OPTIONS = ["Pending", "Assigned", "In Progress", "Follow Up", "Closed"];
 const STATUS_COLORS = {
   Pending: "bg-yellow-100 text-yellow-800",
   Assigned: "bg-indigo-100 text-indigo-800",
