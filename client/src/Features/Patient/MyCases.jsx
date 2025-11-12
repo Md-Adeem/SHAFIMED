@@ -1,6 +1,5 @@
 
 import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import CaseDetailsModal from "./CaseDetailsModal";
 import PatientLayout from "../../components/layout/PatientLayout";
@@ -8,7 +7,6 @@ import Button from "../../components/ui/Button";
 import Badge from "../../components/ui/Badge";
 
 function MyCases() {
-  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [selectedCase, setSelectedCase] = useState(null);
   const [tab, setTab] = useState("All");
@@ -29,22 +27,22 @@ function MyCases() {
 
   const filtered = useMemo(() => {
     return cases
-      .filter((c) => (tab === t('myCases.all') ? true : c.status === tab))
+      .filter((c) => (tab === "All" ? true : c.status === tab))
     //  .filter((c) => (!q ? true : c.title.toLowerCase().includes(q.toLowerCase())));
       .filter((c) => (!q ? true : ((c.title || "").toLowerCase().includes(q.toLowerCase()) || (c.referenceId || "").toLowerCase().includes(q.toLowerCase()))));
-  }, [cases, tab, q, t]);
+  }, [cases, tab, q]);
 
-  const statusToColor = (s) => (s === t('myCases.pending') ? "yellow" : s === t('myCases.assigned') ? "blue" : s === t('myCases.closed') ? "green" : "red");
+  const statusToColor = (s) => (s === "Pending" ? "yellow" : s === "Assigned" ? "blue" : s === "Responded" ? "green" : "red");
 
   return (
     <PatientLayout
-      title={t('myCases.title')}
-      actions={<Button onClick={() => (window.location.href = "/submit-case")}>{t('myCases.submitCase')}</Button>}
+      title="My Cases"
+      actions={<Button onClick={() => (window.location.href = "/submit-case")}>Submit Case</Button>}
     >
       <div className="bg-white rounded-xl shadow border">
         <div className="px-5 py-4 border-b flex items-center gap-3 flex-wrap">
           <div className="flex gap-2">
-            {([t('myCases.all'), t('myCases.pending'), t('myCases.assigned'), t('myCases.closed'), t('myCases.rejected')]).map((t_val) => (
+            {(["All", "Pending", "Assigned", "Responded", "Rejected"]).map((t_val) => (
               <button
                 key={t_val}
                 onClick={() => setTab(t_val)}
@@ -58,7 +56,7 @@ function MyCases() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder={t('myCases.searchPlaceholder')}
+              placeholder="Search cases..."
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
             />
           </div>
@@ -68,18 +66,18 @@ function MyCases() {
           <table className="min-w-full text-sm">
             <thead className="bg-gray-50 text-gray-600">
             <tr>
-               <th className="px-5 py-3 text-left font-semibold">{t('myCases.reference')}</th>
-                <th className="px-5 py-3 text-left font-semibold">{t('myCases.title')}</th>
-                <th className="px-5 py-3 text-left font-semibold">{t('myCases.country')}</th>
-                <th className="px-5 py-3 text-left font-semibold">{t('myCases.status')}</th>
-                <th className="px-5 py-3 text-left font-semibold">{t('myCases.updated')}</th>
-                <th className="px-5 py-3 text-left font-semibold">{t('myCases.action')}</th>
+               <th className="px-5 py-3 text-left font-semibold">Reference</th>
+                <th className="px-5 py-3 text-left font-semibold">Title</th>
+                <th className="px-5 py-3 text-left font-semibold">Country</th>
+                <th className="px-5 py-3 text-left font-semibold">Status</th>
+                <th className="px-5 py-3 text-left font-semibold">Updated</th>
+                <th className="px-5 py-3 text-left font-semibold">Action</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-5 py-10 text-center text-gray-500">{t('myCases.noCasesFound')}</td>
+                  <td colSpan="5" className="px-5 py-10 text-center text-gray-500">No cases found</td>
                 </tr>
               ) : (
                 filtered.map((c) => (
@@ -92,7 +90,7 @@ function MyCases() {
                     </td>
                     <td className="px-5 py-3 text-gray-600">{new Date(c.updatedAt).toLocaleDateString()}</td>
                     <td className="px-5 py-3">
-                      <Button size="sm" variant="outline" onClick={() => setSelectedCase(c)}>{t('myCases.view')}</Button>
+                      <Button size="sm" variant="outline" onClick={() => setSelectedCase(c)}>View</Button>
                     </td>
                   </tr>
                 ))

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import { useNavigate } from "react-router-dom";
 import PatientLayout from "../../components/layout/PatientLayout";
@@ -9,7 +8,6 @@ import ProfileCompletionBanner from "../../components/ProfileCompletionBanner";
 import useProfileCompletion from "../../hooks/useProfileCompletion";
 
 const SubmitCase = () => {
-  const { t } = useTranslation();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   console.log(user);
 
@@ -36,10 +34,10 @@ const SubmitCase = () => {
   // Redirect to profile if not complete
   useEffect(() => {
     if (!profileLoading && !isProfileComplete) {
-      alert(t('submitCase.completeProfileAlert'));
+      alert("Please complete your profile before submitting a case.");
       navigate("/profile");
     }
-  }, [profileLoading, isProfileComplete, navigate, t]);
+  }, [profileLoading, isProfileComplete, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,7 +65,7 @@ const SubmitCase = () => {
       files.forEach((f) => data.append("attachments", f));
 
       const res = await api.post("/queries", data, { headers: { "Content-Type": "multipart/form-data" } });
-      setMessage(`${t('submitCase.submitSuccess')} ${res.data?.query?.referenceId || "—"}`);
+      setMessage(`Case submitted successfully! Reference: ${res.data?.query?.referenceId || "—"}`);
       setFormData({ 
         fullName: "", 
         title: "", 
@@ -84,7 +82,7 @@ const SubmitCase = () => {
         navigate("/my-cases");
       }, 1500);
     } catch (err) {
-      setMessage(`${t('submitCase.submitError')} ${err.response?.data?.message || err.message}`);
+      setMessage(`Failed to submit case: ${err.response?.data?.message || err.message}`);
     } finally {
       setLoading(false);
     }
@@ -93,11 +91,11 @@ const SubmitCase = () => {
   // Show loading state while checking profile
   if (profileLoading) {
     return (
-      <PatientLayout title={t('submitCase.title')}>
+      <PatientLayout title="Submit Case">
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">{t('submitCase.checkingProfile')}</p>
+            <p className="text-gray-600">Checking profile...</p>
           </div>
         </div>
       </PatientLayout>
@@ -107,12 +105,12 @@ const SubmitCase = () => {
   // Don't render form if profile is not complete
   if (!isProfileComplete) {
     return (
-      <PatientLayout title={t('submitCase.title')}>
+      <PatientLayout title="Submit Case">
         <div className="max-w-2xl mx-auto">
           <ProfileCompletionBanner missingFields={missingFields} />
           <div className="mt-6 text-center">
-            <p className="text-gray-600 mb-4">{t('submitCase.redirecting')}</p>
-            <Button onClick={() => navigate("/profile")}>{t('submitCase.goToProfile')}</Button>
+            <p className="text-gray-600 mb-4">Redirecting to profile...</p>
+            <Button onClick={() => navigate("/profile")}>Go to Profile</Button>
           </div>
         </div>
       </PatientLayout>
@@ -121,8 +119,8 @@ const SubmitCase = () => {
 
   return (
     <PatientLayout
-      title={t('submitCase.title')}
-      actions={<Button onClick={() => navigate("/my-cases")} variant="secondary">{t('myCases.title')}</Button>}
+      title="Submit Case"
+      actions={<Button onClick={() => navigate("/my-cases")} variant="secondary">My Cases</Button>}
     >
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white rounded-xl shadow border-2 border-gray-400 p-6 space-y-5">

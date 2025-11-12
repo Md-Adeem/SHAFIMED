@@ -8,6 +8,7 @@ import Quotes from "../components/landing/Quotes";
 import Amenities from "../components/landing/Amenities";
 import FAQSection from "../components/landing/FAQSection";
 import Footer from "../components/landing/Footer";
+import FloatingEnquiryButton from "../components/ui/FloatingEnquiryButton";
 
 const Home = () => {
   return (
@@ -49,6 +50,9 @@ const Home = () => {
 
       {/* 9. Footer */}
       <Footer />
+      
+      {/* Floating Enquiry and WhatsApp Buttons */}
+      <FloatingEnquiryButton />
     </main>
   );
 };

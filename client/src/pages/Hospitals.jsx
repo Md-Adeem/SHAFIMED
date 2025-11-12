@@ -2,10 +2,9 @@ import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import hospitals from "../data/hospitals";
 import Footer from "../components/landing/Footer";
+import FloatingEnquiryButton from "../components/ui/FloatingEnquiryButton";
 
-function Hospitals() {
-  // const { t } = useTranslation();
-
+const Hospitals = () => {
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50 pt-24 pb-12 relative overflow-hidden">
@@ -158,8 +157,9 @@ function Hospitals() {
         </div>
       </div>
       <Footer />
+      <FloatingEnquiryButton />
     </>
   );
-}
+};
 
 export default Hospitals;

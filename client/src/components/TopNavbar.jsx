@@ -1,49 +1,89 @@
 import { Link } from "react-router-dom";
-import LanguageSwitcher from "./LanguageSwitcher";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import QuoteModal from "./ui/QuoteModal";
 
 const TopNavbar = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const initGoogleTranslate = () => {
+      if (window.google && window.google.translate) {
+        // Prevent duplicate widget initialization
+        if (
+          !document.querySelector(
+            "#google_translate_element_nav .goog-te-combo"
+          )
+        ) {
+          new window.google.translate.TranslateElement(
+            {
+              pageLanguage: "en",
+              includedLanguages: "en,ar,fr,de,es,hi,bn,ru",
+              layout:
+                window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+              autoDisplay: false,
+            },
+            "google_translate_element_nav"
+          );
+        }
+      } else {
+        setTimeout(initGoogleTranslate, 500);
+      }
+    };
+
+    // Load Google Translate script only once globally
+    if (!document.getElementById("google_translate_script")) {
+      const script = document.createElement("script");
+      script.id = "google_translate_script";
+      script.src =
+        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInitNav";
+      script.async = true;
+      document.body.appendChild(script);
+
+      window.googleTranslateElementInitNav = initGoogleTranslate;
+    } else {
+      initGoogleTranslate();
+    }
+  }, []);
+
   return (
-    <div className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-2 shadow-sm">
+    <div className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-2 shadow-sm relative z-[999]">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 text-sm">
-        {/* Left - Brand/Info */}
-       <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-gradient-to-r from-teal-600 to-emerald-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
-            </div>
-            <span
-              className="text-2xl font-extrabold transition-colors text-white"
-            >
-              ShaafiMed - International
-            </span>
-          </Link>
+        {/* Left - Brand */}
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="w-12 h-12 flex items-center justify-center">
+            <img
+              src="/src/assets/ShaafiMedX.jpg"
+              alt="ShaafiMedX Logo"
+              className="w-12 h-12 object-contain"
+            />
+          </div>
+          <span className="text-2xl font-extrabold text-white">
+            ShaafiMedX-International
+          </span>
+        </Link>
 
-       
+        {/* Right - Translate + Quote */}
+        <div className="flex items-center gap-3 relative">
+          {/* Google Translate Widget */}
+          <div
+            id="google_translate_element_nav"
+            className="flex items-center bg-white/20 rounded-md px-2 py-[2px] min-h-[36px]"
+          ></div>
 
-        {/* Right - Actions */}
-        <div className="flex items-center  gap-3">
-          
-          <button onClick={() => setIsModalOpen(true)} className="bg-red-600 hover:bg-red-700 px-7 py-3 text-white rounded-md text-sm font-semibold">
+          {/* Get Quote Button */}
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-red-600 hover:bg-red-700 px-7 py-3 text-white rounded-md text-sm font-semibold"
+          >
             Get Quote
           </button>
         </div>
 
         {/* Quote Modal */}
-        <QuoteModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <QuoteModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
       </div>
     </div>
   );

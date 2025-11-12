@@ -1,6 +1,5 @@
 // client/src/Features/Facilitator/Patients.jsx
 import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import { Card } from "../../components/ui/Card";
@@ -8,7 +7,6 @@ import PatientsShimmer from "../../components/ui/PatientsShimmer";
 
 
 export default function Patients() {
-  const { t } = useTranslation();
   const [patients, setPatients] = useState([]);
   const [q, setQ] = useState("");
   const [loading, setLoading] = useState(true);
@@ -50,44 +48,40 @@ export default function Patients() {
   }, [patients, q]);
 
   return (
-    <FacilitatorLayout title={t('facilitator.patients')}>
+    <FacilitatorLayout title="Patients">
       {/* Search Bar */}
       <Card className="p-4 mb-4 flex flex-col sm:flex-row gap-3 sm:items-center">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder={`${t('common.search')}...`}
+          placeholder="Search..."
           className="px-3 py-2 border rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
         />
         <span className="text-sm text-gray-500">
-          {filtered.length} {t('common.of')} {patients.length} {t('facilitator.patients').toLowerCase()}
+          {filtered.length} of {patients.length} patients
         </span>
       </Card>
 
       {/* Table */}
       <Card className="overflow-hidden">
-        {/* {loading ? (
-          <div className="p-6 text-center text-gray-500">{t('facilitator.loadingCases')}</div>
-        ) : error ? ( */}
         {loading ? (
-  <PatientsShimmer />
-) : error ? (
-
+          <div className="p-6 text-center text-gray-500">Loading cases...</div>
+        ) : error ? (
           <div className="p-6 text-center text-red-500">{error}</div>
         ) : filtered.length === 0 ? (
-          <div className="p-6 text-center text-gray-500">{t('facilitator.noCasesAvailable')}</div>
+          <div className="p-6 text-center text-gray-500">No cases available</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">
               <thead className="bg-gray-50 text-gray-600">
                 <tr>
-                  <th className="px-5 py-3 text-left font-semibold">{t('common.name')}</th>
-                  <th className="px-5 py-3 text-left font-semibold">{t('auth.email')}</th>
-                  <th className="px-5 py-3 text-left font-semibold">{t('patientProfile.age')}</th>
-                  <th className="px-5 py-3 text-left font-semibold">{t('patientProfile.gender')}</th>
-                  <th className="px-5 py-3 text-left font-semibold">{t('patientProfile.location')}</th>
-                  <th className="px-5 py-3 text-left font-semibold">{t('patientProfile.medicalHistory')}</th>
-                  <th className="px-5 py-3 text-left font-semibold">{t('common.joined')}</th>
+                  <th className="px-5 py-3 text-left font-semibold">Name</th>
+                  <th className="px-5 py-3 text-left font-semibold">Email</th>
+                  <th className="px-5 py-3 text-left font-semibold">Age</th>
+                  <th className="px-5 py-3 text-left font-semibold">Gender</th>
+                  <th className="px-5 py-3 text-left font-semibold">Location</th>
+                  <th className="px-5 py-3 text-left font-semibold">Medical History</th>
+                  <th className="px-5 py-3 text-left font-semibold">Joined</th>
                 </tr>
               </thead>
               <tbody>

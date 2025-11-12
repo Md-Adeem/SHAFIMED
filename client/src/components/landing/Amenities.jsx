@@ -1,4 +1,4 @@
-// import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 const services = [
   {
@@ -82,8 +82,6 @@ const services = [
 ];
 
 function Amenities() {
-  // const { t } = useTranslation();
-
   return (
     <section className="py-20 bg-gradient-to-br from-teal-50 via-white to-emerald-50 relative overflow-hidden">
       {/* Background Elements */}
