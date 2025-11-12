@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import { Card } from "../../components/ui/Card";
+import PatientsShimmer from "../../components/ui/PatientsShimmer";
+
 
 export default function Patients() {
   const [patients, setPatients] = useState([]);

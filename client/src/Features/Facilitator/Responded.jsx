@@ -3,6 +3,18 @@ import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
 import CasesTable from "./CasesTable";
+import TableShimmer from "../../components/ui/TableShimmer";
+
+
+function FiltersShimmer() {
+  return (
+    <div className="flex flex-wrap gap-3 mb-6 animate-pulse">
+      {[...Array(4)].map((_, i) => (
+        <div key={i} className="h-10 bg-gray-200 rounded w-32"></div>
+      ))}
+    </div>
+  );
+}
 
 export default function Responded() {
   const [cases, setCases] = useState([]);
@@ -55,6 +67,9 @@ export default function Responded() {
     <FacilitatorLayout
       title="Responded Cases"
       actions={
+        loading ? (
+          <FiltersShimmer />
+        ) : (
         <div className="flex flex-wrap gap-3 items-center">
           <Button onClick={refresh}>Refresh</Button>
 
@@ -78,10 +93,11 @@ export default function Responded() {
             className="border rounded-md px-3 py-2 text-sm"
           />
         </div>
+        )
       }
     >
       {loading ? (
-        <p className="text-gray-500 py-5">Loading responded cases...</p>
+        <TableShimmer rows={6} />
       ) : error ? (
         <p className="text-red-500 py-5">{error}</p>
       ) : filteredCases.length === 0 ? (

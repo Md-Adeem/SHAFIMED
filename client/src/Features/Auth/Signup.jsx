@@ -2,18 +2,19 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../lib/api";
 import toast from "react-hot-toast";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // ✅ Added icons
 
 export default function Signup() {
   const navigate = useNavigate();
 
+  // ✅ States
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("patient");
   const [specialization, setSpecialization] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
@@ -24,8 +25,8 @@ export default function Signup() {
       return;
     }
 
-    setLoading(true);
     try {
+      setLoading(true);
       const response = await api.post("/auth/register", {
         name,
         email,
@@ -161,8 +162,9 @@ export default function Signup() {
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               >
                 <option value="patient">Patient</option>
-                {/* <option value="doctor">Doctor</option>
-                <option value="facilitator">Facilitator</option> */}
+                {/* Uncomment below if needed */}
+                {/* <option value="doctor">Doctor</option> */}
+                {/* <option value="facilitator">Facilitator</option> */}
               </select>
             </div>
 

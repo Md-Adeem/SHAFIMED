@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import { Card } from "../../components/ui/Card";
+import ShimmerLoader from "../../components/ui/ShimmerLoader";
 import Button from "../../components/ui/Button";
 
 const COMMON_DEPARTMENTS = [

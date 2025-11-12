@@ -247,7 +247,7 @@ function Navbar() {
                     className="block px-3 py-2 bg-teal-600 text-white font-semibold rounded-lg text-center hover:bg-teal-700 transition"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Sign Up
+                    Register Here
                   </Link>
                 </>
               ) : (

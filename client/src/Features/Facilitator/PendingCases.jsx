@@ -5,6 +5,8 @@ import Button from "../../components/ui/Button";
 import CasesTable from "./CasesTable";
 import { Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import dayjs from "dayjs";
+import TableShimmer from "../../components/ui/TableShimmer";
+
 
 export default function PendingCases() {
   const [cases, setCases] = useState([]);

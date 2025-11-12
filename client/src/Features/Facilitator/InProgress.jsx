@@ -3,6 +3,8 @@ import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
 import CasesTable from "./CasesTable";
+import TableShimmer from "../../components/ui/TableShimmer";
+
 
 export default function InProgress() {
   const [cases, setCases] = useState([]);
@@ -13,12 +15,22 @@ export default function InProgress() {
   const [sortOrder, setSortOrder] = useState("latest");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [loading, setLoading] = useState(false); 
+
 
   const refresh = async () => {
+  try {
+    setLoading(true);
     const { data } = await api.get("/queries", { params: { status: "In Progress" } });
     setCases(data || []);
     setFilteredCases(data || []);
-  };
+  } catch (err) {
+    console.error("Error fetching in-progress cases:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     refresh();
@@ -116,7 +128,18 @@ export default function InProgress() {
         </select>
       </div>
 
-      <CasesTable cases={filteredCases} onStatus={handleStatus} />
+      {/* <CasesTable cases={filteredCases} onStatus={handleStatus} /> */}
+
+      {loading ? (
+  <TableShimmer />
+) : filteredCases.length === 0 ? (
+  <div className="text-center py-10 text-gray-500">
+    No in-progress cases found.
+  </div>
+) : (
+  <CasesTable cases={filteredCases} onStatus={handleStatus} />
+)}
+
     </FacilitatorLayout>
   );
 }
