@@ -6,7 +6,7 @@ import Badge from "../../components/ui/Badge";
 const CaseDetailsModal = ({ caseData, onClose }) => {
   if (!caseData) return null;
 
-  const statusColor = caseData.status === "Pending" ? "yellow" : caseData.status === "Assigned" ? "blue" : caseData.status === "Responded" ? "green" : "red";
+  const statusColor = caseData.status === "Pending" ? "yellow" : caseData.status === "Assigned" ? "blue" : caseData.status === "Closed" ? "green" : "red";
 
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">

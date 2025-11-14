@@ -15,7 +15,7 @@ const querySchema = new mongoose.Schema(
     referenceId: { type: String, unique: true, index: true }, // SHF-YYYYMMDD-XXXX                 // File paths (reports)
     status: {
       type: String,
-      enum: ["Pending", "In Progress", "Follow Up", "Assigned", "Responded", "Rejected"],
+      enum: ["Pending", "In Progress", "Follow Up", "Assigned", "Closed", "Rejected"],
       default: "Pending",
     },
     assignedDoctorId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

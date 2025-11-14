@@ -6,8 +6,8 @@ import Button from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import TableShimmer from "../../components/ui/DoctorSelectShimmer";
 
-//  Possible case statuses
-const STATUSES = ["Pending", "Assigned", "In Progress", "Follow Up", "Responded", "Rejected"];
+// ✅ Possible case statuses
+const STATUSES = ["Pending", "Assigned", "In Progress", "Follow Up", "Closed"];
 
 export default function FacilitatorDashboard() {
   const [cases, setCases] = useState([]);
@@ -66,13 +66,13 @@ export default function FacilitatorDashboard() {
   }, [cases]);
 
   // -------- BASIC FILTER (For future search/filter feature) --------
-  const filteredCases = useMemo(() => {
-    return cases
-      .filter((c) => (tab === "All" ? true : c.status === tab))
-      .filter((c) =>
-        q ? (c.title || "").toLowerCase().includes(q.toLowerCase()) : true
-      );
-  }, [cases, tab, q]);
+  // const filteredCases = useMemo(() => {
+  //   return cases
+  //     .filter((c) => (tab === "All" ? true : c.status === tab))
+  //     .filter((c) =>
+  //       q ? (c.title || "").toLowerCase().includes(q.toLowerCase()) : true
+  //     );
+  // }, [cases, tab, q]);
 
   // -------- COMPUTE CASE STATISTICS --------
   const stats = useMemo(() => {
@@ -82,7 +82,7 @@ export default function FacilitatorDashboard() {
       assigned: 0,
       inprogress: 0,
       followup: 0,
-      responded: 0,
+      Closed: 0,
       rejected: 0,
       unknown: 0,
     };
@@ -185,15 +185,15 @@ export default function FacilitatorDashboard() {
 
   // -------- KPI CARDS CONFIG --------
   const cardConfigs = [
-    { label: "Pending Cases", value: stats.pending, color: "bg-yellow-50", icon: "⏳", statusQuery: "Pending" },
-    { label: "In Progress", value: stats.inprogress, color: "bg-teal-50", icon: "🔄", statusQuery: "In Progress" },
-    { label: "Follow Ups", value: stats.followup, color: "bg-orange-50", icon: "📌", statusQuery: "Follow Up" },
-    { label: "Assigned Cases", value: stats.assigned, color: "bg-indigo-50", icon: "👨‍⚕️", statusQuery: "Assigned" },
-    { label: "Responded Cases", value: stats.responded, color: "bg-green-50", icon: "✅", statusQuery: "Responded" },
-    { label: "Rejected Cases", value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
-    { label: "Total Cases", value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
-    { label: "Failed Cases", value: stats.failed, color: "bg-gray-50", icon: "📋", statusQuery: "Failed Cases" },
-    // { label: "Quotes", value: stats.unknown, color: "bg-gray-50", icon: "❓", statusQuery: "quotes" },
+    { label: 'pending', value: stats.pending, color: "bg-yellow-50", icon: "⏳", statusQuery: "Pending" },
+    { label: 'inProgress', value: stats.inprogress, color: "bg-teal-50", icon: "🔄", statusQuery: "In Progress" },
+    { label: 'followUps', value: stats.followup, color: "bg-orange-50", icon: "📌", statusQuery: "Follow Up" },
+    { label: 'assigned', value: stats.assigned, color: "bg-indigo-50", icon: "👨‍⚕️", statusQuery: "Assigned" },
+    { label: 'closed', value: stats.closed, color: "bg-green-50", icon: "✅", statusQuery: "Closed" },
+    // { label: 'rejected', value: stats.rejected, color: "bg-red-50", icon: "❌", statusQuery: "Rejected" },
+    { label: 'totalCases', value: stats.total, color: "bg-gray-50", icon: "📋", statusQuery: "All" },
+    { label: 'failedCases', value: stats.failed, color: "bg-gray-50", icon: "❌", statusQuery: "Failed Cases" },
+    // { label: t('facilitator.quotes'), value: stats.unknown, color: "bg-gray-50", icon: "❓", statusQuery: "quotes" },
    
   ];
 

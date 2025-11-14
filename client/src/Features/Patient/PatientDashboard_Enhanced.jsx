@@ -45,7 +45,7 @@ export default function Dashboard() {
     total: cases.length,
     pending: cases.filter((c) => c.status === "Pending").length,
     assigned: cases.filter((c) => c.status === "Assigned").length,
-    responded: cases.filter((c) => c.status === "Responded").length,
+    Closed: cases.filter((c) => c.status === "Closed").length,
   };
 
   const latest = cases[0];
@@ -84,7 +84,7 @@ export default function Dashboard() {
                   ? "bg-yellow-500"
                   : latest.status === "Assigned"
                   ? "bg-blue-600"
-                  : latest.status === "Responded"
+                  : latest.status === "Closed"
                   ? "bg-green-600"
                   : "bg-gray-500"
               }`}>
@@ -122,12 +122,12 @@ export default function Dashboard() {
               <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden flex">
                 <div className="h-full bg-yellow-500" style={{ width: `${(counts.pending / counts.total) * 100 || 0}%` }} />
                 <div className="h-full bg-blue-600" style={{ width: `${(counts.assigned / counts.total) * 100 || 0}%` }} />
-                <div className="h-full bg-green-600" style={{ width: `${(counts.responded / counts.total) * 100 || 0}%` }} />
+                <div className="h-full bg-green-600" style={{ width: `${(counts.Closed / counts.total) * 100 || 0}%` }} />
               </div>
               <div className="mt-3 grid grid-cols-3 gap-2 text-xs text-gray-600">
                 <div><span className="inline-block w-2 h-2 bg-yellow-500 rounded-sm mr-2"></span>Pending {counts.pending}</div>
                 <div><span className="inline-block w-2 h-2 bg-blue-600 rounded-sm mr-2"></span>In progress {counts.assigned}</div>
-                <div><span className="inline-block w-2 h-2 bg-green-600 rounded-sm mr-2"></span>Resolved {counts.responded}</div>
+                <div><span className="inline-block w-2 h-2 bg-green-600 rounded-sm mr-2"></span>Resolved {counts.Closed}</div>
               </div>
             </>
           )}
@@ -195,7 +195,7 @@ export default function Dashboard() {
                       ? "bg-yellow-500"
                       : c.status === "Assigned"
                       ? "bg-blue-600"
-                      : c.status === "Responded"
+                      : c.status === "Closed"
                       ? "bg-green-600"
                       : "bg-gray-500"
                   }`}>
