@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useTranslation } from 'react-i18next';
 import { loginSuccess } from "../../store/slices/authSlice";
 import api from "../../lib/api";
 import toast from "react-hot-toast";
 
 export default function Login() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -20,7 +18,7 @@ export default function Login() {
       const { data } = await api.post("/auth/login", { email, password });
       console.log("Login response data:", data); // Debugging line
       dispatch(loginSuccess({ token: data.token, user: data.user }));
-       toast.success(t('common.success') + " ✅");
+       toast.success("Login successful ✅");
       // <Toast message="Login Successful ✅" />
 
       if (data.user.role === "facilitator") {
@@ -61,7 +59,7 @@ export default function Login() {
 
         {/* Right Side - Login Form */}
         <div className="md:w-1/2 w-full p-8 sm:p-12">
-          <h2 className="text-3xl font-bold text-teal-700 mb-2 text-center">{t('navigation.login')}</h2>
+          <h2 className="text-3xl font-bold text-teal-700 mb-2 text-center">Login</h2>
           <p className="text-sm text-gray-500 mb-6 text-center">
             Please login to access your account.
           </p>
@@ -69,7 +67,7 @@ export default function Login() {
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <label htmlFor="email" className="text-sm font-medium text-gray-700 block mb-1">
-                {t('auth.email')}
+                Email
               </label>
               <input
                 type="email"
@@ -84,7 +82,7 @@ export default function Login() {
 
             <div>
               <label htmlFor="password" className="text-sm font-medium text-gray-700 block mb-1">
-                {t('auth.password')}
+                Password
               </label>
               <input
                 type="password"
@@ -101,17 +99,17 @@ export default function Login() {
               type="submit"
               className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition shadow-sm"
             >
-              {t('auth.login')}
+              Login
             </button>
           </form>
 
           <div className="mt-6 text-center text-sm text-gray-500">
-            {t('auth.dontHaveAccount')}
+            Don't have an account?{" "}
             <button
               className="text-blue-600 font-medium hover:underline ml-1"
               onClick={() => navigate("/signup")}
             >
-              {t('auth.signup')}
+              Sign Up
             </button>
           </div>
           <div className="mt-4 text-center text-sm text-gray-500">
@@ -119,7 +117,7 @@ export default function Login() {
               className="text-blue-600 font-medium hover:underline"
               // onClick={() => navigate("/forgot-password")}
             >
-              {t('auth.forgotPassword')}
+              Forgot Password?
             </button>
           </div>
         </div>

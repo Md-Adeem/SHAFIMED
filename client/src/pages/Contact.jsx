@@ -9,12 +9,11 @@ import {
   FaHeadset,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import Footer from "../components/landing/Footer";
+import FloatingEnquiryButton from "../components/ui/FloatingEnquiryButton";
 
 function ContactPage() {
-  const { t } = useTranslation();
   const [navbarHeight, setNavbarHeight] = useState(0);
 
   useEffect(() => {
@@ -49,10 +48,10 @@ Thank you very much.`
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                {t("contact.heroTitle")}
+                Contact Our Medical Team
               </h1>
               <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                {t("contact.heroDescription")}
+                Get in touch with our expert medical advisors who are ready to assist you 24/7 with your healthcare needs.
               </p>
             </div>
 
@@ -65,10 +64,10 @@ Thank you very much.`
                     </div>
                     <div>
                       <h3 className="font-bold text-xl text-gray-900 mb-2">
-                        {t("contact.support247")}
+                        24/7 Support Team
                       </h3>
                       <p className="text-gray-600">
-                        {t("contact.support247Description")}
+                        Our dedicated support team is available around the clock to answer your questions and provide assistance with your medical journey.
                       </p>
                     </div>
                   </div>
@@ -79,10 +78,10 @@ Thank you very much.`
                     </div>
                     <div>
                       <h3 className="font-bold text-xl text-gray-900 mb-2">
-                        {t("contact.medicalExperts")}
+                        Medical Experts
                       </h3>
                       <p className="text-gray-600">
-                        {t("contact.medicalExpertsDescription")}
+                        Connect with our board-certified medical professionals who can provide expert guidance on treatments and procedures.
                       </p>
                     </div>
                   </div>
@@ -92,10 +91,10 @@ Thank you very much.`
                   <div className="flex flex-col md:flex-row items-center justify-between">
                     <div className="mb-4 md:mb-0 text-center md:text-left">
                       <h2 className="text-2xl font-bold mb-2">
-                        {t("contact.emergencyTitle")}
+                        Emergency Assistance
                       </h2>
                       <p className="text-teal-100">
-                        {t("contact.emergencyDescription")}
+                        For urgent medical inquiries or emergencies, our team is ready to provide immediate support.
                       </p>
                     </div>
 
@@ -111,14 +110,14 @@ Thank you very much.`
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-teal-100 transform transition-all duration-300 hover:shadow-2xl">
                   <img
                     src="/Doctor.jpg"
-                    alt={t("contact.doctorImageAlt")}
+                    alt="Medical Expert"
                     className="w-full h-auto object-cover"
                   />
                 </div>
                 <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-teal-500 to-emerald-600 text-white rounded-xl p-4 shadow-lg">
                   <div className="text-center">
                     <div className="text-2xl font-bold">24/7</div>
-                    <div className="text-sm">{t("contact.available")}</div>
+                    <div className="text-sm">Available</div>
                   </div>
                 </div>
               </div>
@@ -130,10 +129,10 @@ Thank you very much.`
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              {t("contact.getInTouch")}
+              Get In Touch
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              {t("contact.getInTouchDescription")}
+              Reach out to us through any of our convenient communication channels.
             </p>
           </div>
 
@@ -144,12 +143,12 @@ Thank you very much.`
                 <FaPhone className="text-teal-600 text-2xl" />
               </div>
               <h3 className="text-2xl font-bold text-center text-gray-900 mb-4">
-                {t("contact.callUs")}
+                Call Us
               </h3>
               <div className="space-y-4">
                 <div className="text-center">
                   <h4 className="font-semibold text-gray-900 mb-2">
-                    {t("contact.ourSupportTeam")}
+                    Our Support Team
                   </h4>
                   <a
                     href="tel:+919198986796"
@@ -158,7 +157,7 @@ Thank you very much.`
                     +91-91-9898-6796
                   </a>
                   <p className="text-gray-600 mt-2">
-                    {t("contact.supportHours")}
+                    Monday to Sunday, 9:00 AM to 9:00 PM IST
                   </p>
                 </div>
                 <div className="text-center pt-4 border-t border-gray-100">
@@ -166,7 +165,7 @@ Thank you very much.`
                     to="/hospitals"
                     className="text-teal-600 hover:text-teal-800 transition-colors font-medium"
                   >
-                    {t("contact.viewHospitals")} →
+                    View Hospitals →
                   </Link>
                 </div>
               </div>
@@ -178,25 +177,25 @@ Thank you very much.`
                 <FaWhatsapp className="text-emerald-600 text-2xl" />
               </div>
               <h3 className="text-2xl font-bold text-center text-gray-900 mb-4">
-                {t("contact.chatNow")}
+                Chat Now
               </h3>
               <div className="space-y-4">
                 <div className="text-center">
                   <p className="text-gray-700 mb-6">
-                    {t("contact.chatDescription")}
+                    Get instant responses from our medical advisors via WhatsApp.
                   </p>
                   <button
                     onClick={handleWhatsAppClick}
                     className="bg-gradient-to-r from-teal-500 to-emerald-600 text-white px-6 py-3 rounded-full font-semibold flex items-center justify-center space-x-2 hover:from-teal-600 hover:to-emerald-700 transition-all w-full"
                   >
                     <FaWhatsapp className="mr-2" />
-                    <span>{t("contact.whatsappChat")}</span>
+                    <span>WhatsApp Chat</span>
                   </button>
                 </div>
                 <div className="text-center text-gray-600 pt-4 border-t border-gray-100">
                   <div className="flex items-center justify-center">
                     <FaClock className="mr-2 text-teal-600" />
-                    <span>{t("contact.chatHours")}</span>
+                    <span>24/7 Availability</span>
                   </div>
                 </div>
               </div>
@@ -208,23 +207,23 @@ Thank you very much.`
                 <FaEnvelope className="text-blue-600 text-2xl" />
               </div>
               <h3 className="text-2xl font-bold text-center text-gray-900 mb-4">
-                {t("contact.emailSupport")}
+                Email Support
               </h3>
               <div className="space-y-4">
                 <div className="text-center">
                   <p className="text-gray-700 mb-6">
-                    {t("contact.emailDescription")}
+                    Send us a detailed inquiry and we'll respond within 24 hours.
                   </p>
                   <a
                     href="mailto:shaafimedindia@gmail.com"
                     className="bg-gradient-to-r from-blue-500 to-teal-600 text-white px-6 py-3 rounded-full font-semibold flex items-center justify-center space-x-2 hover:from-blue-600 hover:to-teal-700 transition-all w-full"
                   >
                     <FaEnvelope className="mr-2" />
-                    <span>{t("contact.sendEmail")}</span>
+                    <span>Send Email</span>
                   </a>
                 </div>
                 <div className="text-center text-gray-600 pt-4 border-t border-gray-100">
-                  <p>{t("contact.emailResponseTime")}</p>
+                  <p>Response within 24 business hours</p>
                 </div>
               </div>
             </div>
@@ -236,10 +235,10 @@ Thank you very much.`
           <div className="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-2xl shadow-lg p-8 border border-teal-100">
             <div className="text-center mb-10">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                {t("contact.ourOffices")}
+                Our Offices
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                {t("contact.ourOfficesDescription")}
+                Visit our offices or reach out to our regional teams for personalized assistance.
               </p>
             </div>
 
@@ -248,11 +247,11 @@ Thank you very much.`
                 <FaMapMarkerAlt className="text-teal-600 text-xl mt-1 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="font-bold text-lg text-gray-900 mb-2">
-                    {t("contact.headOffice")}
+                    Head Office
                   </h3>
                   <p className="text-gray-600">New Delhi, India</p>
                   <p className="text-gray-600 mt-1">
-                    {t("contact.headOfficeAddress")}
+                    Abu Fazal Enclave, Okhla, New Delhi, India
                   </p>
                 </div>
               </div>
@@ -261,11 +260,11 @@ Thank you very much.`
                 <FaMapMarkerAlt className="text-teal-600 text-xl mt-1 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="font-bold text-lg text-gray-900 mb-2">
-                    {t("contact.regionalOffice")}
+                    Regional Office
                   </h3>
                   <p className="text-gray-600">Mumbai, India</p>
                   <p className="text-gray-600 mt-1">
-                    {t("contact.regionalOfficeAddress")}
+                    Andheri East, Mumbai, Maharashtra, India
                   </p>
                 </div>
               </div>
@@ -274,11 +273,11 @@ Thank you very much.`
                 <FaMapMarkerAlt className="text-teal-600 text-xl mt-1 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="font-bold text-lg text-gray-900 mb-2">
-                    {t("contact.internationalOffice")}
+                    International Office
                   </h3>
                   <p className="text-gray-600">Dubai, UAE</p>
                   <p className="text-gray-600 mt-1">
-                    {t("contact.internationalOfficeAddress")}
+                    Business Bay, Dubai, United Arab Emirates
                   </p>
                 </div>
               </div>
@@ -287,6 +286,7 @@ Thank you very much.`
         </div>
       </div>
       <Footer />
+      <FloatingEnquiryButton />
     </>
   );
 }

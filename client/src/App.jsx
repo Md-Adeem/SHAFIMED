@@ -54,169 +54,158 @@ function App() {
     <>
       {!hideNavbar && <AppNavbar />}
       <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/hospitals" element={<Hospitals />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <PatientDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/contact" element={<ContactPage />} />
 
-      {/* Suspense Wrapper for Lazy Loading */}
-      <Suspense fallback={<ShimmerLoader rows={5} />}>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/hospitals" element={<Hospitals />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/logout" element={<Logout />} />
+        <Route
+          path="/case/:id"
+          element={
+            <ProtectedRoute>
+              <CaseDetailsModal />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/submit-case"
+          element={
+            <ProtectedRoute>
+              <SubmitCase />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-cases"
+          element={
+            <ProtectedRoute>
+              <MyCases />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <PatientProfile />
+            </ProtectedRoute>
+          }
+        />
 
-          {/* Patient Routes */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <PatientDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/case/:id"
-            element={
-              <ProtectedRoute>
-                <CaseDetailsModal />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/submit-case"
-            element={
-              <ProtectedRoute>
-                <SubmitCase />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/my-cases"
-            element={
-              <ProtectedRoute>
-                <MyCases />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <PatientProfile />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Facilitator Routes */}
-          <Route
-            path="/facilitator"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <FacilitatorDashboard />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/cases"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <AllCases />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/pending"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <PendingCases />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/inprogress"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <InProgress />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/running-cases"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <RunningCases />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/followups"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <FollowUps />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/rejected"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <Failed />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/closed"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <Responded />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/patients"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <Patients />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/departments"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <Departments />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/case-by-ref"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <ViewByRef />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/analytics"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <Analytics />
-              </RoleRoute>
-            }
-          />
-          <Route
-            path="/facilitator/quotes"
-            element={
-              <RoleRoute allow={["facilitator"]}>
-                <QuotesList />
-              </RoleRoute>
-            }
-          />
-        </Routes>
-      </Suspense>
-
+        <Route
+          path="/facilitator"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <FacilitatorDashboard />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/facilitator/cases"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <AllCases />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/facilitator/pending"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <PendingCases />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/facilitator/running-cases"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <RunningCases />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/facilitator/inprogress"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <InProgress />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/facilitator/followups"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <FollowUps />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/facilitator/rejected"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <Failed />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/facilitator/closed"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <Responded />
+            </RoleRoute>
+          }
+        />
+        <Route path="/facilitator" element={<RoleRoute allow={["facilitator"]}><FacilitatorDashboard /></RoleRoute>} />
+        <Route path="/facilitator/cases" element={<RoleRoute allow={["facilitator"]}><AllCases /></RoleRoute>} />
+        <Route path="/facilitator/pending" element={<RoleRoute allow={["facilitator"]}><PendingCases /></RoleRoute>} />
+        <Route path="/facilitator/running-cases" element={<RoleRoute allow={["facilitator"]}><RunningCases /></RoleRoute>} />
+        <Route path="/facilitator/inprogress" element={<RoleRoute allow={["facilitator"]}><InProgress /></RoleRoute>} />
+        <Route path="/facilitator/followups" element={<RoleRoute allow={["facilitator"]}><FollowUps /></RoleRoute>} />
+        {/* <Route path="/facilitator/rejected" element={<RoleRoute allow={["facilitator"]}><Failed /></RoleRoute>} /> */}
+        <Route path="/facilitator/closed" element={<RoleRoute allow={["facilitator"]}><Responded /></RoleRoute>} />
+        <Route path="/facilitator/quotes" element={<RoleRoute allow={["facilitator"]}><QuotesList /></RoleRoute>} />
+        {/* <Route path="/facilitator/test" element={<RoleRoute allow={["facilitator"]}><Test /></RoleRoute>} /> */}
+        {/* <Route path="/facilitator/running-cases" element={<RoleRoute allow={["facilitator"]}><RunningCases /></RoleRoute>} /> */}
+        <Route
+          path="/facilitator/patients"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <Patients />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/facilitator/departments"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <Departments />
+            </RoleRoute>
+          }
+        />
+        {/* <Route path="/facilitator/case-by-ref" element={<RoleRoute allow={["facilitator"]}><ViewByRef /></RoleRoute>} /> */}
+        <Route path="/facilitator/case-by-ref" element={<ViewByRef />} />
+        <Route
+          path="/facilitator/analytics"
+          element={
+            <RoleRoute allow={["facilitator"]}>
+              <Analytics />
+            </RoleRoute>
+          }
+        />
+      </Routes>
       <Toaster position="top-right" reverseOrder={false} />
     </>
   );

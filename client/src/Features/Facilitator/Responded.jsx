@@ -27,12 +27,12 @@ export default function Responded() {
   const refresh = async () => {
     try {
       setLoading(true);
-      const { data } = await api.get("/queries", { params: { status: "Responded" } });
+      const { data } = await api.get("/queries", { params: { status: "Closed" } });
       setCases(data || []);
       setError("");
     } catch (err) {
       console.error(err);
-      setError("Failed to load responded cases.");
+      setError("Failed to load Closed cases.");
     } finally {
       setLoading(false);
     }
@@ -65,7 +65,7 @@ export default function Responded() {
 
   return (
     <FacilitatorLayout
-      title="Responded Cases"
+      title="Closed Cases"
       actions={
         loading ? (
           <FiltersShimmer />
@@ -101,7 +101,7 @@ export default function Responded() {
       ) : error ? (
         <p className="text-red-500 py-5">{error}</p>
       ) : filteredCases.length === 0 ? (
-        <p className="text-gray-500 py-5">No responded cases found.</p>
+        <p className="text-gray-500 py-5">No Closed cases found.</p>
       ) : (
         <div className="overflow-x-auto">
           <CasesTable cases={filteredCases} onStatus={handleStatus} />

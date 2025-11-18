@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../../lib/api";
 import allCountryCodes from "../../utils/allCountryCodes";
 
@@ -25,8 +25,6 @@ const QuoteModal = ({ isOpen, onClose }) => {
     { name: "USA", flag: "🇺🇸", code: "+1" },
     { name: "UK", flag: "🇬🇧", code: "+44" },
   ];
-
-    
 
   // ✅ Handle input changes
   const handleChange = (e) => {
@@ -110,15 +108,40 @@ const QuoteModal = ({ isOpen, onClose }) => {
     }
   };
 
+  // Handle click outside to close modal
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.keyCode === 27) {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener("keydown", handleEsc);
+    }
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000] p-4"
+      onClick={handleBackdropClick}
+    >
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative my-8 max-h-[90vh] overflow-y-auto">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-3 text-gray-600 hover:text-gray-900 font-bold"
+          className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 font-bold text-xl z-10"
         >
           ✕
         </button>
@@ -181,7 +204,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
           )}
 
           {/* Phone */}
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
               name="countryCode"
@@ -192,7 +215,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
               required
               className={`${
                 formData.country === "Other" ? "bg-white" : "bg-gray-100"
-              } w-1/3 px-3 py-2 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500`}
+              } w-full sm:w-1/3 px-3 py-2 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500`}
             />
             <input
               type="text"
@@ -201,7 +224,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
               value={formData.mobile}
               onChange={handleChange}
               required
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="flex-1 w-full px-3 py-2 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
@@ -249,4 +272,4 @@ const QuoteModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default QuoteModal;
+export default QuoteModal; 

@@ -2,11 +2,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout as logoutAction } from "../store/slices/authSlice";
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "./LanguageSwitcher";
 
 function Navbar() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -105,23 +102,20 @@ function Navbar() {
 
           {/* Right Section */}
           <div className="hidden md:flex items-center gap-5">
-            <LanguageSwitcher />
-
             {!isLoggedIn ? (
               <>
                 <Link
                   to="/login"
                   className="px-5 py-2 text-sm font-semibold text-white hover:text-white hover:scale-105 transition-all duration-100 rounded-full bg-teal-700 hover:bg-teal-800"
                 >
-                  {t("auth.login")}
+                  Login
                 </Link>
 
                 <Link
                   to="/signup"
                   className="px-5 py-2 text-sm font-semibold bg-white text-teal-700 rounded-full shadow hover:scale-105 hover:bg-white/90 hover:shadow-lg transition-all duration-300"
                 >
-                  {/* {t("auth.signup")} */}
-                  Register Here
+                  Register
                 </Link>
               </>
             ) : (
@@ -162,14 +156,14 @@ function Navbar() {
                         to="/profile"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600"
                       >
-                        {t("navigation.profile")}
+                        Profile
                       </Link>
                     )}
                     <button
                       onClick={handleLogout}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600"
                     >
-                      {t("auth.logout")}
+                      Logout
                     </button>
                   </div>
                 </div>
@@ -238,10 +232,6 @@ function Navbar() {
                     </Link>
                   )
                 )}
-
-              <div className="px-3 py-2">
-                <LanguageSwitcher />
-              </div>
 
               {!isLoggedIn ? (
                 <>

@@ -1,11 +1,8 @@
-import { useTranslation } from 'react-i18next';
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import hospitals from '../../data/hospitals';
 
 function HospitalsStrip() {
-  const { t } = useTranslation();
-  
   // Show only the first 3 hospitals on the landing page
   const featuredHospitals = hospitals.slice(0, 3);
   
@@ -21,10 +18,10 @@ function HospitalsStrip() {
             🏥 Featured Hospitals
           </div>
           <h2 className="font-heading text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
-            {t('hospitals.topHospitalsTitle').split('Top')[0]}<span className="text-teal-600">{t('hospitals.topHospitalsTitle').includes('Top') ? t('hospitals.topHospitalsTitle') : 'Top Hospitals in New Delhi'}</span>
+            {"Top "} <span className="text-teal-600">{"Hospitals in New Delhi"}</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {t('hospitals.topHospitalsSubtitle')}
+            World-class medical facilities with international accreditations
           </p>
         </div>
 
@@ -57,15 +54,15 @@ function HospitalsStrip() {
 
               <div className="p-6 flex-grow flex flex-col">
                 <div className="mb-4 text-sm text-gray-600">
-                  <p><strong className="text-gray-900">{t('hospitals.beds')}:</strong> {hospital.beds}</p>
-                  <p><strong className="text-gray-900">{t('hospitals.established')}:</strong> {hospital.established}</p>
-                  <p><strong className="text-gray-900">{t('hospitals.accreditations')}:</strong> {hospital.accreditations.length ? hospital.accreditations.join(", ") : "N/A"}</p>
+                  <p><strong className="text-gray-900">Beds:</strong> {hospital.beds}</p>
+                  <p><strong className="text-gray-900">Established:</strong> {hospital.established}</p>
+                  <p><strong className="text-gray-900">Accreditations:</strong> {hospital.accreditations.length ? hospital.accreditations.join(", ") : "N/A"}</p>
                 </div>
                 <div className="mb-4 text-sm text-gray-700 flex-grow">
                   <p>{hospital.description}</p>
                 </div>
                 <div className="mb-6">
-                  <div className="text-xs text-gray-500 mb-2 font-semibold">{t('hospitals.topSpecialties').toUpperCase()}:</div>
+                  <div className="text-xs text-gray-500 mb-2 font-semibold">TOP SPECIALTIES:</div>
                   <div className="flex flex-wrap gap-2">
                     {hospital.specialties.map((specialty, idx) => (
                       <span 

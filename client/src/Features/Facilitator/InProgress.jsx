@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
 import api from "../../lib/api";
 import FacilitatorLayout from "../../components/layout/FacilitatorLayout";
 import Button from "../../components/ui/Button";
@@ -8,7 +7,6 @@ import TableShimmer from "../../components/ui/TableShimmer";
 
 
 export default function InProgress() {
-  const { t } = useTranslation();
   const [cases, setCases] = useState([]);
   const [filteredCases, setFilteredCases] = useState([]);
   
@@ -81,8 +79,8 @@ export default function InProgress() {
 
   return (
     <FacilitatorLayout
-      title={t('facilitator.inProgress')}
-      actions={<Button onClick={refresh}>{t('facilitator.refresh')}</Button>}
+      title="In Progress"
+      actions={<Button onClick={refresh}>Refresh</Button>}
     >
       {/* 🔧 Filter Controls */}
       <div className="flex flex-wrap gap-3 mb-6">
