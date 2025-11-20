@@ -6,6 +6,7 @@ import Button from "../../components/ui/Button";
 import { Label, Input, Textarea } from "../../components/ui/Input";
 import ProfileCompletionBanner from "../../components/ProfileCompletionBanner";
 import useProfileCompletion from "../../hooks/useProfileCompletion";
+import SubmitCaseShimmer from "../../components/ui/SubmitCaseShimmer";
 
 const SubmitCase = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -81,18 +82,28 @@ const SubmitCase = () => {
     }
   };
 
+  // if (profileLoading) {
+  //   return (
+  //     <PatientLayout title="Submit Case">
+  //       <div className="flex items-center justify-center py-12">
+  //         <div className="text-center">
+  //           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600 mx-auto mb-4"></div>
+  //           <p className="text-gray-600">Checking profile...</p>
+  //         </div>
+  //       </div>
+  //     </PatientLayout>
+  //   );
+  // }
+
+
   if (profileLoading) {
-    return (
-      <PatientLayout title="Submit Case">
-        <div className="flex items-center justify-center py-12">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Checking profile...</p>
-          </div>
-        </div>
-      </PatientLayout>
-    );
-  }
+  return (
+    <PatientLayout title="Submit Case">
+      <SubmitCaseShimmer />
+    </PatientLayout>
+  );
+}
+
 
   if (!isProfileComplete) {
     return (
@@ -114,10 +125,18 @@ const SubmitCase = () => {
       actions={<Button onClick={() => navigate("/my-cases")} variant="secondary">My Cases</Button>}
     >
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-xl shadow border-2 border-gray-400 p-6 space-y-5">
+        {/* <div className="lg:col-span-2 bg-white rounded-xl shadow border-2 border-gray-400 p-6 space-y-5"> */}
+        <div className="lg:col-span-2 bg-white dark:bg-gray-800 
+          rounded-xl shadow border-2 border-gray-400 dark:border-gray-600 
+          p-6 space-y-5">
+
 
           {/* Info Banner */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6"> */}
+          <div className="bg-blue-50 dark:bg-blue-900/20 
+            border border-blue-200 dark:border-blue-600 
+            rounded-lg p-4">
+
             <div className="flex items-start">
               <svg className="h-5 w-5 text-blue-500 mt-0.5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" />
@@ -209,7 +228,8 @@ const SubmitCase = () => {
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-lg"
+                // className="w-full px-4 py-2 border rounded-lg"
+                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700"
               >
                 <option value="">Select department</option>
                 <option>Cardiology</option>
@@ -241,7 +261,8 @@ const SubmitCase = () => {
           {/* Upload Section */}
           <div>
             <Label>Upload Medical Reports</Label>
-            <div className="mt-2 border-2 border-dashed rounded-xl p-4">
+            {/* <div className="mt-2 border-2 border-dashed rounded-xl p-4"> */}
+            <div className="mt-2 border-2 border-dashed rounded-xl p-4 dark:border-gray-600 dark:bg-gray-800">
               <button
                 type="button"
                 onClick={() => {
@@ -280,7 +301,11 @@ const SubmitCase = () => {
         <div className="space-y-4">
 
           {/* Tips Section */}
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow p-5">
+          {/* <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow p-5"> */}
+          <div className="bg-gradient-to-br from-orange-50 to-orange-100 
+          dark:from-orange-900/20 dark:to-orange-800/20  
+          rounded-xl shadow p-5 dark:text-orange-200"> 
+
             <div className="flex items-center gap-2 mb-3">
               <div className="p-1.5 bg-orange-500 rounded-lg"></div>
               <div className="text-sm font-bold text-orange-900">Helpful Tips</div>
