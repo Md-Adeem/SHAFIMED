@@ -3,6 +3,7 @@ import api from "../../lib/api";
 import PatientLayout from "../../components/layout/PatientLayout";
 import Button from "../../components/ui/Button";
 import { Label, Input, Textarea } from "../../components/ui/Input";
+import PatientProfileShimmer from "../../components/ui/PatientProfileShimmer";
 
 const PatientProfile = () => {
 
@@ -83,17 +84,17 @@ const PatientProfile = () => {
   };
 
   if (loading) {
-    return (
-      <PatientLayout title="My Profile">
-        <div className="text-center py-10 text-gray-500">Loading...</div>
-      </PatientLayout>
-    );
-  }
+  return (
+    <PatientLayout title="My Profile">
+      <PatientProfileShimmer />
+    </PatientLayout>
+  );
+}
 
   return (
     <PatientLayout title="My Profile">
       <div className="max-w-2xl">
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow border p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-200 dark:border-gray-700 p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
               <Label>Age</Label>
@@ -112,7 +113,7 @@ const PatientProfile = () => {
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
-                className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
+                className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               >
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
@@ -163,7 +164,7 @@ const PatientProfile = () => {
               name="bloodGroup"
               value={formData.bloodGroup}
               onChange={handleChange}
-              className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500"
+              className="mt-1 w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-500 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
             >
               <option value="">Select Blood Group</option>
               <option value="A+">A+</option>
@@ -253,7 +254,7 @@ const PatientProfile = () => {
             </Button>
           </div>
 
-          {message && <p className="text-center text-sm text-gray-600">{message}</p>}
+          {message && <p className="text-center text-sm text-gray-600 dark:text-gray-300">{message}</p>}
         </form>
       </div>
     </PatientLayout>

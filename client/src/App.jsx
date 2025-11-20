@@ -1,41 +1,47 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-// import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import Login from "./Features/Auth/Login";
-import Signup from "./Features/Auth/Signup";
-import Logout from "./Features/Auth/Logout";
-import PatientDashboard from "./Features/Patient/PatientDashboard_Enhanced";
-import CaseDetailsModal from "./Features/Patient/CaseDetailsModal";
-import SubmitCase from "./Features/Patient/SubmitCase";
-import MyCases from "./Features/Patient/MyCases";
-import PatientProfile from "./Features/Auth/PatientProfile";
-import ProtectedRoute from "./components/ProtectedRoute";
-import RoleRoute from "./components/RoleRoute";
-import FacilitatorDashboard from "./Features/Facilitator/FacilitatorDashboard_Enhanced";
-
-import AllCases from "./Features/Facilitator/AllCases";
-import PendingCases from "./Features/Facilitator/PendingCases";
-import InProgress from "./Features/Facilitator/InProgress";
-import FollowUps from "./Features/Facilitator/FollowUps";
-import Patients from "./Features/Facilitator/Patients";
-import Departments from "./Features/Facilitator/Departments";
-import Analytics from "./Features/Facilitator/Analytics";
-import ViewByRef from "./Features/Facilitator/ViewByRef";
+import { Suspense, lazy } from "react";
 import { Toaster } from "react-hot-toast";
-import RunningCases from "./Features/Facilitator/RunningCases";
-import Responded from "./Features/Facilitator/Responded";
-import Failed from "./Features/Facilitator/Failed";
-import About from "./pages/About";
-import Hospitals from "./pages/Hospitals";
 import ScrollToTop from "./components/ScrollToTop";
 import AppNavbar from "./components/AppNavbar";
-import QuotesList from "./Features/Facilitator/QuotesList";
-// import Test from "./Features/Facilitator/Test";
-// import Running from "./Features/Facilitator/";
-// import RunningCases from "./Features/Facilitator/";
-import ContactPage from "./pages/Contact";
+import ProtectedRoute from "./components/ProtectedRoute";
+import RoleRoute from "./components/RoleRoute";
+import ShimmerLoader from "./components/ui/ShimmerLoader"; // You already have this!
+
+// ===== Lazy Loaded Pages =====
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./Features/Auth/Login"));
+const Signup = lazy(() => import("./Features/Auth/Signup"));
+const Logout = lazy(() => import("./Features/Auth/Logout"));
+const About = lazy(() => import("./pages/About"));
+const Hospitals = lazy(() => import("./pages/Hospitals"));
+const ContactPage = lazy(() => import("./pages/Contact"));
+
+
+const PatientDashboard = lazy(() => import("./Features/Patient/PatientDashboard_Enhanced"));
+const CaseDetailsModal = lazy(() => import("./Features/Patient/CaseDetailsModal"));
+const SubmitCase = lazy(() => import("./Features/Patient/SubmitCase"));
+const MyCases = lazy(() => import("./Features/Patient/MyCases"));
+const PatientProfile = lazy(() => import("./Features/Auth/PatientProfile"));
+
+
+const FacilitatorDashboard = lazy(() => import("./Features/Facilitator/FacilitatorDashboard_Enhanced"));
+const AllCases = lazy(() => import("./Features/Facilitator/AllCases"));
+const PendingCases = lazy(() => import("./Features/Facilitator/PendingCases"));
+const InProgress = lazy(() => import("./Features/Facilitator/InProgress"));
+const RunningCases = lazy(() => import("./Features/Facilitator/RunningCases"));
+const FollowUps = lazy(() => import("./Features/Facilitator/FollowUps"));
+const Failed = lazy(() => import("./Features/Facilitator/Failed"));
+const Responded = lazy(() => import("./Features/Facilitator/Responded"));
+const Patients = lazy(() => import("./Features/Facilitator/Patients"));
+const Departments = lazy(() => import("./Features/Facilitator/Departments"));
+const Analytics = lazy(() => import("./Features/Facilitator/Analytics"));
+const ViewByRef = lazy(() => import("./Features/Facilitator/ViewByRef"));
+const QuotesList = lazy(() => import("./Features/Facilitator/QuotesList"));
+
 function App() {
   const location = useLocation();
+
+  // Hide navbar on dashboard and facilitator pages
   const hideNavbar = [
     "/dashboard",
     "/submit-case",

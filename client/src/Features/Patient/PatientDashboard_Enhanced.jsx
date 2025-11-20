@@ -5,10 +5,12 @@ import PatientLayout from "../../components/layout/PatientLayout";
 import Button from "../../components/ui/Button";
 import ProfileCompletionBanner from "../../components/ProfileCompletionBanner";
 import useProfileCompletion from "../../hooks/useProfileCompletion";
+import PatientShimmer from "../../components/ui/PatientShimmer";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [cases, setCases] = useState([]);
+   const [loadingCases, setLoadingCases] = useState(true);
   const { isComplete: isProfileComplete, missingFields, loading: profileLoading } = useProfileCompletion();
   
   const user = useMemo(() => {
@@ -36,10 +38,20 @@ export default function Dashboard() {
       } catch (err) {
         console.error("Failed to fetch cases:", err);
         setCases([]);
+      } finally {
+        setLoadingCases(false); // stop shimmer
       }
     };
     fetchCases();
   }, []);
+
+  if (loadingCases || profileLoading) {
+    return (
+      <PatientLayout title="Dashboard">
+        <PatientShimmer />
+      </PatientLayout>
+    );
+  }
 
   const counts = {
     total: cases.length,
@@ -75,9 +87,12 @@ export default function Dashboard() {
       )}
       
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-xl shadow border p-5">
+        {/* <div className="bg-white rounded-xl shadow border p-5"> */}
+        <div className="bg-white dark:bg-gray-900
+          rounded-xl shadow border border-gray-200 dark:border-gray-700 
+          p-5 text-gray-900 dark:text-gray-100">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold text-gray-900">Latest Case</h2>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Latest Case</h2>
             {latest && (
               <span className={`px-3 py-1 rounded-full text-white text-xs ${
                 latest.status === "Pending"
@@ -93,11 +108,11 @@ export default function Dashboard() {
             )}
           </div>
           {!latest ? (
-            <div className="text-sm text-gray-600">Submit your first case</div>
+            <div className="text-sm text-gray-600 dark:text-gray-300">Submit your first case</div>
           ) : (
             <>
-              <div className="font-semibold text-gray-900">{latest.title}</div>
-              <div className="text-xs text-gray-500 mt-1">{latest.country} • Updated {new Date(latest.updatedAt).toLocaleDateString()}</div>
+              <div className="font-semibold text-gray-900 dark:text-gray-100">{latest.title}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{latest.country} • Updated {new Date(latest.updatedAt).toLocaleDateString()}</div>
               <div className="mt-4 flex gap-2">
                 <Button size="sm" variant="secondary" onClick={() => navigate("/my-cases")}>View All Cases</Button>
                 <Button 
@@ -113,18 +128,21 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className="bg-white rounded-xl shadow border p-5">
-          <h2 className="text-lg font-bold text-gray-900 mb-3">Status Breakdown</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow border dark:border-gray-700 p-5">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3">Status Breakdown</h2>
           {counts.total === 0 ? (
-            <div className="text-sm text-gray-600">No data yet</div>
+            <div className="text-sm text-gray-600 dark:text-gray-300">No data yet</div>
           ) : (
             <>
-              <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden flex">
+              {/* <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden flex"> */}
+              <div className="h-3 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden flex">
+
+
                 <div className="h-full bg-yellow-500" style={{ width: `${(counts.pending / counts.total) * 100 || 0}%` }} />
                 <div className="h-full bg-blue-600" style={{ width: `${(counts.assigned / counts.total) * 100 || 0}%` }} />
                 <div className="h-full bg-green-600" style={{ width: `${(counts.Closed / counts.total) * 100 || 0}%` }} />
               </div>
-              <div className="mt-3 grid grid-cols-3 gap-2 text-xs text-gray-600">
+              <div className="mt-3 grid grid-cols-3 gap-2 text-xs text-gray-600 dark:text-gray-300">
                 <div><span className="inline-block w-2 h-2 bg-yellow-500 rounded-sm mr-2"></span>Pending {counts.pending}</div>
                 <div><span className="inline-block w-2 h-2 bg-blue-600 rounded-sm mr-2"></span>In progress {counts.assigned}</div>
                 <div><span className="inline-block w-2 h-2 bg-green-600 rounded-sm mr-2"></span>Resolved {counts.Closed}</div>
@@ -133,15 +151,15 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className="bg-white rounded-xl shadow border p-5">
-          <h2 className="text-lg font-bold text-gray-900 mb-3">What to do next</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-200 dark:border-gray-700 p-5">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3">What to do next</h2>
           <div className="space-y-3 text-sm">
             <button 
               onClick={() => navigate("/profile")} 
               className={`w-full text-left px-3 py-2 rounded-lg border transition-colors ${
                 !isProfileComplete 
-                  ? "bg-amber-50 border-amber-200 text-amber-800 hover:bg-amber-100" 
-                  : "bg-gray-50 hover:bg-gray-100 border-gray-200"
+                  ? "bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-900/20 dark:border-amber-700 dark:text-amber-300 hover:bg-amber-100" 
+                  : "bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 border-gray-200"
               }`}
             >
               {!isProfileComplete ? "Complete Profile" : "Profile Completed"}
@@ -151,23 +169,26 @@ export default function Dashboard() {
               disabled={!isProfileComplete}
               className={`w-full text-left px-3 py-2 rounded-lg border transition-colors ${
                 !isProfileComplete
-                  ? "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200"
-                  : "bg-gray-50 hover:bg-gray-100 text-gray-900 border-gray-200"
+                  ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed border-gray-200 dark:border-gray-600"
+                  : "bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 border-gray-200 dark:border-gray-600"
               }`}
             >
               Submit New Case
             </button>
-            <button onClick={() => navigate("/my-cases")} className="w-full text-left px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200">Check Responses</button>
+            <button onClick={() => navigate("/my-cases")} className="w-full text-left px-3 py-2 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg border border-gray-200 dark:text-gray-100">Check Responses</button>
           </div>
         </div>
       </section>
 
-      <section className="bg-white rounded-xl shadow border overflow-hidden mt-6">
-        <div className="px-5 py-4 border-b"><h2 className="text-lg font-bold text-gray-900">Recent Cases</h2></div>
+      {/* <section className="bg-white rounded-xl shadow border overflow-hidden mt-6"> */}
+      <section className="bg-white dark:bg-gray-900 rounded-xl shadow border border-gray-200 dark:border-gray-700 overflow-hidden mt-6">
+
+
+        <div className="px-5 py-4 border-b dark:border-gray-700"><h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Recent Cases</h2></div>
         {cases.length === 0 ? (
           <div className="px-5 py-10 text-center">
-            <div className="text-gray-700 font-semibold">No cases yet</div>
-            <div className="text-gray-500 text-sm mt-1">
+            <div className="text-gray-700 dark:text-gray-200 font-semibold">No cases yet</div>
+            <div className="text-gray-500 dark:text-gray-400 text-sm mt-1">
               {!isProfileComplete 
                 ? "Please complete your profile first"
                 : "Submit your first case"
@@ -182,12 +203,12 @@ export default function Dashboard() {
             </Button>
           </div>
         ) : (
-          <ul className="divide-y">
+          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
             {cases.slice(0, 8).map((c) => (
-              <li key={c._id} className="px-5 py-4 flex items-center justify-between hover:bg-gray-50">
+              <li key={c._id} className="px-5 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/40">
                 <div className="min-w-0">
-                  <div className="font-semibold text-gray-900 truncate">{c.title}</div>
-                  <div className="text-xs text-gray-500 mt-1">{c.country}</div>
+                  <div className="font-semibold text-gray-900 dark:text-gray-100 truncate">{c.title}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{c.country}</div>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className={`px-3 py-1 rounded-full text-white text-xs ${
@@ -201,7 +222,7 @@ export default function Dashboard() {
                   }`}>
                     {c.status}
                   </span>
-                  <div className="text-xs text-gray-500">{new Date(c.updatedAt).toLocaleDateString()}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">{new Date(c.updatedAt).toLocaleDateString()}</div>
                 </div>
               </li>
             ))}
