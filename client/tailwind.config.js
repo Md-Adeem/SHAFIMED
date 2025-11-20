@@ -34,6 +34,7 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 
 module.exports = {
+  darkMode: "class", 
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
@@ -52,7 +53,7 @@ module.exports = {
       keyframes: {
         shimmer: {
           '100%': { transform: 'translateX(100%)' },
-        },
+        },   
       },
       animation: {
         shimmer: 'shimmer 1.5s infinite',
