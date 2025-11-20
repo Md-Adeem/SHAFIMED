@@ -57,7 +57,10 @@ const TopNavbar = () => {
               className="w-12 h-12 object-contain"
             />
           </div>
-          <span className="text-2xl font-extrabold text-white">
+          <span className="text-xl md:text-2xl font-extrabold text-white 
+            leading-tight 
+            max-w-[120px] md:max-w-none 
+            whitespace-normal md:whitespace-nowrap">
             ShaafiMedX-International
           </span>
         </Link>
@@ -67,13 +70,28 @@ const TopNavbar = () => {
           {/* Google Translate Widget */}
           <div
             id="google_translate_element_nav"
-            className="flex items-center bg-white/20 rounded-md px-2 py-[2px] min-h-[36px]"
+            // className="flex items-center bg-white/20 rounded-md px-2 py-[2px] min-h-[36px]"
+            className="
+              flex items-center 
+              bg-white/20 backdrop-blur-sm 
+              rounded-md px-1.5 md:px-2 
+              py-[2px] min-h-[34px]
+              overflow-hidden
+              max-w-[85px] md:max-w-none
+            "
           ></div>
 
           {/* Get Quote Button */}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-red-600 hover:bg-red-700 px-7 py-3 text-white rounded-md text-sm font-semibold"
+            // className="bg-red-600 hover:bg-red-700 px-7 py-3 text-white rounded-md text-sm font-semibold"
+            className="
+              bg-red-600 hover:bg-red-700 
+              px-4 py-2 md:px-7 md:py-3 
+              text-white rounded-md 
+              text-xs md:text-sm 
+              font-semibold
+            "
           >
             Get Quote
           </button>
