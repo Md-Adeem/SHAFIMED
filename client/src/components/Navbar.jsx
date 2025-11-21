@@ -120,12 +120,32 @@ function Navbar() {
               </>
             ) : (
               <div className="flex items-center gap-4">
-                <button
+                {/* <button
                   onClick={() => navigate("/facilitator")}
                   className="text-black px-4 py-2 rounded-md font-semibold shadow-sm hover:bg-gray-100 transition-all duration-200"
                 >
                   Facilitator Dashboard
-                </button>
+                </button> */}
+
+
+                  {role === "facilitator" && (
+                      <button
+                        onClick={() => navigate("/facilitator")}
+                        className="text-black px-4 py-2 rounded-md font-semibold shadow-sm hover:bg-gray-100 transition-all duration-200"
+                      >
+                        Facilitator Dashboard
+                      </button>
+                    )}
+
+                    {role === "patient" && (
+                      <button
+                        onClick={() => navigate("/dashboard")}   // ⭐ Patient Dashboard
+                        className="text-black px-4 py-2 rounded-md font-semibold shadow-sm hover:bg-gray-100 transition-all duration-200"
+                      >
+                        Patient Dashboard
+                      </button>
+                    )}
+
 
                 {/* Profile Dropdown */}
                 <div className="relative group">
@@ -232,6 +252,39 @@ function Navbar() {
                     </Link>
                   )
                 )}
+
+
+
+
+                  {isLoggedIn && role === "facilitator" && (
+                <button
+                  onClick={() => {
+                    navigate("/facilitator");
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="block w-full text-left px-3 py-2 text-gray-900 font-bold hover:bg-teal-50 hover:text-teal-700  rounded-lg"
+                >
+                  Facilitator Dashboard
+                </button>
+              )}
+
+              {isLoggedIn && role === "patient" && (
+                <button
+                  onClick={() => {
+                    navigate("/dashboard");
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="block w-full text-left px-3 py-2 text-gray-900 font-bold hover:bg-teal-50 hover:text-teal-700 rounded-lg"
+                >
+                  Patient Dashboard
+                </button>
+              )}
+
+
+
+
+
+
 
               {!isLoggedIn ? (
                 <>
