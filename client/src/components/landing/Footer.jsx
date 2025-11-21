@@ -142,8 +142,9 @@ function Footer() {
           </div>
         </div>
 
+
         {/* Certifications & Trust */}
-        <div className="border-t border-gray-700 pt-8 mb-6">
+        {/* <div className="border-t border-gray-700 pt-8 mb-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div className="flex flex-col items-center">
               <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-2">
@@ -202,7 +203,10 @@ function Footer() {
               <div className="text-xs text-gray-400">24/7 Support</div>
             </div>
           </div>
-        </div>
+        </div> */}
+
+
+
       </div>
 
       {/* Bottom Bar */}
